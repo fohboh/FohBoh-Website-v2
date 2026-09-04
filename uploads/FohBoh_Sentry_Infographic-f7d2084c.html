@@ -1,0 +1,1540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FohBoh | Sentry™ — Zero AI. Zero Guessing. Certified Recovery.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep:    #07090f;
+    --bg-card:    #0d1017;
+    --bg-card2:   #111520;
+    --border:     rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.13);
+    --red:        #d63031;
+    --red-dim:    rgba(214,48,49,0.15);
+    --red-glow:   rgba(214,48,49,0.08);
+    --green:      #00c853;
+    --green-dim:  rgba(0,200,83,0.12);
+    --amber:      #f5a623;
+    --amber-dim:  rgba(245,166,35,0.12);
+    --text-primary:   #f0f2f7;
+    --text-secondary: #b8c0d2;
+    --text-muted:     #7d8798;
+    --cert-gold:      #f5c842;
+    --cert-gold-dim:  rgba(245,200,66,0.12);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Sora', sans-serif;
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrap {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
+  }
+  @keyframes shimmer {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes countUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-in { animation: fadeIn 0.6s ease forwards; }
+
+  /* ── HEADER ── */
+  header {
+    padding: 80px 0 64px;
+    text-align: center;
+    position: relative;
+  }
+
+  .header-glow {
+    position: absolute;
+    top: -60px; left: 50%;
+    transform: translateX(-50%);
+    width: 640px; height: 420px;
+    background: radial-gradient(ellipse at center, rgba(214,48,49,0.14) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red-dim);
+    border: 1px solid rgba(214,48,49,0.35);
+    color: var(--red);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--red) 0%, #ff6b6b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto 36px;
+    font-weight: 300;
+  }
+
+  .header-tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .tag {
+    background: var(--bg-card2);
+    border: 1px solid var(--border-bright);
+    color: var(--text-secondary);
+    font-size: 12px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 14px;
+  }
+
+  .section-intro {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 600px;
+    font-weight: 300;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 70px 0;
+  }
+
+  /* ── PROBLEM GRID ── */
+  .problem-grid {
+    display: grid;
+    gap: 2px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+
+  .problem-cell {
+    background: var(--bg-card);
+    padding: 28px 32px;
+    position: relative;
+  }
+
+  .problem-cell.bad {
+    border-left: 3px solid rgba(214,48,49,0.4);
+  }
+
+  .problem-cell.good {
+    background: rgba(0,200,83,0.04);
+    border-left: 3px solid var(--green);
+  }
+
+  .problem-icon {
+    display: block;
+    font-size: 26px;
+    margin-bottom: 12px;
+  }
+
+  .problem-cell h4 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .problem-cell.bad h4 { color: var(--red); }
+  .problem-cell.good h4 { color: var(--green); }
+
+  .problem-cell p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.65;
+  }
+
+  /* ── ARCHITECTURE PIPELINE ── */
+  .arch-layer {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+
+  .arch-label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 20px 18px;
+    background: var(--bg-card2);
+    gap: 4px;
+  }
+
+  .arch-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+
+  .arch-name {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .arch-content {
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .arch-chip {
+    background: var(--bg-card2);
+    border: 1px solid var(--border-bright);
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .arch-chip.lit {
+    border-color: rgba(214,48,49,0.4);
+    color: var(--red);
+    background: var(--red-glow);
+  }
+
+  .arch-chip.green {
+    border-color: rgba(0,200,83,0.3);
+    color: var(--green);
+    background: rgba(0,200,83,0.06);
+  }
+
+  .arch-chip.gold {
+    border-color: rgba(245,200,66,0.35);
+    color: var(--cert-gold);
+    background: var(--cert-gold-dim);
+  }
+
+  .data-layer   { background: var(--bg-card2); }
+  .mge-layer    { background: linear-gradient(90deg, rgba(0,200,83,0.05) 0%, var(--bg-card) 100%); }
+  .sentry-layer { background: linear-gradient(90deg, rgba(214,48,49,0.07) 0%, var(--bg-card) 100%); }
+  .output-layer { background: var(--bg-card2); }
+
+  .mge-layer    .arch-name { color: var(--green); }
+  .sentry-layer .arch-name { color: var(--red); }
+
+  .arch-arrow {
+    text-align: center;
+    padding: 6px 0;
+    color: var(--text-muted);
+    font-size: 18px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── 4-STEP PIPELINE ── */
+  .pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+    margin-top: 40px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .pipeline-step {
+    background: var(--bg-card);
+    padding: 28px 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pipeline-step::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .pipeline-step:nth-child(1)::after { background: rgba(0,200,83,0.6); }
+  .pipeline-step:nth-child(2)::after { background: rgba(214,48,49,0.7); }
+  .pipeline-step:nth-child(3)::after { background: rgba(245,200,66,0.7); }
+  .pipeline-step:nth-child(4)::after { background: linear-gradient(90deg, var(--red), #ff6b6b); }
+
+  .pipeline-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+  }
+
+  .pipeline-icon { font-size: 28px; margin-bottom: 12px; display: block; }
+
+  .pipeline-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .pipeline-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.6;
+  }
+
+  /* ── MQ6 DIMENSIONS ── */
+  .mq6-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .mq6-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .mq6-card:hover { border-color: rgba(214,48,49,0.4); }
+
+  .mq6-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--red), transparent);
+  }
+
+  .mq6-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: var(--red);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .mq6-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .mq6-weight {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  .mq6-bar-track {
+    height: 4px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+
+  .mq6-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--red), #ff6b6b);
+  }
+
+  .mq6-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+
+  /* ── TRUST SCORE SECTION ── */
+  .trust-score-section {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 20px;
+    margin-top: 40px;
+  }
+
+  .score-display {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .score-display::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(214,48,49,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .score-ring {
+    width: 150px; height: 150px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .score-ring svg { transform: rotate(-90deg); }
+
+  .score-value {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--red);
+  }
+
+  .score-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .score-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  .score-gates {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .gate-row {
+    display: grid;
+    grid-template-columns: 34px 1fr auto;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .gate-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--cert-gold);
+    text-align: center;
+    background: var(--cert-gold-dim);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 6px;
+    padding: 4px 0;
+  }
+
+  .gate-row.caar-gate .gate-score {
+    color: var(--red);
+    background: var(--red-dim);
+    border-color: rgba(214,48,49,0.3);
+  }
+
+  .gate-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 400;
+  }
+
+  .gate-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 9px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .badge-caar  { background: var(--red-dim); color: var(--red); border: 1px solid rgba(214,48,49,0.3); }
+  .badge-cert  { background: var(--cert-gold-dim); color: var(--cert-gold); border: 1px solid rgba(245,200,66,0.3); }
+  .badge-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,200,83,0.3); }
+  .badge-grey  { background: var(--bg-card2); color: var(--text-muted); border: 1px solid var(--border); }
+
+  /* ── STATES TABLE ── */
+  .states-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin-top: 32px;
+  }
+
+  .state-row {
+    display: grid;
+    grid-template-columns: 36px 56px 1fr;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color 0.2s;
+  }
+
+  .state-row:hover { border-color: var(--border-bright); }
+
+  .state-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-muted);
+  }
+
+  .state-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+
+  .state-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+  }
+
+  /* ── STAT CARDS ── */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 28px 22px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+  }
+
+  .stat-num {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-num.red { background: linear-gradient(135deg, var(--red), #ff6b6b); -webkit-background-clip: text; background-clip: text; }
+  .stat-num.green { background: linear-gradient(135deg, var(--green), #69e87a); -webkit-background-clip: text; background-clip: text; }
+  .stat-num.gold  { background: linear-gradient(135deg, var(--cert-gold), #ffd86e); -webkit-background-clip: text; background-clip: text; }
+
+  .stat-label {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.4;
+  }
+
+  /* ── EVIDENCE CHAIN ── */
+  .evidence-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .evidence-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .evidence-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 50px; height: 50px;
+    background: radial-gradient(circle at top right, rgba(214,48,49,0.08), transparent 70%);
+  }
+
+  .evidence-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .evidence-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .evidence-code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .evidence-desc {
+    font-size: 12px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    line-height: 1.55;
+  }
+
+  /* ── EXPORTPACK ARTIFACTS ── */
+  .artifact-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    margin-top: 28px;
+  }
+
+  .artifact-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+
+  .artifact-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--red);
+    min-width: 20px;
+    background: var(--red-dim);
+    text-align: center;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid rgba(214,48,49,0.25);
+  }
+
+  /* ── PRICING ── */
+  .pricing-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-top: 40px;
+  }
+
+  .pricing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .pricing-card.featured {
+    border-color: rgba(214,48,49,0.4);
+    background: linear-gradient(160deg, rgba(214,48,49,0.06) 0%, var(--bg-card) 60%);
+  }
+
+  .pricing-card.featured::before {
+    content: 'MOST POPULAR';
+    position: absolute;
+    top: 14px; right: -28px;
+    background: var(--red);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 3px 36px;
+    transform: rotate(45deg);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .pricing-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 14px;
+  }
+
+  .pricing-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+  }
+
+  .pricing-price {
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: var(--text-primary);
+    margin: 14px 0 6px;
+    line-height: 1;
+  }
+
+  .pricing-price span {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--text-secondary);
+  }
+
+  .pricing-min {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .pricing-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 18px 0;
+  }
+
+  .pricing-feature {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 7px;
+    text-align: left;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-weight: 300;
+  }
+
+  .pricing-feature::before {
+    content: '✓';
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── LOOP CARDS ── */
+  .loop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .loop-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loop-card.m01 { border-top: 2px solid rgba(0,200,83,0.5); }
+  .loop-card.m02 { border-top: 2px solid rgba(214,48,49,0.5); }
+
+  .loop-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 14px;
+  }
+
+  .loop-card.m01 .loop-badge { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,200,83,0.3); }
+  .loop-card.m02 .loop-badge { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(214,48,49,0.3); }
+
+  .loop-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .loop-sub {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-bottom: 18px;
+    font-weight: 300;
+    line-height: 1.55;
+  }
+
+  .loop-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .loop-stat span {
+    color: var(--text-secondary);
+  }
+
+  /* ── ZERO AI CALLOUT ── */
+  .zero-ai {
+    background: linear-gradient(135deg, rgba(214,48,49,0.07) 0%, rgba(0,200,83,0.05) 100%);
+    border: 1px solid rgba(214,48,49,0.25);
+    border-radius: 20px;
+    padding: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 40px;
+  }
+
+  .zero-ai::before {
+    content: '';
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(214,48,49,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .zero-ai h3 {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+
+  .zero-ai h3 em {
+    font-style: normal;
+    color: var(--red);
+  }
+
+  .zero-ai p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    max-width: 520px;
+    margin: 0 auto;
+    font-weight: 300;
+    line-height: 1.7;
+  }
+
+  .zero-ai-tags {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+  }
+
+  .zero-tag {
+    background: rgba(214,48,49,0.1);
+    border: 1px solid rgba(214,48,49,0.3);
+    color: var(--red);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 50px 0 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+  }
+
+  footer p {
+    color: var(--text-muted);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  footer strong {
+    color: var(--text-secondary);
+  }
+
+  @media (max-width: 768px) {
+    .pipeline-grid, .stats-row, .pricing-row { grid-template-columns: 1fr 1fr; }
+    .mq6-grid, .evidence-row, .loop-grid     { grid-template-columns: 1fr; }
+    .trust-score-section                      { grid-template-columns: 1fr; }
+    .artifact-list                            { grid-template-columns: 1fr 1fr; }
+    h1 { font-size: 2rem; }
+    .zero-ai { padding: 32px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .pipeline-grid, .stats-row, .pricing-row, .artifact-list { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════ HEADER -->
+<header>
+  <div class="wrap">
+    <div class="header-glow"></div>
+    <div class="eyebrow">FohBoh | Sentry™ — Deterministic Fee Recovery</div>
+    <h1>Zero AI. Zero Guessing.<br><em>Certified Recovery.</em></h1>
+    <p class="subtitle">The first Certified Audit and Assurance Report fee recovery engine for restaurants. Every dollar traced. Every violation certified. No probabilistic inference — ever.</p>
+    <div class="header-tags">
+      <span class="tag">$199/loc/mo</span>
+      <span class="tag">10 location minimum</span>
+      <span class="tag">M01 · Merchant Fees</span>
+      <span class="tag">M02 · Delivery Fees</span>
+      <span class="tag">M03 · Royalty Recovery — Coming Soon</span>
+      <span class="tag">MGE v1.0 · Patent Pending</span>
+    </div>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════ STATS -->
+<section style="padding: 0 0 20px;">
+  <div class="wrap">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num gold">3–7%</div>
+        <div class="stat-label">typical certified overcharge<br>as % of gross delivery sales</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num gold">198</div>
+        <div class="stat-label">deterministic rules<br>M01 + M02 combined</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green">100%</div>
+        <div class="stat-label">Zero AI · every result<br>is mathematically provable</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:1.8rem;color:var(--text-primary)">SHA-256</div>
+        <div class="stat-label">tamper-proof hash on<br>every certified record</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:50px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ THE PROBLEM -->
+<section>
+  <div class="wrap">
+    <div class="section-label">The Core Problem</div>
+    <h2>DSPs and processors overcharge restaurants every month — and no one certifies it.</h2>
+    <p class="section-intro">Delivery and card fees are complex, opaque, and governed by signed contracts most operators have never re-read. The overcharges are systematic, compounding, and perfectly legal to dispute — if you can prove them.</p>
+
+    <div class="problem-grid" style="grid-template-columns: 1fr 1fr 1fr 1fr;">
+      <div class="problem-cell bad">
+        <span class="problem-icon">📄</span>
+        <h4>The Contract</h4>
+        <p>Signed agreements specify commission bases, rates, and fees. DoorDash charges on order_subtotal. Uber Eats on platform_gross_sales. One wrong field = systematic error on every order.</p>
+      </div>
+      <div class="problem-cell bad">
+        <span class="problem-icon">📊</span>
+        <h4>The Settlement</h4>
+        <p>DSPs produce weekly CSVs with 14+ columns per row. Identifying rate violations, tax inclusion errors, or tier downgrades manually is impossible at scale.</p>
+      </div>
+      <div class="problem-cell bad">
+        <span class="problem-icon">⚖️</span>
+        <h4>The Legal Gap</h4>
+        <p>Operators know they're being overcharged but lack a Certified Audit and Assurance Report as evidence. Allegations without certified proof go nowhere. Legal counsel won't file without it.</p>
+      </div>
+      <div class="problem-cell good">
+        <span class="problem-icon">✅</span>
+        <h4>Sentry Solves It</h4>
+        <p>MGE computes a deterministic Shadow Record per transaction, certifies every variance against the signed contract, and produces a SHA-256 sealed CAAR — court-ready in 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ ARCHITECTURE -->
+<section>
+  <div class="wrap">
+    <div class="section-label">System Architecture</div>
+    <h2>Three Layers. One Provable Chain of Custody.</h2>
+    <p class="section-intro">Every Sentry certification runs through the MGE deterministic pipeline. No machine learning. No estimation. Pure contract-versus-actual comparison, auditable from source data to sealed output.</p>
+
+    <div style="margin-top:40px;">
+      <div class="arch-layer data-layer">
+        <div class="arch-label">
+          <div class="arch-num">LAYER 0</div>
+          <div class="arch-name" style="color:var(--text-secondary)">Raw Data</div>
+        </div>
+        <div class="arch-content">
+          <span class="arch-chip">DSP Settlement CSV</span>
+          <span class="arch-chip">Processor Statement CSV</span>
+          <span class="arch-chip">POS Channel Export</span>
+          <span class="arch-chip">Signed DSP Agreements (PDF)</span>
+          <span class="arch-chip">Merchant Agreement (PDF)</span>
+          <span class="arch-chip">Bank Statement (PDF)</span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↓  SHA-256 hash on intake · Schema validation · 4-indicator intake confirmation</div>
+
+      <div class="arch-layer mge-layer">
+        <div class="arch-label">
+          <div class="arch-num">LAYER 1</div>
+          <div class="arch-name">MGE Core™</div>
+        </div>
+        <div class="arch-content">
+          <span class="arch-chip lit" style="border-color:rgba(0,200,83,0.4);color:var(--green);background:rgba(0,200,83,0.07)">Shadow Record Engine</span>
+          <span class="arch-chip lit" style="border-color:rgba(0,200,83,0.4);color:var(--green);background:rgba(0,200,83,0.07)">Semantic Truth Layer</span>
+          <span class="arch-chip lit" style="border-color:rgba(0,200,83,0.4);color:var(--green);background:rgba(0,200,83,0.07)">Deterministic Law Engine</span>
+          <span class="arch-chip lit" style="border-color:rgba(0,200,83,0.4);color:var(--green);background:rgba(0,200,83,0.07)">Loop A · Contract Comparison</span>
+          <span class="arch-chip lit" style="border-color:rgba(0,200,83,0.4);color:var(--green);background:rgba(0,200,83,0.07)">MQ6 Trust Scoring</span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↓  198 rules evaluated · per-row variance computation · trust scoring across 6 dimensions</div>
+
+      <div class="arch-layer sentry-layer">
+        <div class="arch-label">
+          <div class="arch-num">LAYER 2</div>
+          <div class="arch-name">Sentry™</div>
+        </div>
+        <div class="arch-content">
+          <span class="arch-chip lit">M01 Merchant Fee Recovery</span>
+          <span class="arch-chip lit">M02 Delivery Fee Recovery</span>
+          <span class="arch-chip lit">107 MFR Rules</span>
+          <span class="arch-chip lit">83 DFR Rules</span>
+          <span class="arch-chip lit">Location Waterfall</span>
+          <span class="arch-chip lit">WGS Portal</span>
+        </div>
+      </div>
+
+      <div class="arch-arrow">↓  Certify &amp; Lock · SHA-256 seal · CAAR generated · ExportPack bundled</div>
+
+      <div class="arch-layer output-layer">
+        <div class="arch-label">
+          <div class="arch-num">LAYER 3</div>
+          <div class="arch-name" style="color:var(--cert-gold)">Certified Output</div>
+        </div>
+        <div class="arch-content">
+          <span class="arch-chip gold">CAAR — Certified Audit and Assurance Report</span>
+          <span class="arch-chip gold">9-Artifact ExportPack</span>
+          <span class="arch-chip gold">SHA-256 Integrity Manifest</span>
+          <span class="arch-chip gold">Demand Letter Ready</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ 4-STEP PIPELINE -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Certification Pipeline</div>
+    <h2>Four Steps. One Locked Record.</h2>
+    <p class="section-intro">Every Sentry certification runs the same deterministic 4-step MGE pipeline. Each step is logged, timestamped, and SHA-256 anchored before the next begins.</p>
+
+    <div class="pipeline-grid">
+      <div class="pipeline-step">
+        <div class="pipeline-num">STEP 01</div>
+        <span class="pipeline-icon">🔍</span>
+        <div class="pipeline-title">Semantic Truths</div>
+        <div class="pipeline-desc">The MGE ingests raw DSP and processor data, resolves native column names against the sealed Schema Registry, and builds the Semantic Truth layer — the authoritative interpretation of what each value means.</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">STEP 02</div>
+        <span class="pipeline-icon">⚖️</span>
+        <div class="pipeline-title">Deterministic Law</div>
+        <div class="pipeline-desc">198 rules evaluate every row against the signed contract config. Commission base, applied rate, included/excluded fields, tier classification — each is compared to the Shadow Record independently.</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">STEP 03</div>
+        <span class="pipeline-icon">🔄</span>
+        <div class="pipeline-title">Loop A Execution</div>
+        <div class="pipeline-desc">The primary certification loop. Contract-versus-actual comparison runs across every transaction. Variances are isolated, quantified, attributed to specific rule violations, and assigned to the certified overcharge ledger.</div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipeline-num">STEP 04</div>
+        <span class="pipeline-icon">🔐</span>
+        <div class="pipeline-title">Certify &amp; Lock</div>
+        <div class="pipeline-desc">The certification result is written to the KPI Vault, SHA-256 sealed, and assigned a CAAR state. The ExportPack is assembled. The record is immutable — no one can alter it without breaking the hash.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ MODULES -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Recovery Modules</div>
+    <h2>M01 · M02 · M03 — Three Certified Revenue Streams</h2>
+    <p class="section-intro">Each module operates as an independent certification engine with its own rule set, schema registry, and CAAR output. They share one MGE Core. M01 and M02 are live today; M03 is in development.</p>
+
+    <div class="loop-grid">
+      <div class="loop-card m01">
+        <div class="loop-badge">M01 — Merchant Fee Recovery</div>
+        <div class="loop-title">Card Processor Certification</div>
+        <div class="loop-sub">107 MFR rules evaluate every processor transaction against the signed merchant services agreement. Markup basis points, per-transaction fees, tier classification, PCI charges, reserve holds, and chargeback fees are all certified independently.</div>
+        <div class="loop-stat">Rules: <span>107 MFR rules</span></div>
+        <div class="loop-stat">Data sources: <span>Processor CSV · Signed agreement · POS export · Bank statement</span></div>
+        <div class="loop-stat">Key violations: <span>Rate overcharge · Tier downgrade · Unauthorized fees · Reserve excess</span></div>
+        <div class="loop-stat">Gate: <span>D3 reconciliation requires bank statement · Trust Score ≥ 85 for CAAR</span></div>
+      </div>
+
+      <div class="loop-card m02">
+        <div class="loop-badge">M02 — Delivery Fee Recovery</div>
+        <div class="loop-title">DSP Commission Certification</div>
+        <div class="loop-sub">83 DFR rules evaluate every DSP settlement row against the signed merchant agreement. Commission base field selection is the most critical input — each DSP uses a different native column name. Wrong base = systematic error on every order.</div>
+        <div class="loop-stat">Rules: <span>83 DFR rules per DSP (DoorDash · Uber Eats · Grubhub · Slice)</span></div>
+        <div class="loop-stat">Data sources: <span>DSP settlement CSV · Signed DSP agreement · POS export</span></div>
+        <div class="loop-stat">Key violations: <span>Rate overcharge · Tax inclusion · Tip inclusion · Member rate error</span></div>
+        <div class="loop-stat">Critical field: <span>Commission Base — order_subtotal (DD) vs platform_gross_sales (UE)</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:28px;position:relative;overflow:hidden;opacity:0.85;">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,rgba(245,200,66,0.3),rgba(245,200,66,0.6),rgba(245,200,66,0.3));"></div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <span style="font-size:28px">🔒</span>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--cert-gold);text-transform:uppercase;margin-bottom:4px;">M03 — Royalty Recovery · Locked · Coming Soon</div>
+          <div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">Franchise &amp; Brand Royalty Certification</div>
+          <div style="font-size:12px;color:var(--text-secondary);font-weight:300;line-height:1.55;">T32–T40 triggers covering royalty basis errors, promotional exclusions, and multi-unit fee caps. Unlocks after M01 + M02 have been active for ≥ 90 days with a Trust Score ≥ 85 on both. Designed for franchise operators billing on revenue that includes DSP overcharges.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ MQ6 -->
+<section>
+  <div class="wrap">
+    <div class="section-label">MQ6 Trust Scoring</div>
+    <h2>Six Dimensions. One Score That Gates CAAR.</h2>
+    <p class="section-intro">The MGE MQ6 model produces a composite Trust Score across six data quality dimensions. A score of 85 or above is required to generate a CAAR. This gate is the foundation of legal admissibility.</p>
+
+    <div class="mq6-grid">
+      <div class="mq6-card">
+        <div class="mq6-id">D1 · 25% WEIGHT</div>
+        <div class="mq6-name">Data Completeness</div>
+        <div class="mq6-weight">Weight: 25%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:100%"></div></div>
+        <div class="mq6-desc">Are all required files present? Statement CSV, POS export, signed agreement, bank statement. Missing any one drops this dimension significantly.</div>
+      </div>
+      <div class="mq6-card">
+        <div class="mq6-id">D2 · 20% WEIGHT</div>
+        <div class="mq6-name">Rule Validation</div>
+        <div class="mq6-weight">Weight: 20%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:80%"></div></div>
+        <div class="mq6-desc">Schema column match percentage across all uploaded CSVs. Measures whether the native file columns map cleanly to the MGE canonical field definitions.</div>
+      </div>
+      <div class="mq6-card">
+        <div class="mq6-id">D3 · 25% WEIGHT</div>
+        <div class="mq6-name">Reconciliation</div>
+        <div class="mq6-weight">Weight: 25%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:100%"></div></div>
+        <div class="mq6-desc">Three-way cross-system reconciliation: settlement CSV + POS export + bank deposit. Without the bank statement, D3 scores 0 and the composite cannot reach 85.</div>
+      </div>
+      <div class="mq6-card">
+        <div class="mq6-id">D4 · 15% WEIGHT</div>
+        <div class="mq6-name">Source Integrity</div>
+        <div class="mq6-weight">Weight: 15%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:60%"></div></div>
+        <div class="mq6-desc">SHA-256 hash verification on every uploaded file. Proves the document was not modified between the source system and the vault. Chain of custody anchor for FRE 902(11).</div>
+      </div>
+      <div class="mq6-card">
+        <div class="mq6-id">D5 · 10% WEIGHT</div>
+        <div class="mq6-name">Drift Detection</div>
+        <div class="mq6-weight">Weight: 10%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:40%"></div></div>
+        <div class="mq6-desc">Trailing variance baseline comparison. Identifies whether this period's detected overcharges are consistent with the prior periods or represent an anomalous spike.</div>
+      </div>
+      <div class="mq6-card">
+        <div class="mq6-id">D6 · 5% WEIGHT</div>
+        <div class="mq6-name">Data Freshness</div>
+        <div class="mq6-weight">Weight: 5%</div>
+        <div class="mq6-bar-track"><div class="mq6-bar-fill" style="width:20%"></div></div>
+        <div class="mq6-desc">Were uploads performed in the current certification session? Stale vault entries that haven't been refreshed this period reduce this dimension.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ TRUST SCORE -->
+<section>
+  <div class="wrap">
+    <div class="section-label">Certification States · MQ6 Trust Score</div>
+    <h2>Eight States. MQ6 Gates S3 to Unlock CAAR.</h2>
+    <p class="section-intro">Every certification run produces a deterministic state, gated by the MQ6 Trust Score — a 0–100 composite calculated across six dimensions. S3 — Escalated — Legal Threshold Reached — requires an MQ6 score ≥ 85 and a certified variance above the legal action threshold. This is the state that generates a CAAR.</p>
+
+    <div class="trust-score-section">
+      <div class="score-display">
+        <div class="score-ring">
+          <svg width="150" height="150" viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="60" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="12"/>
+            <circle cx="75" cy="75" r="60" fill="none" stroke="url(#redGrad)" stroke-width="12"
+              stroke-dasharray="377" stroke-dashoffset="57" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="redGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#d63031"/>
+                <stop offset="100%" style="stop-color:#ff6b6b"/>
+              </linearGradient>
+            </defs>
+          </svg>
+          <div class="score-value">91</div>
+        </div>
+        <div class="score-label">MQ6 Trust Score</div>
+        <div class="score-sub">MQ6 CAAR gate: 85 · This score = S3 state<br>ExportPack: all 9 artifacts READY</div>
+        <div style="margin-top:20px;">
+          <span class="gate-badge badge-caar">CAAR ELIGIBLE</span>
+        </div>
+      </div>
+
+      <div class="score-gates">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.12em;color:var(--red);text-transform:uppercase;margin-bottom:14px;">Certification States · MQ6-Gated</div>
+
+        <div class="states-grid" style="gap:6px;margin-top:0;min-width:0;overflow:hidden;">
+          <div class="state-row">
+            <div class="state-id">S1</div>
+            <div><span class="gate-badge badge-green">Certified</span></div>
+            <div class="state-desc">Compliant — Trust Score ≥ 70, no variance detected</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S2</div>
+            <div><span class="gate-badge badge-cert">Certified</span></div>
+            <div class="state-desc">Discrepancy Identified — variance detected, below legal threshold</div>
+          </div>
+          <div class="state-row" style="border-color:rgba(214,48,49,0.35);background:rgba(214,48,49,0.04);">
+            <div class="state-id" style="color:var(--red)">S3</div>
+            <div><span class="gate-badge badge-caar">CAAR</span></div>
+            <div class="state-desc" style="color:var(--text-primary);font-weight:500;">Escalated — Legal Threshold Reached · CAAR generated · ExportPack ready</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S4</div>
+            <div><span class="gate-badge badge-grey">Partial</span></div>
+            <div class="state-desc">Partial certification — Trust Score 60–69</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S5</div>
+            <div><span class="gate-badge badge-grey">Pending</span></div>
+            <div class="state-desc">Awaiting data upload or schema sealing</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S6</div>
+            <div><span class="gate-badge badge-grey">Rejected</span></div>
+            <div class="state-desc">Data Quality Failure — Trust Score below 60</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S7</div>
+            <div><span class="gate-badge badge-grey">Archived</span></div>
+            <div class="state-desc">Superseded by a later certification run</div>
+          </div>
+          <div class="state-row">
+            <div class="state-id">S8</div>
+            <div><span class="gate-badge badge-grey">Blocked</span></div>
+            <div class="state-desc">MQ6 Trust Score below 85 — AI Loop 2 blocked from certified output until remediated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ EVIDENCE / CAAR -->
+<section>
+  <div class="wrap">
+    <div class="section-label">CAAR — Certified Audit and Assurance Report</div>
+    <h2>Self-Authenticating Evidence. No Witness Required.</h2>
+    <p class="section-intro">A Sentry CAAR is not a report — it is certified evidence. It self-authenticates under three Federal Rules of Evidence simultaneously, meaning no FohBoh representative is required to appear in any legal proceeding.</p>
+
+    <div class="evidence-row">
+      <div class="evidence-card">
+        <span class="evidence-icon">📋</span>
+        <div class="evidence-title">Business Records Exception</div>
+        <span class="evidence-code">FRE 803(6)</span>
+        <div class="evidence-desc">The CAAR qualifies as a regularly-kept business record produced in the ordinary course of the certification workflow. No foundation witness required to admit it as evidence.</div>
+      </div>
+      <div class="evidence-card">
+        <span class="evidence-icon">🔐</span>
+        <div class="evidence-title">Self-Authentication</div>
+        <span class="evidence-code">FRE 902(11)</span>
+        <div class="evidence-desc">The SHA-256 integrity manifest and chain-of-custody log satisfy the self-authentication standard for certified domestic records. The hash is the witness.</div>
+      </div>
+      <div class="evidence-card">
+        <span class="evidence-icon">🔗</span>
+        <div class="evidence-title">Best Evidence Rule</div>
+        <span class="evidence-code">FRE 1002</span>
+        <div class="evidence-desc">The sealed schema, hashed source files, and complete audit trail satisfy the original document requirement. The ExportPack is the original — not a copy.</div>
+      </div>
+    </div>
+
+    <!-- ExportPack artifacts -->
+    <div style="margin-top:36px;">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.14em;color:var(--red);text-transform:uppercase;margin-bottom:18px;">ExportPack · 9 Artifacts Bundled</div>
+      <div class="artifact-list">
+        <div class="artifact-item"><span class="artifact-num">01</span>CAAR PDF — narrative + findings</div>
+        <div class="artifact-item"><span class="artifact-num">02</span>Truth Source CSV — Shadow Record</div>
+        <div class="artifact-item"><span class="artifact-num">03</span>Claim Source CSV — certified variances</div>
+        <div class="artifact-item"><span class="artifact-num">04</span>Signed Contract — source agreement</div>
+        <div class="artifact-item"><span class="artifact-num">05</span>Bank Statement — reconciliation anchor</div>
+        <div class="artifact-item"><span class="artifact-num">06</span>Evidence Manifest — metadata log</div>
+        <div class="artifact-item"><span class="artifact-num">07</span>Audit Trail — immutable activity log</div>
+        <div class="artifact-item"><span class="artifact-num">08</span>Rule Citations — rule-to-violation map</div>
+        <div class="artifact-item"><span class="artifact-num">09</span>SHA-256 Integrity Manifest</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ ZERO AI CALLOUT -->
+<section>
+  <div class="wrap">
+    <div class="zero-ai">
+      <div class="eyebrow" style="margin-bottom:20px;">Core Architectural Principle</div>
+      <h3>Zero AI. <em>Zero Guessing.</em><br>Every Variance Is Mathematically Proved.</h3>
+      <p>Sentry uses no machine learning, no probabilistic inference, and no language models. Every certified figure is computed by a deterministic rule engine against a sealed contract record. The math is the proof. If you can read the formula, you can verify the result.</p>
+      <div class="zero-ai-tags">
+        <span class="zero-tag">Deterministic Engine</span>
+        <span class="zero-tag">No ML / No LLM</span>
+        <span class="zero-tag">Reproducible Results</span>
+        <span class="zero-tag">Rule-Based Certification</span>
+        <span class="zero-tag">100% Auditable</span>
+        <span class="zero-tag">Certified Audit and Assurance Report</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ RETURN CTA -->
+<style>
+  .return-cta{
+    position:relative;text-align:center;
+    background:linear-gradient(180deg,#0d1017 0%,#0a0d13 100%);
+    border:1px solid rgba(214,48,49,0.28);border-radius:20px;
+    padding:56px 32px 52px;overflow:hidden;
+  }
+  .return-cta::before{
+    content:'';position:absolute;top:-140px;left:50%;transform:translateX(-50%);
+    width:560px;height:320px;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(214,48,49,0.16) 0%,transparent 70%);
+  }
+  .return-cta > *{position:relative;z-index:1}
+  .return-cta h3{
+    font-size:clamp(24px,3.4vw,34px);font-weight:800;letter-spacing:-0.02em;
+    line-height:1.15;margin:18px auto 16px;max-width:19ch;color:var(--text-primary);
+  }
+  .return-cta h3 em{font-style:normal;color:var(--red)}
+  .return-cta p{
+    color:var(--text-secondary);font-size:15.5px;max-width:52ch;margin:0 auto;
+  }
+  .return-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+  .return-btns a{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    font-family:'Sora',sans-serif;font-weight:700;font-size:14px;letter-spacing:0.01em;
+    padding:14px 30px;border-radius:100px;transition:transform .15s ease,background .15s ease;
+  }
+  .return-btns a:hover{transform:translateY(-1px)}
+  .rc-primary{background:var(--red);color:#fff;box-shadow:0 8px 26px rgba(214,48,49,0.28)}
+  .rc-primary:hover{background:#b82628}
+  .rc-ghost{background:transparent;color:var(--text-primary);border:1px solid rgba(255,255,255,0.22)}
+  .rc-ghost:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.5)}
+  .return-note{
+    margin-top:22px;font-family:'JetBrains Mono',monospace;font-size:10.5px;
+    letter-spacing:0.13em;text-transform:uppercase;color:var(--text-muted);
+  }
+  @media(prefers-reduced-motion:reduce){.return-btns a:hover{transform:none}}
+</style>
+<section>
+  <div class="wrap">
+    <div class="return-cta">
+      <div class="eyebrow" style="display:inline-flex;">Next step</div>
+      <h3>You've read the architecture.<br>Now <em>watch it run</em> on your numbers.</h3>
+      <p>Thirty minutes with an account manager, using a real M01 or M02 certification cycle against your own data. If we don't think you'll recover enough to justify the program, we'll say so on the call.</p>
+      <div class="return-btns">
+        <a class="rc-primary" data-landing="#request" href="#">Request a live demo</a>
+        <a class="rc-ghost" data-landing="" href="#">Back to the Sentry overview</a>
+      </div>
+      <div class="return-note">White-glove onboarding · By qualification only</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:1100px;margin:70px auto 0;padding:0 24px;"><hr style="border:none;border-top:1px solid rgba(255,255,255,0.07)"></div>
+
+<!-- ═══════════════════════════════════════════════ FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="eyebrow" style="margin-bottom:24px;display:inline-flex;">FohBoh.ai</div>
+    <div>
+      <a data-landing="#demo" href="#" style="display:inline-flex;align-items:center;gap:8px;color:var(--text-secondary);font-size:13px;letter-spacing:0.02em;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.18);padding-bottom:3px;margin-bottom:24px;">▶ Watch the Sentry walkthrough</a>
+    </div>
+    <p><strong>© 2026 FohBoh.ai, Inc — Certified Recovery Infrastructure for Restaurants</strong></p>
+    <p style="margin-top:8px;">FohBoh | Sentry™ &nbsp;·&nbsp; FohBoh | Cortex™ &nbsp;·&nbsp; FohBoh | MGE™ &nbsp;·&nbsp; Patent Pending</p>
+    <p style="margin-top:8px;">Zero AI · Deterministic · Certified Audit and Assurance Report · CAAR FRE 803(6) · 902(11) · 1002</p>
+  </div>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   Set this once — every link back to the Sentry landing page
+   (closing CTA + footer) is wired from it.
+   ───────────────────────────────────────────────────────────── */
+const LANDING_URL = "https://fohboh-sentry-phi.vercel.app/";
+
+document.querySelectorAll('[data-landing]').forEach(function(a){
+  a.href = LANDING_URL + a.getAttribute('data-landing');
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#f5f5f7;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}input{font-family:'JetBrains Mono',monospace}</style>
+</helmet>
+<div style="background: #ffffff; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="FohBoh Homepage.dc.html" style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; margin-right: auto; color: #d63031; text-decoration: none; white-space: nowrap;">FohBoh <span style="color: #c9c9d1; font-weight: 400;">|</span> Sentry™ <span style="font-weight: 400; font-size: 12px; color: #86868b;">· ROI Simulator</span></a>
+    <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Pricing</a>
+    <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="FohBoh Contact.dc.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #d63031; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #b82628;">Book a demo</a>
+  </nav>
+  <div style="padding: 48px 64px 24px; max-width: 1200px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Sentry ROI Simulator</span>
+    <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.1; letter-spacing: -0.02em; max-width: 26ch;">How revenue recovery pays for the platform.</h1>
+    <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.55; max-width: 66ch; color: #494952;">Enter your operational reality and see what Sentry recovers — net of the platform investment. Contract − reality = recoverable. Every number stays in your browser.</p>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 380px; gap: 28px; padding: 8px 64px 64px; align-items: start;">
+    <div style="display: flex; flex-direction: column; gap: 18px;">
+      <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">1 · Choose your plan</div>
+        <p style="margin: 8px 0 0; font-size: 13px; color: #86868b;">FohBoh pricing is fixed — the same constants as the pricing page. Pick the plan that fits your model.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <sc-for list="{{ planOpts }}" as="p" hint-placeholder-count="6">
+            <button type="button" onClick="{{ p.pick }}" style="{{ p.style }}">
+              <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase;">{{ p.kicker }}</span>
+              <span style="display: block; margin-top: 3px; font-weight: 600; font-size: 13px;">{{ p.name }}</span>
+              <span style="display: block; margin-top: 2px; font-size: 12px;">{{ p.priceLine }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <sc-if value="{{ specialOffer }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #0a7a3d; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 6px; padding: 6px 10px; display: inline-block;">Special offer — both engines for the price of one module: $199 <span style="text-decoration: line-through; color: #7fae92;">$398</span> / loc / mo</div>
+        </sc-if>
+      </div>
+      <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">2 · Your footprint</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 14px;">
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Number of restaurants</label>
+            <input type="number" min="25" value="{{ locations }}" onChange="{{ setLocations }}" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 14px;">
+            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Minimum 25 · {{ tierNote }}</div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Billing</label>
+            <div style="display: flex; gap: 4px; padding: 3px; background: #f0f0f2; border-radius: 9px;">
+              <button type="button" onClick="{{ setMonthlyB }}" style="{{ monthlyBtnStyle }}">Monthly</button>
+              <button type="button" onClick="{{ setAnnualB }}" style="{{ annualBtnStyle }}">Annual −15%</button>
+            </div>
+            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Annual billing takes 15% off the platform rate.</div>
+          </div>
+          <div>
+            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Average annual unit volume ($)</label>
+            <input type="number" value="{{ auv }}" onChange="{{ setAuv }}" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 14px;">
+            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Used for the 3–7% benchmark.</div>
+          </div>
+        </div>
+      </div>
+      <sc-if value="{{ m01Active }}" hint-placeholder-val="{{ true }}">
+        <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">3 · M01 — Merchant Fee Recovery</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">107 rules · per location / month</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
+            <sc-for list="{{ m01Fields }}" as="f" hint-placeholder-count="7">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">{{ f.label }}</label>
+                <input type="number" value="{{ f.val }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
+                <div style="margin-top: 3px; font-size: 10.5px; color: #86868b;">{{ f.hint }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #d9d9de;">
+            <sc-for list="{{ m01Cats }}" as="c" hint-placeholder-count="5">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 7px; color: #494952;">{{ c.name }} <span style="color: #3c434d; font-weight: 600;">{{ c.val }}</span></span>
+            </sc-for>
+            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">MFR / loc / mo: {{ m01Monthly }}</span>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ m02Active }}" hint-placeholder-val="{{ true }}">
+        <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">4 · M02 — Delivery Fee Recovery</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">83 rules · per location / month</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
+            <sc-for list="{{ m02Fields }}" as="f" hint-placeholder-count="7">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">{{ f.label }}</label>
+                <input type="number" value="{{ f.val }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
+                <div style="margin-top: 3px; font-size: 10.5px; color: #86868b;">{{ f.hint }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #d9d9de;">
+            <sc-for list="{{ m02Cats }}" as="c" hint-placeholder-count="4">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 7px; color: #494952;">{{ c.name }} <span style="color: #3c434d; font-weight: 600;">{{ c.val }}</span></span>
+            </sc-for>
+            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">DFR / loc / mo: {{ m02Monthly }}</span>
+          </div>
+        </div>
+      </sc-if>
+      <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">5 · Certification fee</div>
+        <p style="margin: 8px 0 0; font-size: 13px; color: #86868b;">Paid to FohBoh on validated recoveries — payment for the certified report, not a bounty. Trust Score ≥ 85 required.</p>
+        <div style="display: flex; gap: 8px; margin-top: 12px;">
+          <sc-for list="{{ feeOpts }}" as="f" hint-placeholder-count="3">
+            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+    <div style="position: sticky; top: 20px; background: #1d1d1f; border-radius: 20px; padding: 28px 30px; color: #ffffff;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55);">Annual economics — {{ planName }}</div>
+      <div style="margin-top: 16px; font-size: 12.5px; color: rgba(255,255,255,0.65);">Annual Sentry recovery (gross)</div>
+      <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 40px; letter-spacing: -0.01em;">{{ grossAnnual }}</div>
+      <div style="margin-top: 2px; font-size: 12px; color: rgba(255,255,255,0.55);">across {{ locations }} locations · {{ auvPct }} of AUV <span style="color: rgba(255,255,255,0.4);">(FohBoh range 3–7%)</span></div>
+      <div style="display: flex; gap: 10px; margin-top: 14px;">
+        <sc-if value="{{ m01Active }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">MFR / loc / yr {{ m01Annual }}</span></sc-if>
+        <sc-if value="{{ m02Active }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">DFR / loc / yr {{ m02Annual }}</span></sc-if>
+      </div>
+      <div style="display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 14px 16px; background: rgba(255,255,255,0.07); border-radius: 12px;">
+        <span style="width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid {{ trustColor }}; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 19px; color: {{ trustColor }};">{{ trustScore }}</span>
+        <div><div style="font-size: 12.5px; font-weight: 600;">Trust Score (input quality)</div><div style="margin-top: 2px; font-size: 11.5px; color: rgba(255,255,255,0.6);">{{ trustNote }}</div></div>
+      </div>
+      <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+        <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.65);">FohBoh subscription <span style="color: rgba(255,255,255,0.4);">({{ subNote }})</span></span><span style="font-family: 'JetBrains Mono', monospace;">−{{ subscription }}</span></div>
+        <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.65);">Certification fee ({{ certPct }} on recoveries)</span><span style="font-family: 'JetBrains Mono', monospace;">−{{ certFee }}</span></div>
+      </div>
+      <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.15);">
+        <div style="font-size: 12.5px; color: rgba(255,255,255,0.65);">Net annual benefit to your business</div>
+        <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 34px; color: {{ netColor }};">{{ netAnnual }}</div>
+        <div style="margin-top: 2px; font-size: 12px; color: rgba(255,255,255,0.55);">{{ coverNote }}</div>
+      </div>
+      <a href="FohBoh Contact.dc.html#demo" style="display: block; margin-top: 20px; text-align: center; font-size: 14px; font-weight: 600; color: #1d1d1f; background: #ffffff; padding: 12px 0; border-radius: 980px; text-decoration: none;">Book a demo on your real data</a>
+      <p style="margin: 16px 0 0; font-size: 10.5px; line-height: 1.6; color: rgba(255,255,255,0.45);">Simulator estimate only — outputs are estimates, not CAARs. Certified recovery requires MGE™ certification with a Trust Score ≥ 85 across all 11 Trust Gates. Your inputs never leave this browser.</p>
+    </div>
+  </div>
+  <div style="margin: 0 64px 40px; padding: 18px 24px; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 12px;">
+    <p style="margin: 0; font-size: 11.5px; line-height: 1.7; color: #86868b; max-width: 110ch;"><span style="font-weight: 600; color: #494952;">Disclaimer.</span> This simulator is provided for illustrative purposes only. All outputs are estimates generated from user-supplied inputs and industry variance patterns; they are not certified findings, do not constitute a CAAR, and may not represent actual results, recoveries, or savings for any operation. FohBoh.ai, Inc. makes no representation, warranty, or guarantee of any recovery amount. Actual certified recovery requires MGE™ certification with a Trust Score ≥ 85. By using this simulator you agree to hold FohBoh.ai, Inc. harmless from any decision made in reliance on its outputs, as set out in our <a href="FohBoh Terms.dc.html" style="color: #3c434d;">Terms &amp; Conditions</a>.</p>
+  </div>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <span style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; color: #d63031;">FohBoh<span style="font-weight: 400; font-size: 13px; vertical-align: super;">®</span><span style="opacity: 0.75;">.ai</span></span><div style="margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: #494952;">Certified Restaurant Intelligence™</div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="FohBoh Cortex.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="FohBoh MGE.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="FohBoh M04 SCR.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · SCR Preview</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="FohBoh ROI Simulator.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="FohBoh CAAR Example.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="FohBoh For Vendors.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="https://fohboh.ai/fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="FohBoh Terms.dc.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="FohBoh Resources.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="FohBoh Resources.dc.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="FohBoh Resources.dc.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="FohBoh About.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="FohBoh Partners.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="FohBoh Contact.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="FohBoh Privacy.dc.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="FohBoh Terms.dc.html" style="color: #86868b; text-decoration: none;">Terms</a> · LinkedIn · Twitter</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    plan: 'both', billing: 'monthly', locations: 25, auv: 1500000, fee: 0.125,
+    pVol: 85000, pCur: 2.85, pCon: 2.65, pStmtA: 89, pStmtE: 45, pPci: 24.95, pTerm: 35, pDep: '',
+    dSales: 28000, dPos: 27600, dCur: 24, dCon: 22, dFeeA: 310, dFeeE: 260, dDep: '',
+  };
+  num(k) { const v = parseFloat(this.state[k]); return isNaN(v) ? 0 : v; }
+  set(k) { return (e) => this.setState({ [k]: e.target.value }); }
+  renderVals() {
+    const st = this.state;
+    const PLANS = {
+      m01: { name: 'Sentry M01', kicker: 'Merchant fees', rate: 199, m01: true, m02: false },
+      m02: { name: 'Sentry M02', kicker: 'Delivery fees', rate: 199, m01: false, m02: true },
+      both: { name: 'Sentry Both', kicker: 'Special offer', rate: 199, m01: true, m02: true, special: true },
+      wgs: { name: 'Sentry White Glove', kicker: 'WGS-managed', rate: 349, m01: true, m02: true },
+      bsg: { name: 'Cortex + Sentry', kicker: 'Suite · Self-Guided', rate: 399, m01: true, m02: true },
+      bwgs: { name: 'Cortex + Sentry WGS', kicker: 'Suite · White Glove', rate: 549, m01: true, m02: true },
+    };
+    const plan = PLANS[st.plan];
+    const money = (n) => '$' + Math.round(n).toLocaleString();
+    const n = (k) => this.num(k);
+    const locs = Math.max(25, Math.round(n('locations')) || 25);
+    // volume rates are quoted per portfolio on the pricing page; the simulator uses the published base rate
+    const tierDisc = 0;
+    const tierNote = 'volume rates quoted per portfolio';
+    const annual = st.billing === 'annual';
+    const subRate = plan.rate * (1 - tierDisc) * (annual ? 0.85 : 1);
+    const subscription = subRate * 12 * locs;
+    // M01 math
+    const downgrade = n('pVol') * 0.0010;
+    const markup = Math.max(0, (n('pCur') - n('pCon')) / 100) * n('pVol');
+    const unauth = Math.max(0, n('pStmtA') - n('pStmtE'));
+    const pciTerm = 0.5 * (n('pPci') + n('pTerm'));
+    const pDepSet = String(st.pDep).trim() !== '';
+    const pExpectedNet = n('pVol') * (1 - n('pCon') / 100) - n('pStmtE');
+    const pFunding = pDepSet ? Math.max(0, pExpectedNet - n('pDep')) : 0;
+    const m01Mo = plan.m01 ? downgrade + markup + unauth + pciTerm + pFunding : 0;
+    // M02 math
+    const creep = Math.max(0, (n('dCur') - n('dCon')) / 100) * n('dSales');
+    const salesVar = Math.max(0, n('dSales') - n('dPos')) * (n('dCur') / 100);
+    const feeDisc = Math.max(0, n('dFeeA') - n('dFeeE'));
+    const dDepSet = String(st.dDep).trim() !== '';
+    const dExpectedNet = n('dSales') * (1 - n('dCon') / 100) - n('dFeeE');
+    const dFunding = dDepSet ? Math.max(0, dExpectedNet - n('dDep')) : 0;
+    const m02Mo = plan.m02 ? creep + salesVar + feeDisc + dFunding : 0;
+    const grossAnnual = (m01Mo + m02Mo) * 12 * locs;
+    const certFee = grossAnnual * st.fee;
+    const net = grossAnnual - subscription - certFee;
+    const auvTotal = n('auv') * locs;
+    const auvPct = auvTotal > 0 ? ((grossAnnual / auvTotal) * 100).toFixed(1) + '%' : '—';
+    // trust score: 70 base, +15 per active stream with deposit evidence (30 if single stream)
+    const streams = (plan.m01 ? 1 : 0) + (plan.m02 ? 1 : 0);
+    const per = streams === 1 ? 30 : 15;
+    let trust = 70 + (plan.m01 && pDepSet ? per : 0) + (plan.m02 && dDepSet ? per : 0);
+    trust = Math.min(100, trust);
+    const planBtn = (k) => {
+      const sel = st.plan === k, p = PLANS[k];
+      return 'text-align: left; padding: 11px 14px; border-radius: 11px; cursor: pointer; border: 1.5px solid ' + (sel ? '#d63031' : '#e0e0e5') + '; background: ' + (sel ? '#ffffff' : '#ffffff') + '; color: #1d1d1f; box-shadow: ' + (sel ? '0 2px 8px rgba(214,48,49,0.12)' : 'none') + ';';
+    };
+    const segBtn = (sel) => 'flex: 1; padding: 8px 4px; border-radius: 7px; border: none; cursor: pointer; font-family: JetBrains Mono, monospace; font-size: 11px; white-space: nowrap; background: ' + (sel ? '#ffffff' : 'transparent') + '; color: ' + (sel ? '#3c434d' : '#86868b') + '; font-weight: ' + (sel ? '600' : '400') + '; box-shadow: ' + (sel ? '0 1px 3px rgba(0,0,0,0.1)' : 'none') + ';';
+    const feeBtn = (sel) => 'flex: 1; padding: 9px 6px; border-radius: 9px; cursor: pointer; font-family: JetBrains Mono, monospace; font-size: 11px; border: 1.5px solid ' + (sel ? '#d63031' : '#e0e0e5') + '; background: #ffffff; color: ' + (sel ? '#d63031' : '#86868b') + '; font-weight: ' + (sel ? '600' : '400') + ';';
+    const field = (label, key, hint, ph) => ({ label, val: st[key], set: this.set(key), hint, ph: ph || '' });
+    return {
+      planOpts: Object.keys(PLANS).map((k) => {
+        const p = PLANS[k];
+        return { name: p.name, kicker: p.kicker, priceLine: '$' + p.rate + ' / loc / mo' + (p.special ? ' · was $398' : ''), style: planBtn(k), pick: () => this.setState({ plan: k }) };
+      }),
+      specialOffer: !!plan.special,
+      planName: plan.name,
+      locations: st.locations, setLocations: this.set('locations'), tierNote,
+      auv: st.auv, setAuv: this.set('auv'),
+      setMonthlyB: () => this.setState({ billing: 'monthly' }),
+      setAnnualB: () => this.setState({ billing: 'annual' }),
+      monthlyBtnStyle: segBtn(!annual), annualBtnStyle: segBtn(annual),
+      m01Active: !!plan.m01, m02Active: !!plan.m02,
+      m01Fields: [
+        field('Monthly card volume ($/loc)', 'pVol', 'Total credit/debit volume.'),
+        field('Current effective rate (%)', 'pCur', 'All-in rate from your statement.'),
+        field('Contracted rate (%)', 'pCon', 'What your contract specifies.'),
+        field('Statement fees, actual ($)', 'pStmtA', '$/loc/mo, on the statement.'),
+        field('Statement fees, expected ($)', 'pStmtE', '$/loc/mo, per contract.'),
+        field('PCI non-compliance fees ($)', 'pPci', 'Often disputable — 50% credited.'),
+        field('Terminal lease fees ($)', 'pTerm', 'If you don\u2019t own terminals — 50% credited.'),
+        field('Actual bank deposits ($)', 'pDep', 'Blank = matches expected. Unlocks certification.', 'optional'),
+      ],
+      m01Cats: [
+        { name: 'Downgrade', val: money(downgrade) },
+        { name: 'Hidden markup', val: money(markup) },
+        { name: 'Unauthorized fees', val: money(unauth) },
+        { name: 'PCI / terminal', val: money(pciTerm) },
+        { name: 'Funding variance', val: money(pFunding) },
+      ],
+      m01Monthly: money(m01Mo), m01Annual: money(m01Mo * 12),
+      m02Fields: [
+        field('Monthly delivery sales ($/loc)', 'dSales', 'All 3rd-party DSPs combined.'),
+        field('POS-recorded delivery sales ($)', 'dPos', 'What your POS shows, same period.'),
+        field('Current commission rate (%)', 'dCur', 'What the DSP actually charges.'),
+        field('Contracted rate (%)', 'dCon', 'What your contract says.'),
+        field('Platform fees, actual ($)', 'dFeeA', '$/loc/mo, all DSPs.'),
+        field('Platform fees, expected ($)', 'dFeeE', '$/loc/mo, per contract.'),
+        field('Actual bank deposits ($)', 'dDep', 'Blank = no shortfall. Unlocks certification.', 'optional'),
+      ],
+      m02Cats: [
+        { name: 'Commission creep', val: money(creep) },
+        { name: 'Sales variance', val: money(salesVar) },
+        { name: 'Fee discrepancies', val: money(feeDisc) },
+        { name: 'Funding variance', val: money(dFunding) },
+      ],
+      m02Monthly: money(m02Mo), m02Annual: money(m02Mo * 12),
+      feeOpts: [
+        { label: '10% · low end', v: 0.10 }, { label: '12.5% · midpoint', v: 0.125 }, { label: '15% · top of range', v: 0.15 },
+      ].map((f) => ({ label: f.label, style: feeBtn(st.fee === f.v), pick: () => this.setState({ fee: f.v }) })),
+      grossAnnual: money(grossAnnual), auvPct,
+      trustScore: trust, trustColor: trust >= 85 ? '#4fd08a' : '#e8b34b',
+      trustNote: trust >= 85 ? 'Gate met (≥ 85) — recovery is certifiable.' : 'Add bank-deposit evidence to reach the ≥ 85 certification gate.',
+      subscription: money(subscription),
+      subNote: '$' + Math.round(subRate) + '/loc/mo · base rate' + (annual ? ' · annual −15%' : ''),
+      certPct: (st.fee * 100).toFixed(1).replace('.0', '') + '%', certFee: money(certFee),
+      netAnnual: money(net), netColor: net >= 0 ? '#4fd08a' : '#ff7a76',
+      coverNote: subscription > 0 ? (grossAnnual >= subscription + certFee ? 'Recovery covers the platform ' + (grossAnnual / (subscription + certFee)).toFixed(1) + '× over' : 'Recovery does not cover the platform at these inputs') : '',
+    };
+  }
+}
+</script>
+</body>
+</html>

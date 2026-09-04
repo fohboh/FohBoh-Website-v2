@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#f5f5f7;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+</helmet>
+<div style="background: #ffffff; min-width: 1120px;">
+<sc-if value="{{ hidden }}" hint-placeholder-val="{{ false }}">
+  <div style="min-height: 60vh; display: grid; place-items: center; padding: 80px 64px;">
+    <div style="text-align: center; max-width: 46ch;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #86868b;">Pricing · Unpublished</div>
+      <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">Pricing is available on request.</h1>
+      <a href="mailto:michael@fohboh.com" style="display: inline-block; margin-top: 22px; font-size: 14px; font-weight: 600; color: #ffffff; background: #d63031; padding: 11px 22px; border-radius: 980px; text-decoration: none;">Talk to Sales</a>
+    </div>
+  </div>
+</sc-if>
+<sc-if value="{{ published }}" hint-placeholder-val="{{ true }}">
+  <div style="padding: 64px 64px 8px; max-width: 1200px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Pricing</span>
+    <h1 style="margin: 16px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 44px; line-height: 1.1; letter-spacing: -0.02em; max-width: 24ch;">Certified restaurant &amp; revenue intelligence™, priced to scale.</h1>
+    <p style="margin: 18px 0 0; font-size: 16px; line-height: 1.55; max-width: 62ch; color: #494952;">Start with Sentry — certified loss prevention and recovery. Add Cortex — AI operations intelligence — or deploy the full bundle. Enterprise and platform partnerships are custom branded and scoped.</p>
+    <div style="display: inline-flex; align-items: center; gap: 14px; margin-top: 28px; padding: 8px 8px 8px 18px; border: 1px solid #e8e8ed; border-radius: 980px; background: #f5f5f7;">
+      <span onClick="{{ setMonthly }}" style="{{ monthlyLabelStyle }}">Monthly</span>
+      <button type="button" onClick="{{ toggleBilling }}" aria-label="Toggle annual billing" style="{{ switchStyle }}">
+        <span style="{{ thumbStyle }}"></span>
+      </button>
+      <span onClick="{{ setAnnual }}" style="{{ annualLabelStyle }}">Annual&nbsp; <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; color: #0a7a3d; background: #e8f5ee; border-radius: 5px; padding: 3px 7px;">Save 15%</span></span>
+    </div>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 32px 64px 8px; align-items: stretch;">
+    <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 20px; padding: 30px 32px; display: flex; flex-direction: column;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">◆ Sentry™</div>
+      <div style="margin-top: 8px; font-size: 13.5px; color: #6e6e73;">Dual-engine recovery. Finds the money.</div>
+      <div style="display: flex; gap: 4px; padding: 3px; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 10px; margin-top: 16px;">
+        <sc-for list="{{ sentryOpts }}" as="o" hint-placeholder-count="4">
+          <button type="button" onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ sentryOffer }}" hint-placeholder-val="{{ false }}">
+        <span style="align-self: flex-start; margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #0a7a3d; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 5px; padding: 3px 8px;">Special offer</span>
+      </sc-if>
+      <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px;">{{ sentryPrice }}</span>
+        <sc-if value="{{ sentryOffer }}" hint-placeholder-val="{{ false }}"><span style="font-size: 16px; color: #b3b3b8; text-decoration: line-through;">{{ sentryWas }}</span></sc-if>
+        <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
+      </div>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ sentryAnnualNote }}</div></sc-if>
+      <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> {{ sentrySub }}</div>
+      <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
+      <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
+        <li>Continuous certification, not a one-time audit</li>
+        <li>Certified CAARs with full evidence ExportPack</li>
+        <li>+ 10–15% of certified recoverable value, invoiced on seal</li>
+        <sc-if value="{{ sentryExtraShow }}" hint-placeholder-val="{{ false }}"><li style="color: #86868b;">{{ sentryExtra }}</li></sc-if>
+      </ul>
+      <a href="mailto:michael@fohboh.com" style="display: block; text-align: center; font-size: 14px; font-weight: 600; color: #d63031; border: 1px solid #f0c2c2; padding: 11px 0; border-radius: 980px; text-decoration: none;">Talk to Sales</a>
+    </div>
+    <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 20px; padding: 30px 32px; display: flex; flex-direction: column;">
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">◉ Cortex™</div>
+      <div style="margin-top: 8px; font-size: 13.5px; color: #6e6e73;">Certified AI. Answers the questions.</div>
+      <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 62px; flex-wrap: wrap;">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px;">{{ cortexPrice }}</span>
+        <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
+      </div>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ cortexAnnualNote }}</div></sc-if>
+      <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> Includes 150 Cortex Conversations per month.</div>
+      <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
+      <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
+        <li>AI operations assistant for restaurant teams</li>
+        <li>Real-time KPI insights across labor, sales, and margin</li>
+        <li>Alerts, benchmarking, and trend visibility</li>
+        <li>Voice and text — every answer sourced and trust-scored</li>
+      </ul>
+      <a href="mailto:michael@fohboh.com" style="display: block; text-align: center; font-size: 14px; font-weight: 600; color: #d63031; border: 1px solid #f0c2c2; padding: 11px 0; border-radius: 980px; text-decoration: none;">Request Demo</a>
+    </div>
+    <div style="background: #ffffff; border: 2px solid #d63031; border-radius: 20px; padding: 30px 32px; position: relative; display: flex; flex-direction: column;">
+      <span style="position: absolute; top: -11px; left: 28px; background: #d63031; color: #ffffff; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 12px; border-radius: 980px;">Recommended</span>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">◉◆ Cortex™ + Sentry™</div>
+      <div style="margin-top: 8px; font-size: 13.5px; color: #6e6e73;">One suite. Insight and recovery, certified.</div>
+      <div style="display: flex; gap: 4px; padding: 3px; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 10px; margin-top: 16px;">
+        <sc-for list="{{ bundleOpts }}" as="o" hint-placeholder-count="2">
+          <button type="button" onClick="{{ o.pick }}" style="{{ o.style }}">{{ o.label }}</button>
+        </sc-for>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 14px; flex-wrap: wrap;">
+        <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px;">{{ bundlePrice }}</span>
+        <span style="font-size: 16px; color: #b3b3b8; text-decoration: line-through;">{{ bundleWas }}</span>
+        <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
+      </div>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ bundleAnnualNote }}</div></sc-if>
+      <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> {{ bundleSub }} + 10–15% of certified recoverable value, invoiced on seal.</div>
+      <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
+      <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
+        <li>Everything in Sentry (both modules), plus:</li>
+        <li>Includes 200 Cortex Conversations per month</li>
+        <li>Combines AI intelligence with certified recovery</li>
+        <li style="color: #86868b;">{{ bundleSave }}</li>
+      </ul>
+      <a href="mailto:michael@fohboh.com" style="display: block; text-align: center; font-size: 14px; font-weight: 600; color: #ffffff; background: #d63031; padding: 11px 0; border-radius: 980px; text-decoration: none;">Get Started</a>
+    </div>
+  </div>
+  <div style="margin: 40px 64px 0; border: 1px solid #e8e8ed; border-radius: 16px; padding: 26px 30px; background: #fafafa; display: flex; justify-content: space-between; align-items: center; gap: 24px;">
+    <div>
+      <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Volume &amp; enterprise pricing</div>
+      <div style="margin-top: 6px; font-size: 12.5px; color: #86868b; max-width: 640px; line-height: 1.6;">All operator plans require a minimum of 25 locations. Multi-unit and franchise volume rates are quoted per portfolio. The Cortex + Sentry suite bundles what would cost $448/location/month bought separately (Cortex $249 + Sentry Full $199).</div>
+    </div>
+    <a href="FohBoh Contact.dc.html#demo" style="flex: none; font-size: 13.5px; font-weight: 600; color: #ffffff; background: #d63031; padding: 11px 22px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #b82628;">Call for Enterprise Pricing</a>
+  </div>
+  <div style="margin: 20px 64px 0; border: 1px solid #e8e8ed; border-radius: 16px; background: #fafafa; overflow: hidden;">
+    <button type="button" onClick="{{ toggleSchedule }}" style="width: 100%; padding: 24px 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; background: none; border: none; font: inherit; color: inherit; text-align: left; cursor: pointer;">
+      <span>
+        <span style="display: block; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Every scenario, both billing cycles</span>
+        <span style="display: block; margin-top: 5px; font-size: 12.5px; color: #86868b; max-width: 60ch; line-height: 1.6;">Every figure below is generated from the same constants that drive the cards above, so this table cannot drift from what a customer is quoted.</span>
+      </span>
+      <span style="flex: none; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #3c434d; background: #eef0f3; border: 1px solid #ccd1d9; border-radius: 980px; padding: 8px 14px; white-space: nowrap;">{{ scheduleLabel }}</span>
+    </button>
+    <sc-if value="{{ scheduleOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="border-top: 1px solid #e8e8ed;">
+        <div style="display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 1fr; padding: 12px 30px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b; border-bottom: 1px solid #e8e8ed;">
+          <span>Plan</span><span style="text-align: right;">Monthly</span><span style="text-align: right;">Annual / mo</span><span style="text-align: right;">Annual / yr</span><span style="text-align: right;">You save / yr</span>
+        </div>
+        <sc-for list="{{ scheduleRows }}" as="r" hint-placeholder-count="8">
+          <sc-if value="{{ r.isGroup }}" hint-placeholder-val="{{ false }}">
+            <div style="padding: 9px 30px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #3c434d; background: #eef0f3; border-bottom: 1px solid #e8e8ed;">{{ r.group }}</div>
+          </sc-if>
+          <sc-if value="{{ r.isPlan }}" hint-placeholder-val="{{ false }}">
+            <div style="display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 1fr; padding: 11px 30px; font-size: 13px; border-bottom: 1px solid #f0f0f2; background: {{ r.bg }}; align-items: baseline;">
+              <span>{{ r.name }} <sc-if value="{{ r.hasPill }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #0a7a3d; background: #e8f5ee; border-radius: 4px; padding: 2px 6px; margin-left: 6px;">{{ r.pill }}</span></sc-if></span>
+              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.monthly }}</span>
+              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.annualMo }}</span>
+              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.annualYr }}</span>
+              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #0a7a3d;">{{ r.save }}</span>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+    </sc-if>
+  </div>
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 20px 64px 0;">
+    <div style="border: 1px dashed #c9c9d1; border-radius: 14px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+      <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 15px;">Enterprise — Custom</div><div style="margin-top: 4px; font-size: 12.5px; color: #86868b; max-width: 34ch;">50+ locations, multi-brand environments, or embedded deployments. Deployment, onboarding, integrations, dedicated support.</div></div>
+      <a href="mailto:michael@fohboh.com" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3c434d; text-decoration: none; white-space: nowrap;">Contact Sales →</a>
+    </div>
+    <div style="border: 1px dashed #c9c9d1; border-radius: 14px; padding: 22px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px;">
+      <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 15px;">White Label — Custom</div><div style="margin-top: 4px; font-size: 12.5px; color: #86868b; max-width: 34ch;">For POS, back-office, and platform partners. Annual licensing, semi-custom implementation, API access and integrations.</div></div>
+      <a href="mailto:partnerships@fohboh.com" style="font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #3c434d; text-decoration: none; white-space: nowrap;">Request Partnership →</a>
+    </div>
+  </div>
+  <div style="padding: 28px 64px 48px;">
+    <p style="margin: 0; font-size: 12px; line-height: 1.7; color: #86868b; max-width: 90ch;">All operator plans require a minimum of 25 locations. The CAAR transaction fee is not a bounty and is not contingent on collection — it is invoiced automatically when a CAAR seals on certified recoverable value and traces back to the specific certified run. Annual billing applies to the platform subscription only; CAAR fees are invoiced per certified run regardless of billing cycle.</p>
+    <p style="margin: 14px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #6e6e73;">◈ POWERED BY MGE™ — EVERY NUMBER ON THIS PAGE RUNS THROUGH THE SAME DETERMINISTIC GOVERNANCE CORE YOUR TEAM WILL USE.</p>
+    <div style="display: flex; justify-content: center; margin-top: 36px;">
+      <a href="FohBoh ROI Simulator.dc.html" style="display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #ffffff; background: #d63031; text-decoration: none; padding: 13px 26px; border-radius: 980px;" style-hover="background: #b82628;">Try our ROI Simulator →</a>
+    </div>
+  </div>
+</sc-if>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <span style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; color: #d63031;">FohBoh<span style="font-weight: 400; font-size: 13px; vertical-align: super;">®</span><span style="opacity: 0.75;">.ai</span></span><div style="margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: #494952;">Certified Restaurant Intelligence™</div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="FohBoh Cortex.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="FohBoh MGE.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="FohBoh M04 SCR.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · SCR Preview</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="FohBoh ROI Simulator.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="FohBoh CAAR Example.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="FohBoh For Vendors.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="https://fohboh.ai/fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="FohBoh Terms.dc.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="FohBoh Resources.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="FohBoh Resources.dc.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="FohBoh Resources.dc.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="FohBoh About.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="FohBoh Partners.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="FohBoh Contact.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="FohBoh Privacy.dc.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="FohBoh Terms.dc.html" style="color: #86868b; text-decoration: none;">Terms</a> · LinkedIn · Twitter &nbsp; <button type="button" onClick="{{ adminToggle }}" title="Admin: publish or unpublish pricing (password required)" style="font-family: 'JetBrains Mono', monospace; font-size: 9px; letter-spacing: 0.08em; color: #c9c9d1; background: none; border: 1px solid #ececf0; border-radius: 6px; padding: 3px 8px; cursor: pointer;">{{ adminLabel }}</button></span>
+    </div>
+  </footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>class Component extends DCLogic {
+  state = {
+    annual: false,
+    sentryKey: 's-m01',
+    bundleKey: 'b-sg',
+    scheduleOpen: false,
+    published: (typeof localStorage !== 'undefined' && localStorage.getItem('fohboh_pricing_published') === 'off') ? false : true,
+  };
+  renderVals() {
+    const A = 0.15, T2 = 0.15, T3 = 0.20, CORTEX = 249;
+    const S = {
+      's-m01': { base: 199, label: 'M01', sub: 'Merchant Fee Recovery — processor fee certification against agreements, statements, and bank deposits.', extra: '', offer: false, short: 'Sentry M01' },
+      's-m02': { base: 199, label: 'M02', sub: 'Delivery Fee Recovery — DSP commission and delivery fee certification against settlement and contract evidence.', extra: '', offer: false, short: 'Sentry M02' },
+      's-both': { base: 199, label: 'Both', sub: 'Both modules, one account — Merchant Fee Recovery and Delivery Fee Recovery together.', extra: 'Both engines for the price of one module', offer: true, anchor: 398, short: 'Sentry Full' },
+      's-wgs': { base: 349, label: 'White Glove', sub: 'Full Sentry, WGS-managed — higher-touch operating service for governed enterprise rollout.', extra: 'Includes both modules, WGS-managed', offer: false, short: 'Sentry White Glove' },
+    };
+    const B = {
+      'b-sg': { base: 399, label: 'Self-Guided', sc: 's-both', sub: 'Sentry Full + Cortex, self-guided deployment.' },
+      'b-wgs': { base: 549, label: 'White Glove', sc: 's-wgs', sub: 'Sentry White Glove + Cortex, WGS-managed deployment.' },
+    };
+    const { annual, sentryKey, bundleKey, scheduleOpen, published } = this.state;
+    const money = (n) => '$' + Math.round(n).toLocaleString();
+    const annMo = (b) => Math.round(b * (1 - A));
+    const disp = (b) => money(annual ? annMo(b) : Math.round(b));
+    const annNote = (b) => 'Billed annually · ' + money(annMo(b) * 12) + ' / location / year';
+    const s = S[sentryKey], b = B[bundleKey];
+    const separate = CORTEX + S[b.sc].base;
+    const btnStyle = (sel) => 'flex: 1; text-align: center; font-family: JetBrains Mono, monospace; font-size: 11px; padding: 8px 4px; border-radius: 7px; border: none; cursor: pointer; white-space: nowrap; background: ' + (sel ? '#ffffff' : 'transparent') + '; color: ' + (sel ? '#3c434d' : '#86868b') + '; font-weight: ' + (sel ? '600' : '400') + '; box-shadow: ' + (sel ? '0 1px 3px rgba(0,0,0,0.1)' : 'none') + ';';
+    const planRow = (name, base, hl, pill) => ({
+      isPlan: true, isGroup: false, name, hasPill: !!pill, pill: pill || '',
+      monthly: money(Math.round(base)), annualMo: money(annMo(base)),
+      annualYr: money(annMo(base) * 12), save: money(Math.round(base) * 12 - annMo(base) * 12),
+      bg: hl ? '#fdf6ee' : 'transparent',
+    });
+    const groupRow = (g) => ({ isGroup: true, isPlan: false, group: g });
+    const scheduleRows = [
+      groupRow('Sentry — certified loss prevention & recovery'),
+      planRow('M01 — Merchant Fee Recovery', 199),
+      planRow('M02 — Delivery Fee Recovery', 199),
+      planRow('Sentry Full — M01 + M02', 199, true, 'Special offer'),
+      planRow('Sentry White Glove — both modules, WGS-managed', 349),
+      groupRow('Cortex — certified AI operations intelligence'),
+      planRow('Cortex', CORTEX),
+      groupRow('Cortex + Sentry — the full platform'),
+      planRow('Self-Guided', B['b-sg'].base, true),
+      planRow('White Glove', B['b-wgs'].base),
+    ];
+    const setBilling = (a) => this.setState({ annual: a });
+    return {
+      published, hidden: !published, annual,
+      setMonthly: () => setBilling(false),
+      setAnnual: () => setBilling(true),
+      toggleBilling: () => setBilling(!annual),
+      monthlyLabelStyle: 'font-size: 13.5px; cursor: pointer; user-select: none; font-weight: ' + (annual ? '400' : '600') + '; color: ' + (annual ? '#86868b' : '#1d1d1f') + ';',
+      annualLabelStyle: 'display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; user-select: none; font-weight: ' + (annual ? '600' : '400') + '; color: ' + (annual ? '#1d1d1f' : '#86868b') + ';',
+      switchStyle: 'position: relative; width: 46px; height: 26px; border-radius: 980px; border: none; cursor: pointer; padding: 0; transition: background 0.25s ease; background: ' + (annual ? '#0a7a3d' : '#c9c9d1') + ';',
+      thumbStyle: 'position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.25s ease; transform: translateX(' + (annual ? '20px' : '0px') + ');',
+      sentryOpts: Object.keys(S).map((k) => ({ label: S[k].label, style: btnStyle(k === sentryKey), pick: () => this.setState({ sentryKey: k }) })),
+      bundleOpts: Object.keys(B).map((k) => ({ label: B[k].label, style: btnStyle(k === bundleKey), pick: () => this.setState({ bundleKey: k }) })),
+      sentryPrice: disp(s.base), sentryWas: s.offer ? disp(s.anchor) : '', sentryOffer: !!s.offer,
+      sentrySub: s.sub, sentryExtra: s.extra, sentryExtraShow: !!s.extra,
+      sentryAnnualNote: annNote(s.base),
+      cortexPrice: disp(CORTEX), cortexAnnualNote: annNote(CORTEX),
+      bundlePrice: disp(b.base), bundleWas: disp(separate), bundleSub: b.sub,
+      bundleAnnualNote: annNote(b.base),
+      bundleSave: 'Save ' + money((annual ? annMo(separate) : separate) - (annual ? annMo(b.base) : b.base)) + '/location/month vs. buying separately',
+      scheduleRows, scheduleOpen,
+      scheduleLabel: scheduleOpen ? 'Hide schedule' : 'View schedule',
+      toggleSchedule: () => this.setState({ scheduleOpen: !scheduleOpen }),
+      adminLabel: published ? 'ADMIN · ON' : 'ADMIN · OFF',
+      adminToggle: () => {
+        const pw = window.prompt('Admin password:');
+        if (pw !== 'pizza') { if (pw !== null) window.alert('Incorrect password.'); return; }
+        const next = !this.state.published;
+        try { localStorage.setItem('fohboh_pricing_published', next ? 'on' : 'off'); } catch (e) {}
+        this.setState({ published: next });
+      },
+    };
+  }
+}</script>
+</body>
+</html>

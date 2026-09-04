@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FohBoh | Cortex™ — AI for Operations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#ff6b35;--orange-dim:rgba(255,107,53,.12);--orange-bdr:rgba(255,107,53,.28);
+  --teal:#00e5c0;--teal-dim:rgba(0,229,192,.10);--teal-bdr:rgba(0,229,192,.28);
+  --gold:#f5c842;--gold-dim:rgba(245,200,66,.11);--gold-bdr:rgba(245,200,66,.28);
+  --violet:rgba(180,140,255,1);--violet-dim:rgba(180,140,255,.1);
+  --green:#00c853;--green-dim:rgba(0,200,83,.1);
+  --ink:#07090f;--card:#0d1017;--card2:#111520;--card3:#0a0d14;
+  --bdr:rgba(255,255,255,.07);--bdr-hi:rgba(255,255,255,.13);
+  --t0:#f8faff;--t1:#e8ecf4;--t2:#8892a4;--t3:#4a5568;--t4:#2a3245;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',system-ui,sans-serif;background:var(--ink);color:var(--t0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* ── Layout ── */
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.sec{padding:72px 0}
+.sec-sm{padding:48px 0}
+hr.div{border:none;border-top:1px solid var(--bdr);margin:0}
+
+/* ── Type ── */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--orange);margin-bottom:14px}
+.kicker::before{content:'';width:20px;height:1px;background:var(--orange);flex-shrink:0}
+.kicker.teal{color:var(--teal)}.kicker.teal::before{background:var(--teal)}
+.kicker.gold{color:var(--gold)}.kicker.gold::before{background:var(--gold)}
+.kicker.violet{color:var(--violet)}.kicker.violet::before{background:var(--violet)}
+.kicker.green{color:var(--green)}.kicker.green::before{background:var(--green)}
+h1{font-size:clamp(2.4rem,5vw,4.2rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--t0)}
+h1 em{font-style:normal;color:var(--orange)}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--t0)}
+h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
+.lead{font-size:1rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:580px}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ── Atoms ── */
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid}
+.tag-o{color:var(--orange);border-color:var(--orange-bdr);background:var(--orange-dim)}
+.tag-t{color:var(--teal);border-color:var(--teal-bdr);background:var(--teal-dim)}
+.tag-g{color:var(--gold);border-color:var(--gold-bdr);background:var(--gold-dim)}
+.tag-n{color:var(--t2);border-color:var(--bdr-hi);background:rgba(255,255,255,.04)}
+.badge{display:inline-flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;border-radius:4px;border:1px solid;white-space:nowrap}
+
+/* ── Noise overlay ── */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ─────────────────────────────────────────────
+   HEADER
+───────────────────────────────────────────── */
+.header{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden}
+.header-bg{position:absolute;inset:0;pointer-events:none}
+.header-bg::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(255,107,53,.13) 0%,transparent 65%)}
+.header-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.header .eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--orange-dim);border:1px solid var(--orange-bdr);color:var(--orange);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:28px}
+.header .eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--orange);animation:glow-pulse 2s ease-in-out infinite}
+@keyframes glow-pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 var(--orange)}50%{opacity:.4;box-shadow:0 0 8px 3px var(--orange-dim)}}
+.header h1{max-width:820px;margin:0 auto 20px}
+.header .lead{margin:0 auto 36px;text-align:center}
+.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+
+/* ─────────────────────────────────────────────
+   TRUST BANNER
+───────────────────────────────────────────── */
+.trust-banner{background:linear-gradient(135deg,var(--card2) 0%,var(--card) 100%);border:1px solid var(--orange-bdr);border-radius:20px;padding:48px;text-align:center;position:relative;overflow:hidden;margin-bottom:0}
+.trust-banner::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:280px;background:radial-gradient(ellipse,rgba(255,107,53,.09),transparent 70%);pointer-events:none}
+.trust-banner h2{margin-bottom:16px}
+.trust-banner h2 em{font-style:normal;color:var(--orange)}
+.trust-banner .lead{margin:0 auto 24px}
+.trust-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:8px}
+
+/* ─────────────────────────────────────────────
+   USE CASES — 2 col
+───────────────────────────────────────────── */
+.uc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.uc-col{}
+.uc-header{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:10px 10px 0 0;margin-bottom:2px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.uc-header.instore{background:var(--orange-dim);color:var(--orange);border:1px solid var(--orange-bdr);border-bottom:none}
+.uc-header.above{background:var(--teal-dim);color:var(--teal);border:1px solid var(--teal-bdr);border-bottom:none}
+.uc-body{background:var(--card);border-radius:0 0 14px 14px;overflow:hidden}
+.uc-body.instore{border:1px solid var(--orange-bdr);border-top:2px solid var(--orange)}
+.uc-body.above{border:1px solid var(--teal-bdr);border-top:2px solid var(--teal)}
+.uc-item{display:flex;align-items:flex-start;gap:14px;padding:18px 20px;border-bottom:1px solid var(--bdr)}
+.uc-item:last-child{border-bottom:none}
+.uc-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.uc-title{font-size:13px;font-weight:700;color:var(--t0);margin-bottom:4px;letter-spacing:-.01em}
+.uc-desc{font-size:12px;color:var(--t2);font-weight:300;line-height:1.65}
+
+/* ─────────────────────────────────────────────
+   USER STORIES
+───────────────────────────────────────────── */
+.stories{display:flex;flex-direction:column;gap:10px}
+.story{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:22px 24px;display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:start;transition:border-color .2s}
+.story:hover{border-color:var(--bdr-hi)}
+.story-q{font-size:13.5px;font-weight:700;color:var(--t0);margin-bottom:7px;line-height:1.4;font-style:italic}
+.story-a{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.7}
+.story-a strong{color:var(--t1);font-weight:600}
+.story-vault{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;color:var(--teal);padding:3px 9px;background:var(--teal-dim);border:1px solid var(--teal-bdr);border-radius:4px;white-space:nowrap;margin-top:2px}
+
+/* ─────────────────────────────────────────────
+   PROMPT GRID
+───────────────────────────────────────────── */
+.prompt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.p-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:24px 20px;position:relative;overflow:hidden;transition:border-color .2s}
+.p-card:hover{border-color:var(--bdr-hi)}
+.p-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.p-card:nth-child(1)::before{background:linear-gradient(90deg,var(--orange),transparent)}
+.p-card:nth-child(2)::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.p-card:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.p-card:nth-child(4)::before{background:linear-gradient(90deg,var(--violet),transparent)}
+.p-card:nth-child(5)::before{background:linear-gradient(90deg,var(--green),transparent)}
+.p-card:nth-child(6)::before{background:linear-gradient(90deg,rgba(214,48,49,1),transparent)}
+.p-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px}
+.p-card:nth-child(1) .p-num{color:var(--orange)}
+.p-card:nth-child(2) .p-num{color:var(--teal)}
+.p-card:nth-child(3) .p-num{color:var(--gold)}
+.p-card:nth-child(4) .p-num{color:var(--violet)}
+.p-card:nth-child(5) .p-num{color:var(--green)}
+.p-card:nth-child(6) .p-num{color:rgba(248,113,113,1)}
+.p-title{font-size:14px;font-weight:700;color:var(--t0);margin-bottom:8px;letter-spacing:-.01em}
+.p-example{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--t2);background:var(--card2);border:1px solid var(--bdr-hi);border-radius:7px;padding:9px 12px;margin-bottom:10px;line-height:1.55;font-style:italic}
+.p-desc{font-size:12px;color:var(--t2);font-weight:300;line-height:1.65}
+
+/* ─────────────────────────────────────────────
+   KPI SPLIT
+───────────────────────────────────────────── */
+.kpi-split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.kpi-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:32px;position:relative;overflow:hidden}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card.registry::before{background:linear-gradient(90deg,var(--teal),transparent)}
+.kpi-card.vault::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.kpi-card h3{font-size:1.15rem;margin-bottom:10px}
+.kpi-sub{font-size:13px;color:var(--t2);font-weight:300;line-height:1.75;margin-bottom:22px;border-bottom:1px solid var(--bdr);padding-bottom:18px}
+.kpi-rows{display:flex;flex-direction:column;gap:12px}
+.kpi-row{display:flex;align-items:flex-start;gap:10px}
+.kpi-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:6px}
+.kpi-row p{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.6}
+.kpi-row p strong{color:var(--t1);font-weight:600}
+
+/* ─────────────────────────────────────────────
+   CRAG STEPS
+───────────────────────────────────────────── */
+.crag-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;border:1px solid var(--bdr);border-radius:16px;overflow:hidden}
+.crag-step{background:var(--card);padding:28px 22px;position:relative}
+.crag-step::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--teal);opacity:.45}
+.crag-n{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.12em;color:var(--t3);margin-bottom:12px}
+.crag-icon{font-size:24px;display:block;margin-bottom:12px}
+.crag-title{font-size:13px;font-weight:700;color:var(--t0);margin-bottom:7px}
+.crag-desc{font-size:12px;color:var(--t2);font-weight:300;line-height:1.65}
+
+/* ─────────────────────────────────────────────
+   CONTINUITY
+───────────────────────────────────────────── */
+.continuity{background:var(--card2);border:1px solid var(--bdr-hi);border-radius:20px;padding:44px 48px;display:grid;grid-template-columns:1fr 1.1fr;gap:48px;align-items:center}
+.cont-items{display:flex;flex-direction:column;gap:16px}
+.cont-item{display:flex;align-items:flex-start;gap:14px}
+.cont-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.cont-text{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.65}
+.cont-text strong{color:var(--t1);font-weight:600}
+
+/* ─────────────────────────────────────────────
+   FOOTER
+───────────────────────────────────────────── */
+.footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
+.footer p{font-size:12px;color:var(--t3);line-height:2}
+.footer strong{color:var(--t2)}
+.footer a{color:var(--t2);text-decoration:none;transition:color .2s}
+.footer a:hover{color:var(--red)}
+
+/* ─────────────────────────────────────────────
+   RESPONSIVE
+───────────────────────────────────────────── */
+@media(max-width:780px){
+  .uc-grid,.kpi-split,.continuity{grid-template-columns:1fr}
+  .crag-grid,.prompt-grid{grid-template-columns:1fr 1fr}
+  .story{grid-template-columns:1fr;gap:8px}
+  .story-vault{display:none}
+}
+@media(max-width:500px){
+  .crag-grid,.prompt-grid{grid-template-columns:1fr}
+}
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-bg"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="eyebrow">FohBoh | Cortex™ &nbsp;·&nbsp; AI for Operations</div>
+    <h1>Certified Operations Intelligence<br>You Can <em>Actually Trust.</em></h1>
+    <p class="lead">Most restaurant AI runs on raw, unverified data. Cortex runs on the KPI Vault — a sealed, immutable record of certified operational truth. Every recommendation traces back to a fact, not a guess.</p>
+    <div class="header-tags">
+      <span class="tag tag-t">Certified data layer</span>
+      <span class="tag tag-t">KPI Vault source of truth</span>
+      <span class="tag tag-o">No hallucinations on certified KPIs</span>
+      <span class="tag tag-g">Every insight is auditable</span>
+      <span class="tag tag-n">$249/loc/mo · 10 loc min</span>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- TRUST CALLOUT -->
+<div class="sec">
+  <div class="wrap">
+    <div class="trust-banner">
+      <p class="kicker" style="justify-content:center;margin-bottom:14px">The Core Principle</p>
+      <h2>The data your AI runs on<br><em>determines everything.</em></h2>
+      <p class="lead">Garbage in, garbage out — but at scale, with confidence scores attached. Cortex is purpose-built to run on MGE-certified data. When it tells you food cost is up 3.2% at Dallas, that number traces to a sealed vault entry — not a raw POS export that has never been reconciled.</p>
+      <div class="trust-tags" style="margin-top:24px">
+        <span class="tag tag-t">Certified data layer</span>
+        <span class="tag tag-t">KPI Vault source of truth</span>
+        <span class="tag tag-o">No hallucinations on certified KPIs</span>
+        <span class="tag tag-g">Every insight is auditable</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- USE CASES -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker">Where It Works</p>
+    <h2>In-Store and Above-Store Intelligence</h2>
+    <p class="lead" style="margin-bottom:36px">Cortex operates at two levels simultaneously — helping GMs run better shifts and giving COOs a portfolio view no spreadsheet can match.</p>
+
+    <div class="uc-grid">
+      <div class="uc-col">
+        <div class="uc-header instore">🏪 &nbsp;In-Store Operations</div>
+        <div class="uc-body instore">
+          <div class="uc-item">
+            <span class="uc-icon">📉</span>
+            <div><div class="uc-title">Food Cost Variance Detection</div>
+            <div class="uc-desc">Why did food cost spike Tuesday night? Cortex traces variance to certified recipe cost data, purchase records, and waste logs — and tells you which category drove it.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">👥</span>
+            <div><div class="uc-title">Labor Efficiency Analysis</div>
+            <div class="uc-desc">Compare labor as a percentage of certified revenue — not just hours scheduled. Identify overstaffed dayparts and correlate against cover counts and ticket times.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">🍽️</span>
+            <div><div class="uc-title">Menu Item Performance</div>
+            <div class="uc-desc">Which items are dragging your margin? Cortex cross-references certified sales mix data with recipe costing to surface what to push, price, or 86.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">⚡</span>
+            <div><div class="uc-title">Real-Time Operational Alerts</div>
+            <div class="uc-desc">Surface exceptions the moment data is certified — waste over threshold, ticket time outliers, delivery ratings dropping. Flags go to the right person automatically.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="uc-col">
+        <div class="uc-header above">🏢 &nbsp;Above-Store Operations</div>
+        <div class="uc-body above">
+          <div class="uc-item">
+            <span class="uc-icon">📊</span>
+            <div><div class="uc-title">Portfolio Performance Comparison</div>
+            <div class="uc-desc">Rank every location by certified margin, food cost %, and labor efficiency on the same normalized baseline — no location gaming the data.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">🔍</span>
+            <div><div class="uc-title">Location Benchmarking</div>
+            <div class="uc-desc">Why does Location 3 run 4 points higher food cost than Location 7? Cortex isolates variables across certified KPIs — menu mix, daypart, staffing pattern.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">📈</span>
+            <div><div class="uc-title">Trend Identification at Scale</div>
+            <div class="uc-desc">Identify system-wide patterns — rising protein cost across all 12 locations, declining lunch covers in suburban units — before they show up in P&amp;Ls.</div></div>
+          </div>
+          <div class="uc-item">
+            <span class="uc-icon">🎯</span>
+            <div><div class="uc-title">Executive Reporting</div>
+            <div class="uc-desc">Board-ready certified performance summaries generated in seconds from Vault data. No analyst hours. No data preparation. Just certified numbers, surfaced on demand.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- USER STORIES -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker teal">Real Questions. Certified Answers.</p>
+    <h2>Who Uses It and What They Ask</h2>
+    <p class="lead" style="margin-bottom:36px">Cortex is designed for operators, not data scientists. Every question is answered from certified Vault data — traceable, repeatable, and honest about what it doesn't know.</p>
+
+    <div class="stories">
+
+      <div class="story">
+        <span class="badge tag-o" style="margin-top:2px">GM</span>
+        <div>
+          <div class="story-q">"Why is my food cost running 4 points over budget this week?"</div>
+          <div class="story-a">Cortex retrieves certified food cost data from the KPI Vault, isolates the variance to <strong>protein and dairy categories on Tuesday and Wednesday</strong>, and cross-references against certified purchase records. It surfaces the specific vendors and items driving the gap — with certified dollar amounts, not estimates.</div>
+        </div>
+        <span class="story-vault">VAULT: D1-FC</span>
+      </div>
+
+      <div class="story">
+        <span class="badge tag-t" style="margin-top:2px">COO</span>
+        <div>
+          <div class="story-q">"Which of my 14 locations are underperforming versus their peer cohort?"</div>
+          <div class="story-a">Cortex pulls certified margin and efficiency data from all 14 Vault entries, normalizes by cohort (volume tier, market, format), and returns a ranked view. <strong>Locations 4, 7, and 11 are running 2.8–4.1 points below cohort median on certified EBITDA margin.</strong> It then surfaces the top driver for each.</div>
+        </div>
+        <span class="story-vault">VAULT: D2-MG</span>
+      </div>
+
+      <div class="story">
+        <span class="badge tag-g" style="margin-top:2px">Finance</span>
+        <div>
+          <div class="story-q">"What's driving the margin compression at the Dallas cluster this quarter?"</div>
+          <div class="story-a">Cortex traces through the Vault's certified quarterly KPIs — isolating <strong>labor cost increase (+1.9pts), delivery commission overcharges (+$14K uncertified), and menu mix shift toward lower-margin items</strong>. Each finding references its Vault entry ID. No estimates. No AI confabulation.</div>
+        </div>
+        <span class="story-vault">VAULT: D3-RC</span>
+      </div>
+
+      <div class="story">
+        <span class="badge tag-n" style="margin-top:2px">Ops Dir.</span>
+        <div>
+          <div class="story-q">"Which menu items should I consider repricing or removing heading into Q3?"</div>
+          <div class="story-a">Cortex retrieves certified sales mix data and certified recipe cost records, computes contribution margin per item against the Vault baseline, and returns a ranked list. <strong>Three items are below 55% contribution margin and declining in mix share.</strong> Repricing thresholds are based on your certified cost data, not industry averages.</div>
+        </div>
+        <span class="story-vault">VAULT: D1-MN</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- PROMPT ARCHITECTURE -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker gold">Prompt Architecture</p>
+    <h2>Prompts Are Categorized, Not Free-Form.</h2>
+    <p class="lead" style="margin-bottom:36px">Every prompt is routed to a structured category that determines which Vault data it retrieves, which rules it applies, and how it validates the answer before responding.</p>
+
+    <div class="prompt-grid">
+      <div class="p-card">
+        <div class="p-num">Category 01 — Diagnostic</div>
+        <div class="p-title">Why did X happen?</div>
+        <div class="p-example">"Why is food cost high this week?"</div>
+        <div class="p-desc">Root cause analysis against certified Vault data. Retrieves the relevant KPI history, isolates the delta, and attributes the variance to specific certified drivers.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">Category 02 — Comparative</div>
+        <div class="p-title">How do I compare?</div>
+        <div class="p-example">"How does Location 3 compare to Location 7?"</div>
+        <div class="p-desc">Cross-location or cross-period benchmarking on certified KPI data. Normalizes by cohort before comparison — volume, format, and market are controlled.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">Category 03 — Trend</div>
+        <div class="p-title">What's changing?</div>
+        <div class="p-example">"Which costs are trending up across my portfolio?"</div>
+        <div class="p-desc">Pattern detection across time-series certified Vault entries. Surfaces directional changes before they appear in monthly financials.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">Category 04 — Prescriptive</div>
+        <div class="p-title">What should I do?</div>
+        <div class="p-example">"Which items should I reprice in Q3?"</div>
+        <div class="p-desc">Recommendations derived from certified margin data, not industry benchmarks. Every suggestion anchored in your Vault — your costs, your mix, your contracts.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">Category 05 — Predictive</div>
+        <div class="p-title">What's likely ahead?</div>
+        <div class="p-example">"Will I hit my labor target this period?"</div>
+        <div class="p-desc">Forward projections based on certified historical Vault data and current-period inputs. Cortex is explicit about confidence levels — it won't assert certainty on uncertain data.</div>
+      </div>
+      <div class="p-card">
+        <div class="p-num">Category 06 — Audit</div>
+        <div class="p-title">Can you show your work?</div>
+        <div class="p-example">"Where does that food cost figure come from?"</div>
+        <div class="p-desc">Every answer traces back to its Vault source entry. Returns the certified data point, its seal date, and its chain of custody — full transparency on demand.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- KPI REGISTRY + VAULT -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker teal">Patent-Pending Infrastructure</p>
+    <h2>The KPI Registry and KPI Vault</h2>
+    <p class="lead" style="margin-bottom:36px">The infrastructure that makes Cortex trustworthy isn't the AI model — it's what the model draws from. The Registry and Vault are the immutable source of truth for system-wide continuity.</p>
+
+    <div class="kpi-split">
+      <div class="kpi-card registry">
+        <span class="badge tag-t" style="margin-bottom:16px;display:inline-flex">KPI Registry™ — Patent Pending</span>
+        <h3>The Canonical Definition of Every KPI</h3>
+        <p class="kpi-sub">The Registry is the single authoritative source for what every KPI means across the entire system. Food cost % means the same thing in every prompt, every report, every AI answer, every certification — defined once, never redefined locally.</p>
+        <div class="kpi-rows">
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--teal)"></div><p><strong>Eliminates definitional drift</strong> — "food cost" at Location 3 cannot mean something different than at Location 11</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--teal)"></div><p><strong>Governs every AI prompt</strong> — when Cortex retrieves a KPI, it uses the Registry definition, not the AI's internal weights</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--teal)"></div><p><strong>System-wide continuity</strong> — add a new location or new data source and the Registry ensures consistency from day one</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--teal)"></div><p><strong>Version controlled</strong> — if a definition changes, every historical Vault entry that used the prior version is preserved under the original definition</p></div>
+        </div>
+      </div>
+      <div class="kpi-card vault">
+        <span class="badge tag-g" style="margin-bottom:16px;display:inline-flex">KPI Vault™ — Immutable Record</span>
+        <h3>The Sealed Historical Record of Every Certified Value</h3>
+        <p class="kpi-sub">The Vault is where certified KPI values live permanently. Every value written to the Vault is SHA-256 sealed and timestamped. No one can alter a sealed entry. It is the ground truth the AI reasons from.</p>
+        <div class="kpi-rows">
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--gold)"></div><p><strong>Immutable by design</strong> — sealed entries cannot be edited or deleted. A correction creates a new version, preserving the original</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--gold)"></div><p><strong>AI retrieval anchor</strong> — Cortex's CRAG loop retrieves from the Vault first. If the answer isn't there, Cortex says so rather than inferring</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--gold)"></div><p><strong>Cross-module continuity</strong> — the same Vault entry Sentry uses to certify a fee overcharge is the same entry Cortex uses to answer an operations question</p></div>
+          <div class="kpi-row"><div class="kpi-dot" style="background:var(--gold)"></div><p><strong>Audit-ready at all times</strong> — every recommendation traces to a Vault entry ID, its seal date, and the Registry definition it was interpreted under</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- CRAG LOOP -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker teal">How Cortex Answers</p>
+    <h2>CRAG — Corrective Retrieval-Augmented Generation</h2>
+    <p class="lead" style="margin-bottom:36px">Cortex doesn't generate answers from model weights alone. It retrieves from the Vault first, validates against the Registry, then generates — and corrects itself if the answer doesn't ground out in certified data.</p>
+
+    <div class="crag-grid">
+      <div class="crag-step">
+        <div class="crag-n">STEP 01</div>
+        <span class="crag-icon">💬</span>
+        <div class="crag-title">Prompt Received</div>
+        <div class="crag-desc">The question is parsed and routed to the appropriate prompt category. Intent is classified before any data is retrieved.</div>
+      </div>
+      <div class="crag-step">
+        <div class="crag-n">STEP 02</div>
+        <span class="crag-icon">🗄️</span>
+        <div class="crag-title">Vault Retrieval</div>
+        <div class="crag-desc">Cortex queries the KPI Vault for the certified data relevant to the question. The Registry definition governs which entries qualify.</div>
+      </div>
+      <div class="crag-step">
+        <div class="crag-n">STEP 03</div>
+        <span class="crag-icon">✅</span>
+        <div class="crag-title">Validation Loop</div>
+        <div class="crag-desc">Retrieved data is validated against the Semantic Truth layer. If Vault coverage is insufficient, Cortex flags uncertainty rather than inferring past the data.</div>
+      </div>
+      <div class="crag-step">
+        <div class="crag-n">STEP 04</div>
+        <span class="crag-icon">💡</span>
+        <div class="crag-title">Grounded Response</div>
+        <div class="crag-desc">The answer is generated with Vault entry IDs cited. Every number in the response is traceable. If Cortex can't ground it, it says so.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- CONTINUITY -->
+<div class="sec">
+  <div class="wrap">
+    <div class="continuity">
+      <div>
+        <p class="kicker gold" style="margin-bottom:16px">System-Wide Continuity</p>
+        <h2 style="margin-bottom:14px">One version of truth.<br>Across every location,<br>every module, every prompt.</h2>
+        <p style="font-size:.95rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:400px">The KPI Registry and Vault aren't just database infrastructure — they're what makes AI trustworthy at scale. When the same definition governs every answer across 50 locations, you stop arguing about the numbers and start acting on them.</p>
+      </div>
+      <div class="cont-items">
+        <div class="cont-item"><span class="cont-icon">🔗</span><p class="cont-text"><strong>Sentry and Cortex share the same Vault.</strong> Fee recovery certifications and operations insights draw from the same immutable source — no reconciliation needed.</p></div>
+        <div class="cont-item"><span class="cont-icon">📐</span><p class="cont-text"><strong>Registry definitions travel with every new location.</strong> Onboard location 51 and it immediately operates on the same KPI definitions as locations 1 through 50.</p></div>
+        <div class="cont-item"><span class="cont-icon">🔒</span><p class="cont-text"><strong>Sealed Vault entries are permanent.</strong> Auditors, counsel, and board members can independently verify any AI-sourced figure at any time — without FohBoh's participation.</p></div>
+        <div class="cont-item"><span class="cont-icon">💬</span><p class="cont-text"><strong>AI that says "I don't know" is more useful than AI that guesses.</strong> Cortex surfaces its own uncertainty — flagging when Vault coverage is insufficient rather than inferring past the data.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="wrap">
+    <p><strong>© 2026 FohBoh.ai, Inc</strong></p>
+    <p>FohBoh | <a href="fohboh-cortext.html">Cortex™</a> &nbsp;·&nbsp; FohBoh | <a href="fohboh-sentry.html">Sentry™</a> &nbsp;·&nbsp; FohBoh | <a href="fohboh-mge.html">MGE™</a> &nbsp;·&nbsp; <a href="fohboh-architecture.html">Architecture</a> &nbsp;·&nbsp; KPI Registry™ &nbsp;·&nbsp; KPI Vault™ &nbsp;·&nbsp; Patent Pending</p>
+  </div>
+</div>
+
+</body>
+</html>

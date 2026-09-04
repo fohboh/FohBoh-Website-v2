@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#ffffff;font-family:'DM Sans',sans-serif;color:#1d1f20;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+</helmet>
+<div style="background: #ffffff; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="FohBoh Homepage.dc.html" style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; margin-right: auto; color: #d63031; text-decoration: none; white-space: nowrap;">FohBoh<span style="opacity: 0.75;">.ai</span> <span style="font-weight: 400; font-size: 12px; color: #86868b;">· Resources</span></a>
+    <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="FohBoh Cortex.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Cortex™</a>
+    <a href="FohBoh MGE.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">MGE™</a>
+    <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Pricing</a>
+    <a href="FohBoh Login.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Login</a>
+    <a href="FohBoh Contact.dc.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #d63031; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #b82628;">Book a demo</a>
+  </nav>
+  <div style="padding: 64px 64px 32px; max-width: 1280px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Resources · Learning Center</span>
+    <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 44px; line-height: 1.08; letter-spacing: -0.02em; max-width: 24ch;">Learning Center</h1>
+    <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 64ch; color: #494952;">Research, guides, and operator perspectives on restaurant intelligence, certified operations, and revenue recovery — plus the videos and the questions we hear most.</p>
+  </div>
+  <div id="articles" style="padding: 0 64px 8px; max-width: 1280px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between;">
+      <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 24px;">Articles</h2>
+      <a href="https://fohboh.ai/blog.html" target="_blank" rel="noopener" style="font-size: 13px;">View all articles →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; margin-top: 18px;">
+      <sc-for list="{{ articles }}" as="a" hint-placeholder-count="8">
+        <a href="{{ a.href }}" target="_blank" rel="noopener" style="display: block; border: 1px solid #e8e8ed; border-radius: 14px; padding: 20px 22px; text-decoration: none; color: #1d1f20;" style-hover="border-color: #c9c9d1; background: #fafafa;">
+          <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #3c434d;">{{ a.tag }}</span>
+          <span style="display: block; margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.3;">{{ a.title }}</span>
+          <span style="display: block; margin-top: 8px; font-size: 12.5px; line-height: 1.5; color: #6e6e73;">{{ a.blurb }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+  <div id="videos" style="padding: 40px 64px 8px; max-width: 1280px;">
+    <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 24px;">Video library</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 18px;">
+      <sc-for list="{{ videos }}" as="v" hint-placeholder-count="14">
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden;">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #1d1d1f;"><iframe src="{{ v.src }}" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;" allow="fullscreen; picture-in-picture" allowfullscreen="allowfullscreen" title="{{ v.title }}"></iframe></div>
+          <div style="padding: 12px 16px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 14px;">{{ v.title }}</div><div style="margin-top: 3px; font-size: 12px; color: #6e6e73;">{{ v.blurb }}</div></div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <div id="faq" style="padding: 40px 64px 56px; max-width: 1280px;">
+    <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 24px;">Questions we hear most</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px;">
+      <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="8">
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 20px 24px;">
+          <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 15px;">{{ f.q }}</div>
+          <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.6; color: #494952;">{{ f.a }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 20px 64px; display: flex; justify-content: space-between; font-size: 12.5px; color: #86868b;">
+    <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+    <span><a href="FohBoh Privacy.dc.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="FohBoh Terms.dc.html" style="color: #86868b; text-decoration: none;">Terms</a></span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const B = 'https://fohboh.ai/blog.html';
+    const P = 'https://player.vimeo.com/video/';
+    return {
+      videos: [
+        { src: P + '1223121308', title: 'FohBoh | MGE™ — the missing organ', blurb: 'Why restaurant data needs a governance core.' },
+        { src: P + '1212469185?h=0908d411c0', title: 'FohBoh | Sentry™ in two minutes', blurb: 'M01 + M02 recovery, certified end to end.' },
+        { src: P + '1212469186?h=103bfa7990', title: 'FohBoh | Cortex™ — ops intelligence', blurb: 'Certified answers, at store and above store.' },
+        { src: P + '1212469221', title: 'Understanding economic leakage', blurb: 'Where 3–7% of revenue per location goes.' },
+        { src: P + '1212469220?h=5305ff51dc', title: 'How certification works — M02', blurb: 'Delivery Service Provider fee certification.' },
+        { src: P + '1212469183?h=f9e6cbf42a', title: 'FohBoh | MGE™ overview', blurb: 'The Metrics Governance Engine, explained.' },
+        { src: P + '1180521433?h=0913feca26', title: 'The trust layer AI depends on', blurb: 'Who and what FohBoh.ai is and does.' },
+        { src: P + '1165044320?h=b7c312222c', title: 'Deterministic metrics — KPI Registry & Vault', blurb: 'Accurate, bankable data inside MGE™.' },
+        { src: P + '1223840417', title: 'The Explainer', blurb: 'From the FohBoh video library.' },
+        { src: P + '1165053197?h=93594f5a75', title: 'Certified Intelligence™', blurb: 'Restaurant AI + metrics governance, together.' },
+        { src: P + '1222848686', title: 'FohBoh platform briefing I', blurb: 'From the FohBoh video library.' },
+        { src: P + '1222827335', title: 'FohBoh platform briefing II', blurb: 'From the FohBoh video library.' },
+        { src: P + '1163319198', title: 'FohBoh platform briefing III', blurb: 'From the FohBoh video library.' },
+        { src: P + '1223134765', title: 'FohBoh platform briefing IV', blurb: 'From the FohBoh video library.' },
+        { src: P + '1223121306', title: 'FohBoh platform briefing V', blurb: 'From the FohBoh video library.' },
+      ],
+      articles: [
+        { tag: 'Research', title: 'The $47B leak: where restaurant revenue actually goes', blurb: 'Industry-wide leakage, category by category.', href: B },
+        { tag: 'Guides', title: 'Reading your processor statement like an auditor', blurb: 'Downgrades, markups, and fees that should not be there.', href: B },
+        { tag: 'Above-Store Intel', title: 'Why every KPI needs a Trust Score', blurb: 'Confidence in the process, not approval of the result.', href: B },
+        { tag: 'Restaurant AI', title: 'Deterministic vs. probabilistic: AI you can defend', blurb: 'Same input, same output — and why that matters legally.', href: B },
+        { tag: 'Store-Level Stories', title: 'The 3PD reconciliation nobody does', blurb: 'Commission creep and phantom orders at the store level.', href: B },
+        { tag: 'Guides', title: 'What makes a claim certifiable', blurb: 'Evidence coverage, the 85 gate, and the CAAR.', href: B },
+        { tag: 'Research', title: 'Certified Intelligence™: infrastructure, not analytics', blurb: 'The thesis behind the trust layer.', href: B },
+        { tag: 'Above-Store Intel', title: 'One certified number across every location', blurb: 'Ending the Monday-morning numbers fight.', href: B },
+      ],
+      faqs: [
+        { q: 'Is FohBoh another analytics dashboard?', a: 'No. FohBoh is certification infrastructure. MGE™ certifies your operational data deterministically; Sentry™ and Cortex™ are products built on those certified facts. Analytics tools tell you a number — we prove it.' },
+        { q: 'What does "deterministic" actually mean?', a: 'Same input, same rule version, same output — every time, with the same hash. No model, no sampling, no estimation in the variance calculations. That is what makes outputs reproducible and legally defensible.' },
+        { q: 'What is a Trust Score?', a: 'A 0–100 measure of evidence coverage — how reliably and completely a result was calculated, not whether the result is good news. Only runs scoring 85+ across all 11 Trust Gates are certified.' },
+        { q: 'What is a CAAR?', a: 'A Certified Analysis & Audit Report — a sealed reconciliation report comparing what a vendor billed against your records and your contract, with every finding tied to named rules and sealed evidence. See the example CAAR.' },
+        { q: 'How does FohBoh get paid?', a: 'A per-location subscription plus a fixed certification fee on validated recoveries — payment for the certified report, never a contingency bounty. The fee is the same whether a vendor credits the amount or not.' },
+        { q: 'Who is the platform for?', a: 'Direct: operators with 25+ restaurants, onboarded white-glove by an account manager. Embedded: POS, payments and delivery platforms that license MGE™ as a headless trust layer under their own brand.' },
+        { q: 'Do you replace my accounting or BI stack?', a: 'No — we sit underneath it. Your existing tools keep working; they just get certified, trust-scored inputs instead of unverified ones.' },
+        { q: 'How do we start?', a: 'Book a 30-minute demo on your own numbers. If a live cycle shows you would not recover enough to matter, we will tell you so.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

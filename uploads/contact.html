@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — FohBoh.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#15181C;
+    --ink-soft:#565D66;
+    --paper:#FAFAF9;
+    --panel:#FFFFFF;
+    --line:#E4E2DC;
+    --red:#B3242C;
+    --green:#177A56;
+    --green-tint:#EAF5EF;
+    --amber:#C4841E;
+    --amber-tint:#FBF2E2;
+    --focus:#15181C;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'DM Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  .wrap{
+    max-width:640px;
+    margin:0 auto;
+    padding:72px 24px 96px;
+  }
+  .kicker{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    font-weight:600;
+    letter-spacing:0.04em;
+    color:var(--red);
+    margin:0 0 14px;
+  }
+  h1{
+    font-family:'Outfit', sans-serif;
+    font-weight:600;
+    font-size:clamp(28px, 4vw, 38px);
+    line-height:1.15;
+    margin:0 0 14px;
+    color:var(--ink);
+  }
+  .lede{
+    font-size:16px;
+    color:var(--ink-soft);
+    margin:0 0 32px;
+    max-width:54ch;
+  }
+  .note{
+    display:flex;
+    gap:14px;
+    align-items:flex-start;
+    background:var(--amber-tint);
+    border:1px solid #EAD6A8;
+    border-radius:10px;
+    padding:16px 18px;
+    margin-bottom:40px;
+  }
+  .note-badge{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.02em;
+    color:var(--amber);
+    background:#FFFFFF;
+    border:1px solid #EAD6A8;
+    border-radius:6px;
+    padding:4px 8px;
+    white-space:nowrap;
+    flex-shrink:0;
+    margin-top:1px;
+  }
+  .note p{
+    margin:0;
+    font-size:14px;
+    color:#5C4A20;
+  }
+  .note p a{ color:#5C4A20; text-decoration:underline; }
+  form{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:32px;
+  }
+  .row{
+    margin-bottom:22px;
+  }
+  .row-pair{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:18px;
+  }
+  label{
+    display:block;
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:0.03em;
+    color:var(--ink-soft);
+    margin-bottom:8px;
+  }
+  label .req{ color:var(--red); }
+  input[type="text"],
+  input[type="email"],
+  select{
+    width:100%;
+    font-family:'DM Sans', sans-serif;
+    font-size:15px;
+    color:var(--ink);
+    background:#FCFCFB;
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:12px 14px;
+    transition:border-color .15s ease, background .15s ease;
+    appearance:none;
+    -webkit-appearance:none;
+  }
+  select{
+    background-image:url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M5 7.5L10 12.5L15 7.5' stroke='%23565D66' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+    padding-right:38px;
+  }
+  input::placeholder{ color:#A6ABB2; }
+  input:focus, select:focus{
+    outline:none;
+    border-color:var(--focus);
+    background:#FFFFFF;
+    box-shadow:0 0 0 3px rgba(21,24,28,0.07);
+  }
+  .hint{
+    font-size:12px;
+    color:#8B9098;
+    margin-top:6px;
+  }
+  button[type="submit"]{
+    width:100%;
+    font-family:'Outfit', sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:#FFFFFF;
+    background:var(--red);
+    border:none;
+    border-radius:8px;
+    padding:14px 20px;
+    cursor:pointer;
+    margin-top:6px;
+    transition:background .15s ease, transform .1s ease;
+  }
+  button[type="submit"]:hover{ background:#9A1F26; }
+  button[type="submit"]:active{ transform:translateY(1px); }
+  .fine{
+    font-size:12px;
+    color:#8B9098;
+    text-align:center;
+    margin-top:16px;
+  }
+  .status{
+    display:none;
+    margin-top:16px;
+    padding:12px 14px;
+    border-radius:8px;
+    font-size:13px;
+    background:var(--green-tint);
+    color:var(--green);
+    border:1px solid #C7E6D6;
+  }
+  .status.show{ display:block; }
+  @media (max-width: 520px){
+    .row-pair{ grid-template-columns:1fr; gap:0; }
+    form{ padding:24px; }
+    .wrap{ padding:48px 18px 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="kicker">CONTACT</p>
+  <h1>Tell us about your operation</h1>
+  <p class="lede">We work with multi-unit operators and platform partners who are ready to certify their operational data before it reaches decisions, dashboards, or AI. A few details help us route you to the right conversation.</p>
+
+  <div class="note">
+    <span class="note-badge">MIN. 25 LOCATIONS</span>
+    <p>This inquiry path is built for operators, franchise systems, and platform partners at <strong>25+ locations</strong>. Smaller or single-unit operators are welcome to reach out — response times and onboarding paths will differ.</p>
+  </div>
+
+  <form id="contact-form">
+    <div class="row">
+      <label for="name">Full name <span class="req">*</span></label>
+      <input type="text" id="name" name="name" placeholder="Jane Rivera" required>
+    </div>
+
+    <div class="row">
+      <label for="company">Company <span class="req">*</span></label>
+      <input type="text" id="company" name="company" placeholder="Company or brand name" required>
+    </div>
+
+    <div class="row">
+      <label for="sector">Sector <span class="req">*</span></label>
+      <select id="sector" name="sector" required>
+        <option value="" disabled selected>Select a sector</option>
+        <option value="Restaurants">Restaurants</option>
+        <option value="Retail">Retail</option>
+        <option value="FinTech">FinTech</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="email">Company email <span class="req">*</span></label>
+      <input type="email" id="email" name="email" placeholder="jane@company.com" required>
+      <p class="hint">Please use a company domain, not a personal address.</p>
+    </div>
+
+    <div class="row row-pair">
+      <div>
+        <label for="city">City <span class="req">*</span></label>
+        <input type="text" id="city" name="city" placeholder="Dallas" required>
+      </div>
+      <div>
+        <label for="state">State <span class="req">*</span></label>
+        <select id="state" name="state" required>
+          <option value="" disabled selected>Select</option>
+          <option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option>
+          <option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option>
+          <option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option>
+          <option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+          <option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option>
+          <option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option>
+          <option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option>
+          <option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+          <option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option>
+          <option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option>
+          <option>DC</option><option value="Other">Other / Outside US</option>
+        </select>
+      </div>
+    </div>
+
+    <button type="submit">Send inquiry</button>
+    <p class="fine">Submitting opens a pre-filled email in your default mail app — nothing is sent automatically.</p>
+    <div class="status" id="status">Your email app should now be open with this inquiry pre-filled. If it didn't open, email us directly at <strong>hello@fohboh.ai</strong>.</div>
+  </form>
+
+</div>
+
+<script>
+  // Placeholder submission handling: builds a mailto: link from the form fields.
+  // Swap this for a real form backend (Jotform embed, serverless endpoint, etc.)
+  // when one is ready — see the open item already noted for the site build.
+  var CONTACT_EMAIL = "hello@fohboh.ai"; // TODO: confirm inbox this should route to
+
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('name').value.trim();
+    var company = document.getElementById('company').value.trim();
+    var sector = document.getElementById('sector').value;
+    var email = document.getElementById('email').value.trim();
+    var city = document.getElementById('city').value.trim();
+    var state = document.getElementById('state').value;
+
+    var subject = "FohBoh.ai inquiry — " + company;
+    var body =
+      "Name: " + name + "\n" +
+      "Company: " + company + "\n" +
+      "Sector: " + sector + "\n" +
+      "Company email: " + email + "\n" +
+      "City: " + city + "\n" +
+      "State: " + state;
+
+    var mailtoLink = "mailto:" + CONTACT_EMAIL +
+      "?subject=" + encodeURIComponent(subject) +
+      "&body=" + encodeURIComponent(body);
+
+    window.location.href = mailtoLink;
+
+    var status = document.getElementById('status');
+    status.classList.add('show');
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#f5f5f7;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}@keyframes omSlideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}@keyframes omXfadeA{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}@keyframes omXfadeB{0%,42%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}@media (prefers-reduced-motion: reduce){.om-xfade-a,.om-xfade-b{animation:none !important}.om-xfade-b{opacity:0 !important}}</style>
+</helmet>
+<div style="background: #ffffff; min-width: 1120px;">
+
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="FohBoh Homepage.dc.html" style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: 0; margin-right: auto; color: #d63031; text-decoration: none; white-space: nowrap;">FohBoh<span style="color: #d63031; opacity: 0.75;">.ai</span></a>
+    <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="FohBoh Cortex.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Cortex™</a>
+    <a href="FohBoh MGE.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">MGE™</a>
+    <a href="FohBoh CAAR Example.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Example CAAR</a>
+    <a href="FohBoh Partners.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Partners</a>
+    <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Pricing</a>
+    <a href="FohBoh Contact.dc.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #d63031; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #b82628;">Book a demo</a>
+  </nav>
+  <div style="display: grid; grid-template-columns: 6fr 5fr; gap: 72px; padding: 76px 64px 68px; align-items: center;">
+    <div>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Certified Intelligence™ Infrastructure</span>
+      <h1 style="margin: 18px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 56px; line-height: 1.05; letter-spacing: -0.02em;">AI can reason.<br>It can't certify what's true.</h1>
+      <p style="margin: 22px 0 0; font-size: 17px; line-height: 1.55; max-width: 48ch; color: #494952;">MGE™ is the deterministic engine that certifies your business data before AI, executives, or agents act on it. Same input, same output — every time. Legally Defensible.</p>
+      <div style="display: flex; align-items: center; gap: 14px; margin-top: 30px;">
+        <a href="FohBoh Contact.dc.html#demo" style="font-size: 15px; font-weight: 600; color: #ffffff; background: #d63031; padding: 13px 26px; border-radius: 980px; text-decoration: none;" style-hover="background: #b82628;">Book a demo</a>
+        <span onClick="{{ toggleVideo }}" style="font-size: 15px; font-weight: 500; color: #3c434d; cursor: pointer; user-select: none;">{{ videoCtaLabel }}</span>
+      </div>
+      <div style="display: flex; gap: 22px; margin-top: 34px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #6e6e73;">
+        <span>DETERMINISTIC BY DESIGN</span><span>IMMUTABLE AUDIT TRAIL</span><span>LEGALLY DEFENSIBLE</span><span>PATENT PENDING</span>
+      </div>
+    </div>
+    <figure style="margin: 0; background: #ffffff; border: 1px solid #e8e8ed; border-radius: 20px; padding: 36px 32px; background-image: radial-gradient(circle, #ececf0 1px, transparent 1px); background-size: 24px 24px; overflow: hidden;">
+      <sc-if value="{{ showVideo }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ playVideo }}" hint-placeholder-val="{{ false }}">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #1d1d1f; border-radius: 12px; overflow: hidden;">
+            <iframe src="https://player.vimeo.com/video/1223851380?autoplay=1" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="allowfullscreen" title="The FohBoh.ai Platform in 90 seconds"></iframe>
+          </div>
+        </sc-if>
+        <div style="position: relative; aspect-ratio: 16 / 9; background: #1d1d1f; border-radius: 12px; overflow: hidden; display: {{ posterDisplay }}; place-items: center;">
+          <div style="text-align: center;">
+            <span onClick="{{ startVideo }}" style="display: inline-grid; place-items: center; width: 74px; height: 74px; border-radius: 50%; background: #d63031; color: #ffffff; font-size: 26px; padding-left: 5px; box-sizing: border-box; cursor: pointer;" style-hover="background: #b82628;">▶</span>
+            <div style="margin-top: 16px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px; color: #ffffff;">The FohBoh.ai Platform in 90 seconds</div>
+            <div style="margin-top: 6px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.5);">Plays right here · 90 seconds</div>
+          </div>
+        </div>
+      </sc-if>
+      <div style="position: relative; display: {{ graphicDisplay }};">
+        <div class="om-xfade-a" style="animation: omXfadeA 18s ease-in-out infinite;">
+        <div style="zoom: 0.5; display: flex; justify-content: center;">
+      <div style="transform: rotate(-3deg); width: 780px; margin: 0 auto; display: grid; grid-template-columns: 170px 56px 1fr; align-items: center;">
+      <div style="background: #ffffff; border: 1px solid #e0e0e5; border-radius: 14px; padding: 18px 18px; box-shadow: -14px 18px 36px rgba(29,29,31,0.1);">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #6e6e73;">Data intake</div>
+        <div style="display: flex; flex-direction: column; gap: 6px; margin-top: 10px;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #f5f5f7; border-radius: 6px; color: #494952;">POS</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #f5f5f7; border-radius: 6px; color: #494952;">Payments</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #f5f5f7; border-radius: 6px; color: #494952;">Delivery / 3PD</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #f5f5f7; border-radius: 6px; color: #494952;">Labor</span>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <div style="width: 34px; height: 1.5px; background: #3c434d;"></div>
+        <div style="width: 0; height: 0; border-top: 5px solid transparent; border-bottom: 5px solid transparent; border-left: 7px solid #3c434d;"></div>
+      </div>
+      <div>
+      <div style="background: #ffffff; border: 1px solid #e0e0e5; border-radius: 16px; padding: 22px 28px; box-shadow: -18px 24px 48px rgba(29,29,31,0.12); display: flex; align-items: center; gap: 18px;">
+        <span style="flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: #eef0f3; border-radius: 12px; color: #3c434d; font-size: 18px;">◆</span>
+        <div style="flex: 1;">
+          <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;">FohBoh <span style="color: #c9c9d1; font-weight: 400;">|</span> Sentry™</div>
+          <div style="margin-top: 2px; font-size: 12.5px; color: #6e6e73;">Fee recovery engine — every finding a sealed CAAR</div>
+        </div>
+        <div style="display: flex; gap: 6px;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; background: #f5f5f7; border-radius: 6px; color: #494952;">M01</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; background: #f5f5f7; border-radius: 6px; color: #494952;">M02</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; padding: 4px 9px; background: #f5f5f7; border-radius: 6px; color: #494952;">M03</span>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 52px;">
+        <div style="display: flex; flex-direction: column; align-items: center; height: 100%;">
+          <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 7px solid #3c434d;"></div>
+          <div style="width: 1.5px; flex: 1; background: linear-gradient(#3c434d, #8a939f);"></div>
+        </div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3c434d;">API</span>
+      </div>
+      <div style="background: linear-gradient(145deg, #3c434d, #181c22); border-radius: 18px; padding: 28px 32px; box-shadow: -24px 32px 64px rgba(60,67,77,0.28); color: #ffffff;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; white-space: nowrap;">FohBoh <span style="color: rgba(255,255,255,0.45); font-weight: 400;">|</span> MGE™</div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 11px; border: 1px solid rgba(255,255,255,0.35); border-radius: 980px; color: rgba(255,255,255,0.85); white-space: nowrap;">Deterministic core</span>
+        </div>
+        <div style="margin-top: 4px; font-size: 13px; color: rgba(255,255,255,0.75);">Metrics Governance Engine — certifies every value before anything downstream may speak</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 18px;">
+          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">12</div><div style="font-size: 10.5px; color: rgba(255,255,255,0.7);">stage pipeline</div></div>
+          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">198</div><div style="font-size: 10.5px; color: rgba(255,255,255,0.7);">governance rules</div></div>
+          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">11</div><div style="font-size: 10.5px; color: rgba(255,255,255,0.7);">Trust Gates</div></div>
+          <div style="background: rgba(255,255,255,0.12); border-radius: 10px; padding: 10px 12px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 13px; padding-top: 3px;">KPI Vault</div><div style="font-size: 10.5px; color: rgba(255,255,255,0.7);">SHA-256 sealed</div></div>
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center; align-items: center; gap: 10px; height: 52px;">
+        <div style="display: flex; flex-direction: column; align-items: center; height: 100%;">
+          <div style="width: 1.5px; flex: 1; background: linear-gradient(#3c434d, #8a939f);"></div>
+          <div style="width: 0; height: 0; border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 7px solid #8a939f;"></div>
+        </div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.14em; color: #3c434d;">API</span>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e0e0e5; border-radius: 16px; padding: 22px 28px; box-shadow: -18px 24px 48px rgba(29,29,31,0.12); display: flex; align-items: center; gap: 18px;">
+        <span style="flex: none; width: 44px; height: 44px; display: grid; place-items: center; background: #eef0f3; border-radius: 12px; color: #3c434d; font-size: 18px;">◉</span>
+        <div style="flex: 1;">
+          <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;">FohBoh <span style="color: #c9c9d1; font-weight: 400;">|</span> Cortex™</div>
+          <div style="margin-top: 2px; font-size: 12.5px; color: #6e6e73;">Certified AI — cannot operate on uncertified data</div>
+        </div>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; background: #eef0f3; border-radius: 6px; color: #3c434d;">Certified-only</span>
+      </div>
+      </div>
+    </div>
+      </div>
+      
+        </div>
+        <div class="om-xfade-b" style="position: absolute; inset: 0; display: grid; place-items: center; background: #ffffff; opacity: 0; animation: omXfadeB 18s ease-in-out infinite;">
+          <img src="assets/mge-structural-moat.png" alt="FohBoh MGE structural defensibility elements — architectural blueprint" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+        </div>
+      </div>
+      <figcaption style="margin-top: 20px; padding-top: 12px; border-top: 1px solid #e8e8ed; font-size: 12px; text-align: center; color: #86868b;">The FohBoh.ai Platform — one engine, three certified products · structural defensibility, drawn to scale</figcaption>
+    </figure>
+  </div>
+  <div style="display: flex; justify-content: space-between; gap: 32px; padding: 30px 64px; background: #f5f5f7; border-top: 1px solid #e8e8ed; border-bottom: 1px solid #e8e8ed;">
+    <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.01em;">$112B<sup style="font-size: 14px; font-weight: 500; color: #86868b;">(2)</sup></div><div style="margin-top: 2px; font-size: 13px; color: #6e6e73;">Annual shrinkage and revenue leakage in US retail &amp; restaurants</div><div style="margin-top: 3px; font-size: 10.5px;"><span onClick="{{ openSource }}" style="color: #a1a1a6; cursor: pointer; text-decoration: underline; text-decoration-color: #d9d9de; text-underline-offset: 2px;" style-hover="color: #3c434d;">(2) Source: NRF 2023 National Retail Security Survey</span></div></div>
+    <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.01em;">3–7%<sup style="font-size: 14px; font-weight: 500; color: #86868b;">(1)</sup></div><div style="margin-top: 2px; font-size: 13px; color: #6e6e73;">Revenue lost per location annually</div><div style="margin-top: 3px; font-size: 10.5px;"><a href="mailto:leakage@fohboh.ai?subject=Leakage%20source%20analysis%20request" style="color: #a1a1a6;" style-hover="color: #3c434d;">(1) Source Analysis</a></div></div>
+    <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.01em;">198</div><div style="margin-top: 2px; font-size: 13px; color: #6e6e73;">Deterministic rules in the MGE™ registry</div></div>
+    <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.01em;">11</div><div style="margin-top: 2px; font-size: 13px; color: #6e6e73;">Trust Gates — certified before anything acts</div></div>
+  </div>
+  <div style="padding: 64px 64px 24px;">
+    <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 36px; letter-spacing: -0.015em; text-align: center;">One Engine. Three Certified Products.</h2>
+    <p style="margin: 12px 0 0; font-size: 16px; text-align: center; color: #494952;">MGE makes AI safe. Cortex makes AI useful. Sentry makes you money.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 16px; padding: 28px 64px 64px;">
+    <div style="display: grid; grid-template-columns: 220px 1fr auto; gap: 32px; align-items: center; background: #ffffff; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 32px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="width: 44px; height: 44px; display: grid; place-items: center; background: #eef0f3; border-radius: 12px; color: #3c434d; font-size: 18px;">◆</span>
+        <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;">FohBoh | Sentry™</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #3c434d;">Revenue recovery</div></div>
+      </div>
+      <div><div style="font-weight: 600; font-size: 15px;">Finds the money.</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Dual recovery engines (DFR + MFR) audit delivery and processor fees continuously. Every variance ships as a CAAR — a Certified Analysis &amp; Audit Report that's Legally Defensible.</div></div>
+      <a href="FohBoh Sentry.dc.html" style="font-size: 14px; font-weight: 600; color: #3c434d; text-decoration: none; white-space: nowrap;">Explore Sentry →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: 220px 1fr auto; gap: 32px; align-items: center; background: #ffffff; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 32px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="width: 44px; height: 44px; display: grid; place-items: center; background: #eef0f3; border-radius: 12px; color: #3c434d; font-size: 18px;">◉</span>
+        <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;">FohBoh | Cortex™</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #3c434d;">Certified AI</div></div>
+      </div>
+      <div><div style="font-weight: 600; font-size: 15px;">Answers the questions.</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Voice and text AI operating only on MGE-certified data. Every answer sourced, trust-scored, and audit-ready — numbers your CFO can sign.</div></div>
+      <a href="FohBoh Cortex.dc.html" style="font-size: 14px; font-weight: 600; color: #3c434d; text-decoration: none; white-space: nowrap;">Explore Cortex →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: 220px 1fr auto; gap: 32px; align-items: center; background: #ffffff; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 32px;">
+      <div style="display: flex; align-items: center; gap: 14px;">
+        <span style="width: 44px; height: 44px; display: grid; place-items: center; background: #eef0f3; border-radius: 12px; color: #3c434d; font-size: 18px;">◈</span>
+        <div><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 18px;">FohBoh | MGE™</div><div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: #3c434d;">Governance engine</div></div>
+      </div>
+      <div><div style="font-weight: 600; font-size: 15px;">Certifies the truth.</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">A 12-stage deterministic pipeline with 198 rules and 11 Trust Gates. Same input, same output — every time, with an immutable audit trail.</div></div>
+      <a href="FohBoh MGE.dc.html" style="font-size: 14px; font-weight: 600; color: #3c434d; text-decoration: none; white-space: nowrap;">Explore MGE →</a>
+    </div>
+  </div>
+  <div style="padding: 40px 64px 64px; background: #f5f5f7; border-top: 1px solid #e8e8ed;">
+    <div style="padding-top: 24px;">
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">The Trust Score</span>
+      <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.015em;">Confidence in the process, not approval of the result.</h2>
+      <p style="margin: 12px 0 0; font-size: 16px; line-height: 1.55; max-width: 66ch; color: #494952;">The Trust Score doesn't grade the number — it certifies how reliably and completely that number was calculated. A good-looking figure on ungoverned data is the most expensive kind.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px;">
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 18px; padding: 28px 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Bad outcome · high trust</span>
+          <span style="width: 72px; height: 72px; display: grid; place-items: center; border: 2px solid #3c434d; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 30px; color: #3c434d;">95</span>
+        </div>
+        <h3 style="margin: 8px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 20px;">Food cost at 45% — trust it.</h3>
+        <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: #494952;">Inventory complete, every invoice accounted for, formula verified across all 11 Trust Gates. This 45% is your real performance — fix the business problem, not data ghosts.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 18px; padding: 28px 32px;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Good outcome · low trust</span>
+          <span style="width: 72px; height: 72px; display: grid; place-items: center; border: 2px solid #b3b3b8; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 30px; color: #b3b3b8;">65</span>
+        </div>
+        <h3 style="margin: 8px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 20px;">Food cost at 28% — don't.</h3>
+        <p style="margin: 8px 0 0; font-size: 14px; line-height: 1.55; color: #494952;">Inventory five days stale, labor hours missing. The seemingly good number is built on incomplete data — MGE™ flags it before anyone acts on it.</p>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 68px 64px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Two ways to deploy</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 34px; letter-spacing: -0.015em;">Run the platform. Or license the engine.</h2>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 32px;">
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 20px; padding: 32px 34px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">Direct · For enterprise operators</div>
+        <h3 style="margin: 12px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px;">The FohBoh.ai Platform</h3>
+        <p style="margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: #494952;">For restaurant groups with 25+ locations: Sentry™ recovery and Cortex™ certified answers on the full MGE™ pipeline — dashboards, CAARs, and Legally Defensible evidence packs, sold and supported directly.</p>
+        <div style="display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">25+ LOCATIONS</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">FULL PLATFORM</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">RECOVERY GUARANTEE</span>
+        </div>
+        <a href="FohBoh Contact.dc.html#demo" style="display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: #3c434d; text-decoration: none;">Book a demo →</a>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 20px; padding: 32px 34px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">Embedded · For platform partners</div>
+        <h3 style="margin: 12px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px;">FohBoh | MGE™ — headless trust layer</h3>
+        <p style="margin: 10px 0 0; font-size: 14.5px; line-height: 1.55; color: #494952;">License the certification engine beneath your POS, BI, or system of record. White-label architecture, API-first, invisible to your users — proprietary deterministic technology under your brand.</p>
+        <div style="display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap;">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">WHITE-LABEL</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">API-FIRST</span>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.06em; padding: 5px 11px; background: #f5f5f7; border-radius: 7px; color: #494952;">IMMUTABLE AUDIT TRAIL</span>
+        </div>
+        <a href="FohBoh Partners.dc.html" style="display: inline-block; margin-top: 20px; font-size: 15px; font-weight: 600; color: #3c434d; text-decoration: none;">Become a partner →</a>
+      </div>
+    </div>
+  </div>
+  <div style="padding: 0 64px 68px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;">
+      <figure style="margin: 0; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 28px;">
+        <blockquote style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #1d1d1f;">"FohBoh found $4,200 per month per location in processor overcharges we had no idea existed. The certified evidence made the dispute a conversation, not a fight."</blockquote>
+        <figcaption style="margin-top: 16px; font-size: 13px; color: #6e6e73;"><span style="font-weight: 600; color: #1d1d1f;">Janis M.</span> · Multi-Unit Operator, 3 locations</figcaption>
+      </figure>
+      <figure style="margin: 0; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 28px;">
+        <blockquote style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #1d1d1f;">"Every other AI tool gave us answers we couldn't verify. Cortex gives us a Trust Score and a full chain of custody. Our CFO finally trusts the numbers."</blockquote>
+        <figcaption style="margin-top: 16px; font-size: 13px; color: #6e6e73;"><span style="font-weight: 600; color: #1d1d1f;">Jon S.</span> · VP Operations, Enterprise Chain</figcaption>
+      </figure>
+      <figure style="margin: 0; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 18px; padding: 26px 28px;">
+        <blockquote style="margin: 0; font-size: 14.5px; line-height: 1.6; color: #1d1d1f;">"We embedded FohBoh's engine into our POS platform in under 30 days. Our clients get certified fee recovery without ever knowing it's FohBoh underneath."</blockquote>
+        <figcaption style="margin-top: 16px; font-size: 13px; color: #6e6e73;"><span style="font-weight: 600; color: #1d1d1f;">Kevin W.</span> · President, POS Platform Partner</figcaption>
+      </figure>
+    </div>
+  </div>
+  <div style="margin: 0 64px 64px; background: #1d1d1f; border-radius: 24px; padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px;">
+    <div>
+      <h3 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -0.015em; color: #ffffff;">See what your data is actually worth.</h3>
+      <p style="margin: 10px 0 0; font-size: 15px; color: rgba(255,255,255,0.65); max-width: 52ch;">A 30-minute demo on your actual data — certified variance for your locations, recovery guarantee on the first month.</p>
+    </div>
+    <div style="display: flex; gap: 12px; flex-shrink: 0;">
+      <a href="FohBoh Contact.dc.html#demo" style="font-size: 15px; font-weight: 600; color: #1d1d1f; background: #ffffff; padding: 13px 26px; border-radius: 980px; text-decoration: none;">Book a demo</a>
+      <a href="FohBoh Partners.dc.html" style="font-size: 15px; font-weight: 600; color: #ffffff; border: 1px solid rgba(255,255,255,0.35); padding: 13px 26px; border-radius: 980px; text-decoration: none;">Partner with us</a>
+    </div>
+  </div>
+  <sc-if value="{{ sourceOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSource }}" style="position: fixed; inset: 0; background: rgba(29,29,31,0.35); z-index: 90;"></div>
+    <aside style="position: fixed; top: 0; left: 0; bottom: 0; width: 380px; background: #ffffff; z-index: 91; box-shadow: 12px 0 48px rgba(29,29,31,0.18); padding: 34px 32px; box-sizing: border-box; overflow-y: auto; animation: omSlideIn 0.28s ease;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Source note · (2)</span>
+        <button type="button" onClick="{{ closeSource }}" aria-label="Close" style="border: none; background: #f5f5f7; width: 30px; height: 30px; border-radius: 50%; font-size: 14px; color: #494952; cursor: pointer;">✕</button>
+      </div>
+      <div style="margin-top: 20px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -0.01em;">$112.1B</div>
+      <div style="margin-top: 4px; font-size: 13px; color: #6e6e73;">U.S. retail &amp; restaurant shrink</div>
+      <p style="margin: 18px 0 0; font-size: 13.5px; line-height: 1.65; color: #494952;">U.S. retail &amp; restaurant shrink reached <strong>$112.1 billion</strong> — lost through theft, fraud, operational mistakes, vendor metrics leakage, and systemic process failures.</p>
+      <div style="margin-top: 18px; padding: 14px 18px; background: #f5f5f7; border-radius: 12px; font-size: 12.5px; line-height: 1.6; color: #494952;">
+        <strong>Source:</strong> National Retail Federation, 2023 National Retail Security Survey; FY2022 results. Shrink totaled $112.1B, or 1.6% of retail sales.
+      </div>
+      <p style="margin: 16px 0 0; font-size: 12px; line-height: 1.65; color: #86868b;">$112.1 billion is the NRF's FY2022 estimate, not a current recurring annual estimate. The NRF reports that internal and external theft accounted for 65% of shrink; the balance arose from other inventory-loss causes.</p>
+      <a href="mailto:leakage@fohboh.ai?subject=NRF%20shrink%20source%20inquiry" style="display: inline-block; margin-top: 20px; font-size: 12.5px; color: #3c434d;">Questions on methodology → leakage@fohboh.ai</a>
+    </aside>
+  </sc-if>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <span style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; color: #d63031;">FohBoh<span style="font-weight: 400; font-size: 13px; vertical-align: super;">®</span><span style="opacity: 0.75;">.ai</span></span><div style="margin-top: 4px; font-size: 12px; font-weight: 600; letter-spacing: 0.02em; color: #494952;">Certified Restaurant Intelligence™</div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="FohBoh Sentry.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="FohBoh Cortex.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="FohBoh MGE.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="FohBoh M04 SCR.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · SCR Preview</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="FohBoh Pricing.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="FohBoh ROI Simulator.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="FohBoh CAAR Example.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="FohBoh For Vendors.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="https://fohboh.ai/fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="FohBoh Terms.dc.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="FohBoh Resources.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="FohBoh Resources.dc.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="FohBoh Resources.dc.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="FohBoh About.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="FohBoh Partners.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="FohBoh Contact.dc.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="FohBoh Privacy.dc.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="FohBoh Terms.dc.html" style="color: #86868b; text-decoration: none;">Terms</a> · LinkedIn · Twitter</span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { showVideo: false, sourceOpen: false, playVideo: false };
+  // When the Vimeo link arrives: replace the pending-notice div inside the
+  // sc-if playVideo block with an iframe src="https://player.vimeo.com/video/ID?autoplay=1".
+  renderVals() {
+    const v = this.state.showVideo;
+    const so = this.state.sourceOpen;
+    // When the Vimeo link arrives: set VIDEO_ID and swap the placeholder for
+    // an iframe (https://player.vimeo.com/video/VIDEO_ID?autoplay=1).
+    return {
+      showVideo: v,
+      graphicDisplay: v ? 'none' : 'block',
+      videoCtaLabel: v ? '↩ Back to the platform diagram' : 'Watch the 90-sec demo →',
+      toggleVideo: () => this.setState({ showVideo: !v, playVideo: false }),
+      playVideo: this.state.playVideo,
+      posterDisplay: this.state.playVideo ? 'none' : 'grid',
+      startVideo: () => this.setState({ playVideo: true }),
+      sourceOpen: so,
+      openSource: () => this.setState({ sourceOpen: true }),
+      closeSource: () => this.setState({ sourceOpen: false }),
+    };
+  }
+}
+</script>
+</body>
+</html>
