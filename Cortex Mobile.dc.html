@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    body{margin:0}
+    a{color:#1a5f4a} a:hover{color:#12463a}
+    @keyframes cx-pulse{0%,100%{opacity:.3}50%{opacity:1}}
+    .cx{--page:#eef0f2;--bg:#f6f6f8;--card:#ffffff;--text:#1d1d1f;--acc:#1a5f4a;--acc100:#eef5f2;--acc200:#dcebe4;--acc700:#12463a;--hair:#e4e4e9;--n500:#a2a2a9;--n600:#6e6e73;--red:#b3483f;--red100:#faf0ef;--amb:#9a6b1f;--amb100:#faf3e3;--certbg:#e5f3ec;--certfg:#1e6a4c;--shadow:0 1px 2px rgba(0,0,0,.04),0 6px 20px rgba(0,0,0,.05)}
+    .cx[data-theme="Dark"]{--page:#0b0e0d;--bg:#101413;--card:#1a211e;--text:#edf2ef;--acc:#1e9873;--acc100:#15271f;--acc200:#1d372b;--acc700:#7fd0b4;--hair:#28312d;--n500:#6f7a74;--n600:#93a09a;--red:#d97b6f;--red100:#33201d;--amb:#d8a95c;--amb100:#31281a;--certbg:#1d372b;--certfg:#8fd8bd;--shadow:0 1px 2px rgba(0,0,0,.3),0 6px 20px rgba(0,0,0,.35)}
+    ::-webkit-scrollbar{width:0;height:0}
+  </style>
+</helmet>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#1a5f4a"></rect><rect x="36" y="24" width="28" height="52" rx="7" fill="none" stroke="#e5f3ec" stroke-width="3"></rect><circle cx="50" cy="68" r="2.5" fill="#e5f3ec"></circle><path d="M42 38h16M42 46h10" stroke="#e5f3ec" stroke-width="3" stroke-linecap="round"></path></svg></template>
+<div class="cx" data-theme="{{themeName}}" style="min-height:100vh;background:var(--page);display:flex;flex-direction:column;align-items:center;gap:28px;padding:48px 24px 64px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif">
+  <div style="text-align:center;max-width:600px;display:flex;flex-direction:column;gap:8px">
+    <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc700);font-weight:600">FohBoh | Cortex™ · Mobile · {{themeName}}</div>
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;color:var(--text)">Certified answers in your pocket.</div>
+    <div style="font-size:14px;line-height:1.55;color:var(--n600)">Sign in → Home → Ask · Prompts · Signals, plus certification detail and settings. Prompt availability follows Data Fit: prompts reading a held dataset group under "Needs data" and name their gap.</div>
+  </div>
+  <x-import component-from-global-scope="IOSDevice" from="./ios-frame.jsx" dark="{{isDark}}" hint-size="420px,880px">
+    <div style="position:relative;overflow:hidden;display:flex;flex-direction:column;height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',sans-serif">
+      <sc-if value="{{sSignin}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;padding:0 28px;gap:12px">
+          <div style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em">FohBoh <span style="color:var(--n500);font-weight:400">|</span> Cortex<span style="font-size:14px;vertical-align:super">™</span></div>
+          <div style="font-size:13px;color:var(--n600);margin:-6px 0 14px">Certified operations intelligence · read-only</div>
+          <input value="{{email}}" onChange="{{onEmail}}" style="border:1px solid var(--hair);background:var(--card);color:var(--text);padding:13px 16px;font-size:14px;border-radius:14px;outline:none;font-family:inherit" style-focus="border-color:var(--acc)">
+          <input type="password" value="{{pw}}" onChange="{{onPw}}" placeholder="Password" style="border:1px solid var(--hair);background:var(--card);color:var(--text);padding:13px 16px;font-size:14px;border-radius:14px;outline:none;font-family:inherit" style-focus="border-color:var(--acc)">
+          <button onClick="{{signIn}}" style="border:none;background:var(--acc);color:#fff;padding:14px;font-size:15px;font-weight:600;border-radius:980px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(26,95,74,.3)" style-hover="filter:brightness(1.08)">Sign in</button>
+          <button onClick="{{signIn}}" style="border:1px solid var(--hair);background:var(--card);color:var(--text);padding:12px;font-size:13.5px;font-weight:500;border-radius:980px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="border-color:var(--acc)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3H5a2 2 0 0 0-2 2v2M17 3h2a2 2 0 0 1 2 2v2M7 21H5a2 2 0 0 1-2-2v-2M17 21h2a2 2 0 0 0 2-2v-2M9 9v1M15 9v1M9.5 15a3.5 3.5 0 0 0 5 0"></path></svg>
+            Face ID
+          </button>
+          <div style="font-size:10.5px;color:var(--n500);text-align:center;line-height:1.6;margin-top:10px">By invitation only — no self-registration · SHA-256 chain of custody on every login<br>The phone holds no evidence and no vault keys</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{showTop}}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:58px 20px 8px;flex:none">
+          <div style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em;white-space:nowrap;flex:none">FohBoh <span style="color:var(--n500);font-weight:400">|</span> Cortex<span style="font-size:11px;vertical-align:super">™</span></div>
+          <button onClick="{{openMenu}}" title="Menu" style="border:none;background:var(--card);color:var(--n600);width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)" style-hover="color:var(--acc)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+          </button>
+        </div>
+      </sc-if>
+      <sc-if value="{{showBack}}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;align-items:center;gap:8px;padding:58px 20px 10px;flex:none">
+          <button onClick="{{goBack}}" style="border:none;background:var(--card);color:var(--text);width:34px;height:34px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow)" style-hover="color:var(--acc)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"></path></svg>
+          </button>
+          <div style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:19px">{{backTitle}}</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sHome}}" hint-placeholder-val="{{ true }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:4px 16px 16px;display:flex;flex-direction:column;gap:11px">
+          <div style="font-size:12px;color:var(--n600);padding:0 2px">Good morning · <span style="font-weight:600;color:var(--text)">{{storeLabel}}</span></div>
+          <div onClick="{{goCert}}" style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:13px 15px;display:flex;align-items:center;gap:13px;cursor:pointer">
+            <div style="position:relative;width:52px;height:52px;flex:none;display:flex;align-items:center;justify-content:center">
+              <svg width="52" height="52" viewBox="0 0 52 52" style="position:absolute;inset:0"><circle cx="26" cy="26" r="21" fill="none" stroke="var(--hair)" stroke-width="4"></circle><circle cx="26" cy="26" r="21" fill="none" stroke="{{ringColor}}" stroke-width="4" stroke-linecap="round" stroke-dasharray="{{scoreDash}}" transform="rotate(-90 26 26)"></circle></svg>
+              <span style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:16px">{{trustScore}}</span>
+            </div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:7px;flex-wrap:wrap">
+                <span style="font-size:10px;font-weight:700;letter-spacing:.05em;color:{{statusFg}};background:{{statusBg}};padding:3px 9px;border-radius:980px">{{statusLabel}}</span>
+                <span style="font-size:10px;color:var(--n500);white-space:nowrap">CRT-2026-0845</span>
+              </div>
+              <div style="font-size:10px;color:var(--n500);margin-top:4px">Sealed 09/01/2026 · 6:02 AM PT</div>
+              <div style="font-size:11px;color:var(--n600);margin-top:4px;line-height:1.5">{{dsSummary}}</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" style="flex:none"><path d="M9 18l6-6-6-6"></path></svg>
+          </div>
+          <sc-if value="{{caution}}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--amb100);border:1px solid var(--amb);border-radius:14px;padding:10px 13px;display:flex;gap:9px;align-items:flex-start">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--amb)" stroke-width="1.8" style="flex:none;margin-top:1px"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0zM12 9v4M12 17h.01"></path></svg>
+              <div style="font-size:12px;line-height:1.5;color:var(--text)"><strong>Use caution.</strong> Trust score {{trustScore}} is below the certified threshold (TS ≥ 85). Answers are directional, not certified.</div>
+            </div>
+          </sc-if>
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:13px 15px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+              <span style="font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--n600);white-space:nowrap">Data Fit™ coverage</span>
+              <span style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:16px">{{covLabel}}</span>
+            </div>
+            <div style="height:6px;background:var(--hair);border-radius:980px;overflow:hidden"><div style="height:100%;width:{{covPct}};background:var(--acc);border-radius:980px"></div></div>
+            <div style="font-size:11px;color:var(--n600);line-height:1.45">{{covNote}}</div>
+          </div>
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:4px 2px 0">
+            <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600)">Focus this week</span>
+            <span style="font-size:9.5px;color:var(--n500)">max 3 · set in the portal</span>
+          </div>
+          <sc-for list="{{focus}}" as="f" hint-placeholder-count="3">
+            <div onClick="{{f.onTap}}" style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer">
+              <span style="width:22px;height:22px;border-radius:50%;background:{{f.nBg}};color:{{f.nFg}};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:none;margin-top:1px">{{f.n}}</span>
+              <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+                <span style="font-size:13.5px;font-weight:600;line-height:1.35">{{f.title}}</span>
+                <span style="font-size:11px;color:var(--n600);line-height:1.45">{{f.sub}}</span>
+                <div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:2px">
+                  <span style="font-size:9px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:{{f.srcFg}};background:{{f.srcBg}};padding:2px 7px;border-radius:980px">{{f.src}}</span>
+                  <span style="font-size:9.5px;color:var(--n500);align-self:center">Reads {{f.reads}}</span>
+                </div>
+              </div>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" style="flex:none;margin-top:4px"><path d="M9 18l6-6-6-6"></path></svg>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600);padding:4px 2px 0">This week, certified</div>
+          <sc-for list="{{homeStats}}" as="h" hint-placeholder-count="3">
+            <div onClick="{{h.onTap}}" style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:11px 14px;display:flex;align-items:center;gap:11px;cursor:pointer">
+              <span style="width:7px;height:7px;border-radius:50%;background:{{h.dot}};flex:none"></span>
+              <span style="flex:1;font-size:13px">{{h.label}}</span>
+              <span style="font-size:13px;font-weight:700;color:{{h.valColor}}">{{h.val}}</span>
+            </div>
+          </sc-for>
+          <button onClick="{{goAsk}}" style="border:none;background:var(--acc);color:#fff;padding:14px;font-size:15px;font-weight:600;border-radius:980px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(26,95,74,.3);margin-top:4px" style-hover="filter:brightness(1.08)">Ask Cortex</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{sAsk}}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;flex:1;min-height:0">
+          <div style="display:flex;align-items:center;gap:8px;padding:2px 20px 8px;font-size:11px;flex:none">
+            <span style="font-size:10px;font-weight:700;letter-spacing:.05em;color:{{statusFg}};background:{{statusBg}};padding:3px 9px;border-radius:980px">{{statusLabel}} {{trustScore}}</span>
+            <span style="margin-left:auto;color:{{holdColor}};font-weight:500">{{holdLabel}}</span>
+          </div>
+          <div ref="{{scrollRef}}" style="flex:1;min-height:0;overflow-y:auto;padding:8px 16px;display:flex;flex-direction:column;gap:11px">
+            <sc-for list="{{messages}}" as="m" hint-placeholder-count="2">
+              <div style="display:flex;flex-direction:column">
+                <sc-if value="{{m.isUser}}" hint-placeholder-val="{{ false }}">
+                  <div style="align-self:flex-end;max-width:80%;background:var(--acc);color:#fff;padding:10px 14px;font-size:13.5px;line-height:1.45;border-radius:18px 18px 5px 18px;box-shadow:0 1px 2px rgba(0,0,0,.08)">{{m.text}}</div>
+                </sc-if>
+                <sc-if value="{{m.isBot}}" hint-placeholder-val="{{ true }}">
+                  <div style="align-self:flex-start;max-width:94%;background:var(--card);padding:12px 14px;font-size:13px;line-height:1.55;border-radius:18px 18px 18px 5px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:8px">
+                    <sc-if value="{{m.caution}}" hint-placeholder-val="{{ false }}">
+                      <span style="align-self:flex-start;font-size:9.5px;font-weight:700;letter-spacing:.05em;color:var(--amb);background:var(--amb100);padding:3px 9px;border-radius:980px">DIRECTIONAL — BELOW CERTIFIED THRESHOLD</span>
+                    </sc-if>
+                    <div>{{m.text}}</div>
+                    <sc-if value="{{m.hasDrivers}}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:4px">
+                        <sc-for list="{{m.drivers}}" as="d" hint-placeholder-count="2">
+                          <div style="display:flex;gap:8px"><span style="color:var(--acc700);font-weight:700">{{d.n}}</span><span>{{d.text}}</span></div>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                    <div style="border-top:1px solid var(--hair);padding-top:8px;display:flex;gap:6px;flex-wrap:wrap">
+                      <sc-for list="{{m.cites}}" as="c" hint-placeholder-count="1">
+                        <span onClick="{{goCert}}" style="font-size:10px;font-weight:600;color:var(--acc700);background:var(--acc100);border:1px solid var(--acc200);padding:3px 9px;border-radius:980px;cursor:pointer">{{c.label}} ↗</span>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{thinking}}" hint-placeholder-val="{{ false }}">
+              <div style="align-self:flex-start;font-size:11.5px;color:var(--n500);display:flex;gap:7px;align-items:center;padding-left:4px">
+                <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);animation:cx-pulse 1s infinite"></span>
+                Certifying against the vault…
+              </div>
+            </sc-if>
+          </div>
+          <div style="display:flex;gap:7px;overflow-x:auto;padding:10px 16px;flex:none">
+            <sc-for list="{{suggestions}}" as="s" hint-placeholder-count="2">
+              <button onClick="{{s.onTap}}" style="flex:none;display:inline-flex;align-items:center;gap:7px;border:1px solid var(--hair);padding:8px 14px;font-size:12.5px;font-weight:500;color:var(--text);background:var(--card);white-space:nowrap;border-radius:980px;box-shadow:0 1px 2px rgba(0,0,0,.03);cursor:pointer;font-family:inherit" style-hover="border-color:var(--acc)">
+                <span style="width:7px;height:7px;border-radius:50%;background:var(--acc);flex:none"></span>{{s.q}}
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;padding:0 16px;flex:none">
+            <div style="flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--hair);background:var(--card);padding:4px 8px 4px 15px;border-radius:980px;box-shadow:0 1px 2px rgba(0,0,0,.03)">
+              <input value="{{input}}" onChange="{{onInput}}" onKeyDown="{{onKey}}" placeholder="Ask anything certified…" style="flex:1;border:none;background:transparent;color:var(--text);font-size:13.5px;font-family:inherit;outline:none;padding:8px 0">
+              <button title="Voice — hands-free during service" style="border:none;background:transparent;color:var(--acc);padding:2px 6px;cursor:pointer;display:flex;align-items:center">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="22"></line></svg>
+              </button>
+            </div>
+            <button onClick="{{onSend}}" style="border:none;background:var(--acc);color:#fff;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(26,95,74,.35);flex:none" style-hover="filter:brightness(1.08)">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="m5 12 14 0"></path><path d="m13 6 6 6-6 6"></path></svg>
+            </button>
+          </div>
+          <div style="font-size:9.5px;color:var(--n500);text-align:center;padding:8px 16px 4px;flex:none">Voice-enabled · certified data only (TS ≥ 85) · every answer cites · Cortex cannot alter a certified result</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sPrompts}}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;flex:1;min-height:0">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;padding:2px 16px 10px;flex:none">
+            <sc-for list="{{categories}}" as="cat" hint-placeholder-count="4">
+              <button onClick="{{cat.onTap}}" style="flex:none;font-size:12px;font-weight:600;padding:7px 13px;border:1px solid {{cat.bd}};background:{{cat.bg}};color:{{cat.fg}};border-radius:980px;cursor:pointer;font-family:inherit;white-space:nowrap">{{cat.label}}</button>
+            </sc-for>
+          </div>
+          <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 16px;display:flex;flex-direction:column;gap:9px">
+            <div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600);padding:2px 2px 0">Available · {{nAvail}}</div>
+            <sc-for list="{{avail}}" as="p" hint-placeholder-count="4">
+              <div onClick="{{p.onTap}}" style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:11px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer">
+                <div style="display:flex;align-items:flex-start;gap:9px">
+                  <span style="margin-top:5px;width:7px;height:7px;border-radius:50%;flex:none;background:{{p.dot}}"></span>
+                  <span style="font-size:13.5px;line-height:1.35;flex:1">{{p.q}}</span>
+                </div>
+                <div style="font-size:10.5px;color:var(--n500);padding-left:16px">{{p.meta}}</div>
+              </div>
+            </sc-for>
+            <sc-if value="{{hasLocked}}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--red);padding:8px 2px 0">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                Needs data · {{nLocked}}
+              </div>
+              <div style="font-size:11px;color:var(--n600);line-height:1.45;padding:0 2px">{{unlockNote}}</div>
+              <sc-for list="{{locked}}" as="p" hint-placeholder-count="2">
+                <div onClick="{{p.onTap}}" style="background:var(--card);border:1px dashed var(--hair);border-radius:14px;padding:11px 14px;display:flex;flex-direction:column;gap:4px;cursor:pointer;opacity:.85">
+                  <div style="display:flex;align-items:flex-start;gap:9px">
+                    <span style="margin-top:5px;width:7px;height:7px;border-radius:50%;flex:none;background:var(--red)"></span>
+                    <span style="font-size:13.5px;line-height:1.35;flex:1;color:var(--n600)">{{p.q}}</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="1.8" style="flex:none;margin-top:3px"><rect x="4" y="11" width="16" height="9" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                  </div>
+                  <div style="font-size:10.5px;color:var(--red);padding-left:16px">{{p.meta}}</div>
+                </div>
+              </sc-for>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sSignals}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 16px;display:flex;flex-direction:column;gap:10px">
+          <div onClick="{{goCert}}" style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:13px 15px;display:flex;align-items:center;gap:13px;cursor:pointer">
+            <div style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:32px;color:{{ringColor}}">{{trustScore}}</div>
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600">Certification score</div>
+              <div style="font-size:11px;color:var(--n600)">CRT-2026-0845 · sealed 09/01 · tap for the audit trail</div>
+            </div>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--n500)" stroke-width="2" style="flex:none"><path d="M9 18l6-6-6-6"></path></svg>
+          </div>
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:13px 15px;display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px">
+              <span style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600)">Last 30 days</span>
+              <div style="display:flex;gap:12px;font-size:10px;color:var(--n600)">
+                <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:14px;height:2px;background:var(--acc);border-radius:2px"></span>Trust score</span>
+                <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:14px;border-top:2px dashed var(--n500)"></span>Data Fit %</span>
+              </div>
+            </div>
+            <svg viewBox="0 0 300 118" style="width:100%;height:auto;display:block">
+              <line x1="6" y1="{{thY}}" x2="294" y2="{{thY}}" stroke="var(--amb)" stroke-width="1" stroke-dasharray="3 4"></line>
+              <text x="6" y="{{thLabelY}}" text-anchor="start" style="font-size:8px;fill:var(--amb);font-weight:600">CERTIFIED GATE · 85</text>
+              <path d="{{covPath}}" fill="none" stroke="var(--n500)" stroke-width="1.5" stroke-dasharray="4 4" stroke-linejoin="round"></path>
+              <path d="{{tsPath}}" fill="none" stroke="var(--acc)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"></path>
+              <circle cx="294" cy="{{tsEndY}}" r="3" fill="var(--acc)"></circle>
+            </svg>
+            <div style="display:flex;justify-content:space-between;font-size:9.5px;color:var(--n500)"><span>30 days ago</span><span>today</span></div>
+            <div style="font-size:11px;color:var(--n600);line-height:1.45">{{chartCaption}}</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600);padding:4px 2px 0">Datasets in the vault</div>
+          <sc-for list="{{datasets}}" as="ds" hint-placeholder-count="4">
+            <div style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:11px 14px;display:flex;align-items:center;gap:11px">
+              <span style="width:8px;height:8px;border-radius:50%;flex:none;background:{{ds.dot}}"></span>
+              <div style="flex:1;display:flex;flex-direction:column">
+                <span style="font-size:13.5px;font-weight:600">{{ds.name}}</span>
+                <span style="font-size:10.5px;color:var(--n600)">{{ds.detail}}</span>
+              </div>
+              <div style="text-align:right;display:flex;flex-direction:column;align-items:flex-end">
+                <span style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:17px;color:{{ds.tsColor}}">{{ds.ts}}</span>
+                <span style="font-size:9.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:{{ds.tsColor}}">{{ds.status}}</span>
+              </div>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;color:var(--n600);line-height:1.5;padding:2px 2px 0">Prompt coverage recalculates whenever a dataset is added, removed, or changes certification state. Datasets certify at TS ≥ 85 before Cortex answers over them.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sCert}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 24px;display:flex;flex-direction:column;gap:11px">
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:16px;display:flex;align-items:center;gap:14px">
+            <div style="position:relative;width:64px;height:64px;flex:none;display:flex;align-items:center;justify-content:center">
+              <svg width="64" height="64" viewBox="0 0 52 52" style="position:absolute;inset:0"><circle cx="26" cy="26" r="21" fill="none" stroke="var(--hair)" stroke-width="4"></circle><circle cx="26" cy="26" r="21" fill="none" stroke="{{ringColor}}" stroke-width="4" stroke-linecap="round" stroke-dasharray="{{scoreDash}}" transform="rotate(-90 26 26)"></circle></svg>
+              <span style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:19px">{{trustScore}}</span>
+            </div>
+            <div>
+              <span style="font-size:10px;font-weight:700;letter-spacing:.05em;color:{{statusFg}};background:{{statusBg}};padding:3px 9px;border-radius:980px">{{statusLabel}}</span>
+              <div style="font-size:12px;color:var(--n600);margin-top:6px;line-height:1.5">CRT-2026-0845 · sealed 09/01<br>Rule Registry v1.3 · DCLS v2.0 · API contract №2</div>
+            </div>
+          </div>
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px 15px;display:flex;flex-direction:column;gap:2px">
+            <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600);margin-bottom:6px">Trust score audit trail</div>
+            <sc-for list="{{audit}}" as="a" hint-placeholder-count="4">
+              <div style="display:flex;justify-content:space-between;gap:12px;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--hair)">
+                <span style="color:var(--n600);line-height:1.4">{{a.rule}}</span>
+                <span style="font-weight:700;color:{{a.color}};flex:none">{{a.pts}}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex;justify-content:space-between;font-size:13.5px;padding:8px 0 2px;font-weight:700">
+              <span>Sealed score</span><span style="color:{{ringColor}}">{{trustScore}}</span>
+            </div>
+          </div>
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px 15px;display:flex;flex-direction:column;gap:6px">
+            <div style="font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--n600)">Determinism</div>
+            <div style="font-size:12px;line-height:1.55;color:var(--text)">Two independent runs on identical evidence produced byte-identical output — <span style="font-weight:700;color:var(--certfg)">perfect hash match ✓</span></div>
+            <div style="font-family:ui-monospace,monospace;font-size:9.5px;color:var(--n500);word-break:break-all">1e08b03d…704a5bcf = 1e08b03d…704a5bcf</div>
+          </div>
+          <button style="border:none;background:var(--acc);color:#fff;padding:13px;font-size:14px;font-weight:600;border-radius:980px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(26,95,74,.3)" style-hover="filter:brightness(1.08)">Open the TS ledger in the MGE portal ↗</button>
+          <div style="font-size:10px;color:var(--n500);text-align:center;line-height:1.5">Read-only by architecture — the phone reads sealed results via API contract №2 and can never alter a certified result.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sSettings}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 24px;display:flex;flex-direction:column;gap:11px">
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:14px 15px;display:flex;align-items:center;gap:12px">
+            <div style="width:44px;height:44px;border-radius:50%;background:var(--acc100);color:var(--acc700);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;flex:none">MG</div>
+            <div style="flex:1">
+              <div style="font-size:14px;font-weight:600">MGEpilot@fohboh.com</div>
+              <div style="font-size:11px;color:var(--n600)">Owner · {{storeLabel}}</div>
+            </div>
+          </div>
+          <div style="background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:4px 15px">
+            <sc-for list="{{toggles}}" as="t" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid var(--hair)">
+                <div>
+                  <div style="font-size:13.5px;font-weight:500">{{t.label}}</div>
+                  <div style="font-size:10.5px;color:var(--n600)">{{t.sub}}</div>
+                </div>
+                <div onClick="{{t.onTap}}" style="width:46px;height:27px;border-radius:980px;background:{{t.bg}};position:relative;cursor:pointer;flex:none;transition:background .15s">
+                  <div style="position:absolute;top:2.5px;left:{{t.knob}};width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .15s"></div>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:12px 0;border-bottom:1px solid var(--hair)"><span style="color:var(--n600)">Data access</span><span style="font-weight:600">Read-only · Trust Wall 2</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:12px 0;border-bottom:1px solid var(--hair)"><span style="color:var(--n600)">API</span><span style="font-weight:600">Contract №2 · sealed results only</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;padding:12px 0"><span style="color:var(--n600)">App version</span><span style="font-weight:600">Cortex 2.0 (2026.09)</span></div>
+          </div>
+          <button onClick="{{signOut}}" style="border:1px solid var(--red);background:transparent;color:var(--red);padding:12px;font-size:14px;font-weight:600;border-radius:980px;cursor:pointer;font-family:inherit" style-hover="background:var(--red100)">Sign out</button>
+          <div style="font-size:10px;color:var(--n500);text-align:center;line-height:1.5">Accounts exist by invitation only. A locked-out user is re-invited — FohBoh never holds a readable password.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sAlerts}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 24px;display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{alerts}}" as="al" hint-placeholder-count="4">
+            <div style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:11px 14px;display:flex;align-items:flex-start;gap:11px">
+              <span style="margin-top:5px;width:8px;height:8px;border-radius:50%;flex:none;background:{{al.dot}}"></span>
+              <div style="flex:1;display:flex;flex-direction:column;gap:2px">
+                <span style="font-size:13px;line-height:1.4">{{al.label}}</span>
+                <span style="font-size:10.5px;color:var(--n500)">{{al.time}}</span>
+              </div>
+              <span style="font-size:9.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:{{al.dot}};flex:none;margin-top:3px">{{al.tag}}</span>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;color:var(--n600);line-height:1.5;padding:4px 2px 0">One alert per certification lifecycle event — seal, hold, release, intake. The phone receives events; it never triggers them.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{sLocations}}" hint-placeholder-val="{{ false }}">
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:2px 16px 24px;display:flex;flex-direction:column;gap:9px">
+          <div style="font-size:11px;color:var(--n600);padding:0 2px 2px">Bailywicks · 3 locations under this tenant</div>
+          <sc-for list="{{locations}}" as="l" hint-placeholder-count="3">
+            <div onClick="{{l.onTap}}" style="background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:12px 14px;display:flex;align-items:center;gap:11px;cursor:pointer;border:1px solid {{l.bd}}">
+              <div style="flex:1;display:flex;flex-direction:column">
+                <span style="font-size:13.5px;font-weight:600">{{l.name}}</span>
+                <span style="font-size:10.5px;color:{{l.color}}">{{l.status}}</span>
+              </div>
+              <span style="font-family:'SF Pro Display',-apple-system,sans-serif;font-weight:700;font-size:17px;color:{{l.color}}">{{l.ts}}</span>
+              <sc-if value="{{l.active}}" hint-placeholder-val="{{ false }}">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--acc)" stroke-width="2.2" style="flex:none"><path d="M20 6 9 17l-5-5"></path></svg>
+              </sc-if>
+            </div>
+          </sc-for>
+          <div style="font-size:11px;color:var(--n600);line-height:1.5;padding:4px 2px 0">Additional locations are provisioned through FohBoh Customer Success — white-glove onboarding, no self-serve sign-up.</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{closeMenu}}" style="position:absolute;inset:0;background:rgba(0,0,0,.35);z-index:40"></div>
+        <div style="position:absolute;top:0;bottom:0;right:0;width:280px;background:var(--card);z-index:41;display:flex;flex-direction:column;padding:64px 0 20px;box-shadow:-8px 0 30px rgba(0,0,0,.18)">
+          <div style="display:flex;align-items:center;gap:10px;padding:0 18px 14px;border-bottom:1px solid var(--hair)">
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--acc100);color:var(--acc700);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none">MG</div>
+            <div style="min-width:0">
+              <div style="font-size:12.5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">MGEpilot@fohboh.com</div>
+              <div style="font-size:10.5px;color:var(--n600)">Owner · {{storeLabel}}</div>
+            </div>
+          </div>
+          <div style="flex:1;overflow-y:auto;padding:8px 0">
+            <sc-for list="{{menuItems}}" as="mi" hint-placeholder-count="6">
+              <button onClick="{{mi.onTap}}" style="display:flex;align-items:center;justify-content:space-between;width:100%;border:none;background:{{mi.bg}};color:{{mi.fg}};padding:12px 18px;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer;text-align:left" style-hover="background:var(--acc100)">
+                {{mi.label}}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="opacity:.4"><path d="M9 18l6-6-6-6"></path></svg>
+              </button>
+            </sc-for>
+          </div>
+          <button onClick="{{signOut}}" style="margin:0 18px;border:1px solid var(--red);background:transparent;color:var(--red);padding:10px;font-size:13px;font-weight:600;border-radius:980px;cursor:pointer;font-family:inherit" style-hover="background:var(--red100)">Sign out</button>
+          <div style="font-size:9.5px;color:var(--n500);text-align:center;padding:10px 18px 0;line-height:1.5">Read-only · Trust Wall 2 · API contract №2</div>
+        </div>
+      </sc-if>
+      <sc-if value="{{showTabs}}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;border-top:1px solid var(--hair);flex:none;background:var(--bg);padding-bottom:4px">
+          <sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+            <button onClick="{{t.onTap}}" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:9px 0 6px;background:none;border:none;cursor:pointer;color:{{t.fg}};font-family:inherit">
+              <span dangerouslySetInnerHTML="{{t.icon}}" style="display:flex"></span>
+              <span style="font-size:10px;font-weight:600">{{t.label}}</span>
+            </button>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </x-import>
+  <div style="font-size:11.5px;color:var(--n600);max-width:560px;text-align:center;line-height:1.6">Grounded in the MGE Pilot v4 platform language (fohboh/MGE-Pilot-Demo). Tweaks: switch the certification scenario — all certified, Inventory held, or Reviewed 65 (the below-threshold caution state) — and light/dark theme.</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;scenario&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;Inventory held (72)&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;Inventory held (72)&quot;, &quot;All certified&quot;, &quot;Reviewed (65)&quot;], &quot;section&quot;: &quot;Certification&quot;}, &quot;theme&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;default&quot;: &quot;Light&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;options&quot;: [&quot;Light&quot;, &quot;Dark&quot;], &quot;section&quot;: &quot;Appearance&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.scrollRef = React.createRef();
+    this.CATS = ['All', 'FOH Ops', 'BOH Ops', 'Menu', 'Labor & Staffing', 'Inventory & Waste', 'Sales Forecasting'];
+    this.PROMPTS = [
+      { cat: 'FOH Ops', q: 'Which dayparts are overstaffed?', needs: ['pos','labor'],
+        a: { text: 'Tuesday and Wednesday 2–5 PM run 1.8 certified labor hours over the demand curve.', drivers: [
+          { n: '1', text: 'Covers per labor hour at 3.1 vs the 4.2 vaulted baseline' },
+          { n: '2', text: 'Two overlapping server shifts against a flat daypart' }],
+          cites: ['KPI-11 Labor % · Vault v1.2.0', 'POS/Sales · TS 91'] } },
+      { cat: 'FOH Ops', q: 'How did table turns trend this week?', needs: ['pos'],
+        a: { text: 'Table turns are up 0.3 vs last week, concentrated in Friday dinner.', drivers: [
+          { n: '1', text: 'Average turn time down 6 minutes on parties of 2–4' }],
+          cites: ['KPI-07 Table Turns · Vault v1.2.0'] } },
+      { cat: 'FOH Ops', q: 'What is driving comps and voids at Store 12?', needs: ['pos'],
+        a: { text: 'Store 12 void rate sits at 2.4% vs the 1.1% network baseline — the certified driver behind the 1.9-point margin drop.', drivers: [
+          { n: '1', text: 'Voids concentrated on two closing shifts (Fri/Sat)' }],
+          cites: ['TS Ledger · Store 12', 'POS/Sales · TS 91'] } },
+      { cat: 'BOH Ops', q: 'Which prep stations run over on labor?', needs: ['labor'],
+        a: { text: 'Prep runs 2.1 hours over plan, concentrated at the protein station Tue/Wed.', drivers: [
+          { n: '1', text: 'Batch prep split across two shifts instead of one' }],
+          cites: ['KPI-11 Labor % · Vault v1.2.0'] } },
+      { cat: 'BOH Ops', q: 'Where is waste-log variance concentrated?', needs: ['inv'] },
+      { cat: 'Menu', q: 'Which menu items are under-margined?', needs: ['menu','pos'],
+        a: { text: 'Four items sit below the 68% certified margin floor.', drivers: [
+          { n: '1', text: 'Two LTO entrées priced before the protein invoice increase' },
+          { n: '2', text: 'One side with a stale recipe cost in the vault (flagged)' }],
+          cites: ['KPI-09 Item Margin · Vault v1.1.4'] } },
+      { cat: 'Menu', q: 'Which items should we 86 on cost?', needs: ['menu','inv'] },
+      { cat: 'Labor & Staffing', q: 'Is overtime trending above plan?', needs: ['labor'],
+        a: { text: 'Overtime is 40 minutes over plan network-wide — inside the certified tolerance band.', drivers: [],
+          cites: ['KPI-12 OT Hours · Vault v1.2.0'] } },
+      { cat: 'Labor & Staffing', q: 'Which shifts can flex down tonight?', needs: ['labor','pos'],
+        a: { text: 'Tonight projects 12% under forecast; two closing shifts can flex down 90 minutes.', drivers: [
+          { n: '1', text: 'Certified demand curve vs posted schedule, Store 12' }],
+          cites: ['KPI-11 Labor % · Vault v1.2.0', 'POS/Sales · TS 91'] } },
+      { cat: 'Inventory & Waste', q: 'What is the protein invoice variance?', needs: ['inv'] },
+      { cat: 'Inventory & Waste', q: 'Which SKUs are sitting over par?', needs: ['inv'] },
+      { cat: 'Sales Forecasting', q: 'What does tomorrow look like vs baseline?', needs: ['pos'],
+        a: { text: 'Tomorrow projects 4% over the trailing four-week Friday baseline, peaking 6:30–8:00 PM.', drivers: [
+          { n: '1', text: 'Certified POS demand curve, Store 12' }],
+          cites: ['KPI-21 Demand Forecast · Vault v1.2.0', 'POS/Sales · TS 91'] } },
+      { cat: 'Sales Forecasting', q: 'How will the LTO affect next week?', needs: ['pos','menu'],
+        a: { text: 'The LTO projects +2.8% net sales next week with a 0.6-point food-cost headwind.', drivers: [
+          { n: '1', text: 'Mix-shift model over certified item margins' }],
+          cites: ['KPI-21 Demand Forecast · Vault v1.2.0', 'KPI-09 Item Margin · Vault v1.1.4'] } },
+    ];
+    this.state = {
+      screen: 'signin', from: 'home', cat: 'All', input: '', thinking: false,
+      email: 'MGEpilot@fohboh.com', pw: 'pizza',
+      push: true, voice: true, faceid: true, menuOpen: false, store: 'Store 12',
+      messages: [
+        { role: 'user', text: 'Why is food cost running high this week?' },
+        { role: 'bot', text: 'Food cost is running 3.4 points over target this week. Two certified drivers:',
+          drivers: [
+            { n: '1', text: 'Protein invoice prices up 6% vs the vaulted baseline' },
+            { n: '2', text: 'Waste-log variance concentrated in prep (Tue / Wed)' }],
+          cites: ['KPI-04 Food Cost % · Vault v1.2.0', 'POS/Sales · TS 91'] },
+      ],
+    };
+  }
+  componentDidUpdate() { const el = this.scrollRef.current; if (el) el.scrollTop = el.scrollHeight; }
+  scenario() { return this.props.scenario ?? 'Inventory held (72)'; }
+  data() {
+    const s = this.scenario();
+    if (s === 'All certified') return { score: 92, status: 'CERTIFIED', caution: false,
+      ds: [{ id:'pos', name:'POS / Sales', ts:91 }, { id:'labor', name:'Labor', ts:88 }, { id:'menu', name:'Menu', ts:87 }, { id:'inv', name:'Inventory', ts:88 }],
+      audit: [['Base — all gates evaluated', '100'], ['D2 Validation — minor fee-class drift', '−3'], ['D4 Integrity — one late journal entry', '−3'], ['D6 Freshness — statement aged 2 days', '−2']] };
+    if (s === 'Reviewed (65)') return { score: 65, status: 'REVIEWED', caution: true,
+      ds: [{ id:'pos', name:'POS / Sales', ts:82, warn:true }, { id:'labor', name:'Labor', ts:76, warn:true }, { id:'menu', name:'Menu', ts:65, warn:true }, { id:'inv', name:'Inventory', ts:58, warn:true }],
+      audit: [['Base — all gates evaluated', '100'], ['D2 Validation — fee classes outside agreement', '−13'], ['D4 Integrity — unreconciled journal entries', '−12'], ['D6 Freshness — evidence aged beyond policy', '−10']] };
+    return { score: 87, status: 'CERTIFIED', caution: false,
+      ds: [{ id:'pos', name:'POS / Sales', ts:91 }, { id:'labor', name:'Labor', ts:88 }, { id:'menu', name:'Menu', ts:85 }, { id:'inv', name:'Inventory', ts:72, held:true }],
+      audit: [['Base — all gates evaluated', '100'], ['D2 Validation — 3 fee classes outside agreement', '−5'], ['D4 Integrity — inventory counts unreconciled', '−4'], ['D6 Freshness — statement aged beyond policy', '−4']] };
+  }
+  held(id) { const d = this.data().ds.find(x => x.id === id); return !!d.held; }
+  isLocked(p) { return p.needs.some(id => this.held(id)); }
+  go(screen) { this.setState(s => ({ screen, from: ['home','ask','prompts','signals'].includes(s.screen) ? s.screen : s.from })); }
+  ask(q, answer) {
+    if (this.state.thinking) return;
+    const caution = this.data().caution;
+    this.setState(s => ({ screen: 'ask', input: '', messages: [...s.messages, { role: 'user', text: q }], thinking: true }));
+    clearTimeout(this._t);
+    this._t = setTimeout(() => {
+      const a = answer || { text: 'Certified result: this metric is inside its tolerance band for the current sealed period. Try a scripted prompt for a driver breakdown.', drivers: [], cites: ['CRT-2026-0845 · TS Ledger', 'Vault v1.2.0'] };
+      this.setState(s => ({ messages: [...s.messages, { role: 'bot', ...a, caution }], thinking: false }));
+    }, 900);
+  }
+  renderVals() {
+    const D = this.data(), sc = this.state.screen, caution = D.caution;
+    const nameOf = id => D.ds.find(x => x.id === id).name;
+    const ringColor = caution ? 'var(--amb)' : 'var(--acc)';
+    const withA = p => {
+      const a = p.a || null;
+      return () => this.ask(p.q, a && caution ? { ...a } : a);
+    };
+    const all = this.PROMPTS.map(p => ({ ...p, lockedNow: this.isLocked(p) }));
+    const inCat = all.filter(p => this.state.cat === 'All' || p.cat === this.state.cat);
+    const availAll = all.filter(p => !p.lockedNow);
+    const lockedAll = all.filter(p => p.lockedNow);
+    const mk = p => ({
+      q: p.q,
+      onTap: p.lockedNow ? () => this.go('signals') : withA(p),
+      dot: caution ? 'var(--amb)' : 'var(--acc)',
+      meta: p.lockedNow
+        ? `Needs ${p.needs.filter(id => this.held(id)).map(nameOf).join(', ')} — held at TS 72. Tap for status.`
+        : `${p.cat} · reads ${p.needs.map(nameOf).join(' + ')}${caution ? ' · below threshold — directional' : ''}`,
+    });
+    const send = () => {
+      const t = this.state.input.trim(); if (!t) return;
+      const p = this.PROMPTS.find(x => x.q.toLowerCase() === t.toLowerCase());
+      this.ask(t, p && !this.isLocked(p) ? p.a : null);
+    };
+    const holdDs = D.ds.filter(d => d.held);
+    const icons = {
+      home: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"></path></svg>',
+      ask: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z"></path></svg>',
+      prompts: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 6h13M8 12h13M8 18h13M3.5 6h.01M3.5 12h.01M3.5 18h.01"></path></svg>',
+      signals: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12h4l3-8 4 16 3-8h6"></path></svg>',
+    };
+    const theme = this.props.theme ?? 'Light';
+    const covNow = Math.round(availAll.length / all.length * 100);
+    const chY = v => 10 + (100 - Math.max(50, Math.min(100, v))) / 50 * 96;
+    const chX = i => 6 + i * 288 / 29;
+    const tsSeries = Array.from({ length: 30 }, (_, i) => {
+      const base = 88 + Math.sin(i / 3.1) * 1.6 + Math.cos(i / 5.7);
+      return i >= 22 ? base + (D.score - base) * ((i - 21) / 8) : base;
+    });
+    tsSeries[29] = D.score;
+    const covSeries = Array.from({ length: 30 }, (_, i) => i < 21 ? 100 : (i < 23 ? 100 + (covNow - 100) * ((i - 20) / 2) : covNow));
+    const toPath = a => a.map((v, i) => `${i ? 'L' : 'M'}${chX(i).toFixed(1)},${chY(v).toFixed(1)}`).join('');
+    return {
+      themeName: theme, isDark: theme === 'Dark',
+      trustScore: D.score, ringColor,
+      scoreDash: `${(D.score / 100) * 131.9} 131.9`,
+      statusLabel: D.status,
+      statusFg: caution ? 'var(--amb)' : 'var(--certfg)',
+      statusBg: caution ? 'var(--amb100)' : 'var(--certbg)',
+      dsSummary: D.ds.map(d => d.held ? `${d.name} held (${d.ts})` : `${d.name} ✓`).join(' · '),
+      caution,
+      sSignin: sc === 'signin', sHome: sc === 'home', sAsk: sc === 'ask', sPrompts: sc === 'prompts',
+      sSignals: sc === 'signals', sCert: sc === 'cert', sSettings: sc === 'settings',
+      sAlerts: sc === 'alerts', sLocations: sc === 'locations',
+      showTop: ['home','ask','prompts','signals'].includes(sc),
+      showBack: ['cert','settings','alerts','locations'].includes(sc),
+      showTabs: ['home','ask','prompts','signals'].includes(sc),
+      backTitle: ({ cert: 'Certification', settings: 'Settings', alerts: 'Alerts', locations: 'Locations' })[sc] || '',
+      goBack: () => this.setState(s => ({ screen: s.from })),
+      goSettings: () => this.go('settings'), goCert: () => this.go('cert'), goAsk: () => this.go('ask'),
+      menuOpen: this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      menuItems: [['Home','home'],['Ask Cortex','ask'],['Prompt library','prompts'],['Signals','signals'],['Certification','cert'],['Alerts','alerts'],['Locations','locations'],['Settings','settings']].map(([label, id]) => ({
+        label,
+        onTap: () => { this.setState({ menuOpen: false }); this.go(id); },
+        bg: sc === id ? 'var(--acc100)' : 'transparent',
+        fg: sc === id ? 'var(--acc700)' : 'var(--text)',
+      })),
+      storeLabel: `Bailywicks · ${this.state.store}`,
+      alerts: [
+        { label: 'CRT-2026-0845 sealed — certification ' + D.score, time: 'Today · 6:02 AM', dot: 'var(--acc)', tag: 'Sealed' },
+        { label: 'Inventory held (72) — counts unreconciled at Store 12', time: 'Today · 6:02 AM', dot: 'var(--red)', tag: 'Held' },
+        { label: 'Menu dataset recertified at TS 85', time: 'Yesterday · 5:58 AM', dot: 'var(--acc)', tag: 'Certified' },
+        { label: 'Labor evidence received — hashed and time-stamped on intake', time: 'Mon · 9:14 PM', dot: 'var(--n500)', tag: 'Intake' },
+      ],
+      locations: [
+        { name: 'Store 12', ts: D.score, status: caution ? 'Reviewed · below threshold' : 'Certified · sealed 09/01', color: caution ? 'var(--amb)' : 'var(--certfg)' },
+        { name: 'Store 4 — Midtown', ts: 90, status: 'Certified · sealed 09/01', color: 'var(--certfg)' },
+        { name: 'Store 7 — Airport', ts: 81, status: 'Below threshold — use caution', color: 'var(--amb)' },
+      ].map(l => ({ ...l, active: this.state.store === l.name,
+        bd: this.state.store === l.name ? 'var(--acc)' : 'transparent',
+        onTap: () => this.setState({ store: l.name }) })),
+      email: this.state.email, pw: this.state.pw,
+      onEmail: e => this.setState({ email: e.target.value }), onPw: e => this.setState({ pw: e.target.value }),
+      signIn: () => this.go('home'), signOut: () => this.setState({ screen: 'signin', menuOpen: false }),
+      covLabel: `${availAll.length} / ${all.length}`,
+      covPct: `${Math.round(availAll.length / all.length * 100)}%`,
+      covNote: holdDs.length
+        ? `Answerable ÷ applicable registered prompts. Connecting ${holdDs.map(d => d.name).join(', ')} unlocks ${lockedAll.length} more.`
+        : (caution ? 'All prompts answerable — but every answer carries the below-threshold caution.' : 'Every registered prompt is backed by certified evidence.'),
+      focus: [
+        holdDs.length
+          ? { title: 'Reconcile inventory counts at Store 12', sub: 'Clears the Inventory hold (TS 72) and unlocks 4 held prompts', urgent: true, onTap: () => this.go('signals') }
+          : (caution
+            ? { title: 'Review evidence freshness with your certification desk', sub: 'TS 65 is below the certified gate — answers are directional until re-sealed', urgent: true, onTap: () => this.go('cert') }
+            : { title: 'All datasets certified — review the sealed score', sub: `TS ${D.score} · every registered prompt is answerable`, urgent: false, onTap: () => this.go('cert') }),
+        { title: 'Food cost +3.4 pts — review protein invoices', sub: 'Invoice prices up 6% vs the vaulted baseline', urgent: true,
+          onTap: () => this.ask('Why is food cost running high this week?', { text: 'Food cost is running 3.4 points over target this week. Two certified drivers:', drivers: [ { n: '1', text: 'Protein invoice prices up 6% vs the vaulted baseline' }, { n: '2', text: 'Waste-log variance concentrated in prep (Tue / Wed)' } ], cites: ['KPI-04 Food Cost % · Vault v1.2.0', 'POS/Sales · TS 91'] }) },
+        { title: 'Flex down two closing shifts tonight', sub: 'Tonight projects 12% under the certified forecast', urgent: false, onTap: withA(this.PROMPTS[8]) },
+      ].map((f, i) => ({ ...f, n: i + 1,
+        src: [`Assigned · D. Marsh (Regional)`, `Assigned · D. Marsh (Regional)`, `FohBoh AI advisor`][i],
+        srcFg: i < 2 ? 'var(--acc700)' : 'var(--n600)',
+        srcBg: i < 2 ? 'var(--acc100)' : 'var(--hair)',
+        reads: [holdDs.length ? 'Inventory · invoices · TS ledger' : 'TS ledger', 'POS/Sales · Menu · invoices', 'Labor · POS forecast'][i],
+        nBg: f.urgent ? 'var(--red100)' : 'var(--acc100)',
+        nFg: f.urgent ? 'var(--red)' : 'var(--acc700)' })),
+      homeStats: [
+        { label: 'Food cost vs target', val: '+3.4 pts', valColor: 'var(--red)', dot: 'var(--red)', onTap: () => this.go('ask') },
+        { label: 'Labor % vs plan', val: 'on plan', valColor: 'var(--certfg)', dot: ringColor, onTap: withA(this.PROMPTS[7]) },
+        { label: 'Table turns vs last week', val: '+0.3', valColor: 'var(--certfg)', dot: ringColor, onTap: withA(this.PROMPTS[1]) },
+      ],
+      holdLabel: holdDs.length ? `Inventory held (72)` : (caution ? 'Below certified threshold' : 'All datasets certified'),
+      holdColor: holdDs.length ? 'var(--red)' : (caution ? 'var(--amb)' : 'var(--certfg)'),
+      messages: this.state.messages.map(m => ({
+        ...m, isUser: m.role === 'user', isBot: m.role === 'bot',
+        caution: m.role === 'bot' && (m.caution || caution),
+        hasDrivers: !!(m.drivers && m.drivers.length),
+        drivers: m.drivers || [], cites: (m.cites || []).map(label => ({ label })),
+      })),
+      thinking: this.state.thinking,
+      suggestions: availAll.filter(p => !this.state.messages.some(m => m.text === p.q)).slice(0, 4).map(p => ({ q: p.q, onTap: withA(p) })),
+      input: this.state.input,
+      onInput: e => this.setState({ input: e.target.value }),
+      onKey: e => { if (e.key === 'Enter') send(); },
+      onSend: send,
+      categories: this.CATS.map(c => ({
+        label: c, onTap: () => this.setState({ cat: c }),
+        bd: c === this.state.cat ? 'var(--acc)' : 'var(--hair)',
+        bg: c === this.state.cat ? 'var(--acc)' : 'var(--card)',
+        fg: c === this.state.cat ? '#fff' : 'var(--n600)',
+      })),
+      nAvail: inCat.filter(p => !p.lockedNow).length,
+      nLocked: inCat.filter(p => p.lockedNow).length,
+      hasLocked: inCat.some(p => p.lockedNow),
+      unlockNote: holdDs.length ? `These read a held dataset. Connecting ${holdDs.map(d => d.name).join(', ')} (currently TS 72, below the 85 gate) unlocks them.` : '',
+      avail: inCat.filter(p => !p.lockedNow).map(mk),
+      locked: inCat.filter(p => p.lockedNow).map(mk),
+      datasets: D.ds.map(d => {
+        const ok = !d.held && !d.warn;
+        return { name: d.name, ts: d.ts,
+          detail: d.held ? 'Counts unreconciled · Store 12 · prompts held' : d.warn ? 'Below the TS ≥ 85 certification gate' : 'Vault v1.2.0 · sealed 09/01',
+          status: d.held ? 'Held' : d.warn ? 'Caution' : 'Certified',
+          dot: d.held ? 'var(--red)' : d.warn ? 'var(--amb)' : 'var(--acc)',
+          tsColor: d.held ? 'var(--red)' : d.warn ? 'var(--amb)' : 'var(--certfg)' };
+      }),
+      tsPath: toPath(tsSeries), covPath: toPath(covSeries),
+      thY: chY(85).toFixed(1), thLabelY: (chY(85) - 4).toFixed(1), tsEndY: chY(D.score).toFixed(1),
+      chartCaption: `TS ${D.score} today · Data Fit ${covNow}% of registered prompts answerable · certification gate TS ≥ 85`,
+      audit: D.audit.map(([rule, pts]) => ({ rule, pts, color: pts === '100' ? 'var(--n600)' : 'var(--red)' })),
+      toggles: [
+        { key: 'push', label: 'Certification alerts', sub: 'Push on seal, hold, and release events' },
+        { key: 'voice', label: 'Voice input', sub: 'Hands-free during service' },
+        { key: 'faceid', label: 'Face ID', sub: 'Required by your tenant policy' },
+      ].map(t => ({ ...t,
+        onTap: () => this.setState(s => ({ [t.key]: !s[t.key] })),
+        bg: this.state[t.key] ? 'var(--acc)' : 'var(--hair)',
+        knob: this.state[t.key] ? '21px' : '2.5px' })),
+      tabs: [
+        { id: 'home', label: 'Home' }, { id: 'ask', label: 'Ask' }, { id: 'prompts', label: 'Prompts' }, { id: 'signals', label: 'Signals' },
+      ].map(t => ({ label: t.label, onTap: () => this.go(t.id), icon: { __html: icons[t.id] },
+        fg: sc === t.id ? 'var(--acc700)' : 'var(--n500)' })),
+      scrollRef: this.scrollRef,
+    };
+  }
+}
+</script>
+</body>
+</html>
