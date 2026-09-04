@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#ffffff;font-family:'DM Sans',sans-serif;color:#1d1f20;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+</helmet>
+<div style="background: #ffffff; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="index.html" style="font-family: 'Alkaline', 'Outfit', sans-serif; font-weight: 700; font-size: 24px; margin-right: auto; color: #d63031; text-decoration: none; white-space: nowrap;">FohBoh<span style="opacity: 0.75;">.ai</span> <span style="font-weight: 400; font-size: 12px; color: #86868b;">· For the Vendor</span></a>
+    <a href="sentry.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="caar-example.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Example CAAR</a>
+    <a href="contact.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Contact</a>
+    <a href="mailto:certification@fohboh.com?subject=CAAR%20inquiry" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #d63031; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #b82628;">Contact certification</a>
+  </nav>
+  <div style="padding: 64px 64px 40px; max-width: 1120px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">FohBoh.ai · For the Vendor</span>
+    <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 44px; line-height: 1.1; letter-spacing: -0.02em; max-width: 22ch;">You have received a CAAR. Here is what it is.</h1>
+    <p style="margin: 16px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">One of your restaurant customers has sent you a Certified Analysis &amp; Audit Report identifying discrepancies in what they were billed. This page explains what that document is, how it was produced, how to check it yourself, and what a useful response looks like. It is written for the person who has to evaluate the claim — a billing analyst, an account manager, a controller, or counsel. It is not a sales page.</p>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 40px; padding: 8px 64px 64px; max-width: 1120px;">
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">01 · What a CAAR is, and who produced it</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">A CAAR is a reconciliation report. It compares what you billed a customer against the customer's own transaction records and the rate schedule in the agreement you both signed. Where those three sources disagree, the report says so, states the amount, and cites the specific records the finding rests on. It was produced by FohBoh | Sentry™, an independent certification service — nobody at the operator's business calculated the figures, and nobody at FohBoh negotiated them. The report is the output of a fixed rule set applied to sealed data. A spreadsheet from a customer invites a conversation about methodology; a CAAR is designed to make the methodology the least interesting part of the conversation, so the two of you can talk about the money.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">02 · What FohBoh is, and is not</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 14px;">
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 20px 24px;">
+          <div style="font-weight: 600; font-size: 14px;">FohBoh is</div>
+          <ul style="margin: 10px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: #494952;">
+            <li>A certification service — it normalizes, reconciles and certifies operational data, and issues a sealed report.</li>
+            <li>Paid a fixed fee by the operator for the certified report, whether or not you ever pay a cent.</li>
+            <li>Independent of both parties, sitting between the operator's systems and their books.</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 20px 24px; background: #fafafa;">
+          <div style="font-weight: 600; font-size: 14px;">FohBoh is not</div>
+          <ul style="margin: 10px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.7; color: #494952;">
+            <li><strong>Not a debt collector.</strong> It does not pursue payment or take a share of anything you credit.</li>
+            <li><strong>Not on contingency.</strong> No bounty — the fee is the same whether the report shows $400 or $40,000.</li>
+            <li><strong>Not the operator's agent.</strong> FohBoh certified the record; it did not file the claim and will not argue it.</li>
+          </ul>
+        </div>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">An auditor paid a percentage of what it finds has a reason to find more. This one does not. If you were preparing to discount the findings as motivated, that argument does not apply here.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">03 · How the numbers were produced</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 14px;">
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">1 · INGEST</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">Source data arrives from the operator's systems and your own statement and settlement files, as issued.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">2 · SEAL</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">Every file is hashed with SHA-256 at receipt — before any analysis runs. The evidence was not shaped to fit a conclusion.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">3 · NORMALIZE</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">Records are mapped into a common structure so unlike formats can be compared without altering values.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">4 · RECONCILE</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">Point-of-sale against your settlements, settlements against bank deposits, billed rates against the executed schedule.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">5 · APPLY RULES</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">A governed, versioned rule set executes. The report names the rule behind each finding by identifier.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">6 · SCORE</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">Evidence coverage is measured and a Trust Score is calculated (section 05).</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">7 · NARRATIVE SEAL</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">The written findings are generated from the results and sealed with their own hash.</div></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 12px; padding: 14px 16px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">8 · ISSUE</div><div style="margin-top: 5px; font-size: 12.5px; line-height: 1.5; color: #494952;">The report is released with its hash, its rule versions, and its evidence manifest attached.</div></div>
+      </div>
+      <div style="margin-top: 14px; border-left: 3px solid #3c434d; padding: 12px 18px; background: #fafafa; border-radius: 0 10px 10px 0;">
+        <div style="font-weight: 600; font-size: 13.5px;">The calculations are fully deterministic.</div>
+        <p style="margin: 6px 0 0; font-size: 13px; line-height: 1.6; color: #494952;">The engine has no model, no inference, no sampling, no extrapolation and no estimation in the variance calculations. Given the same inputs and the same rule version, it returns the same result — the same figures, and the same hash. That property makes the report reproducible rather than merely plausible. Where a report states a count — thirty-four batches, four hundred and seventeen pickup orders — every one is identified in the evidence manifest.</p>
+      </div>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">04 · Reading the report</div>
+      <div style="margin-top: 14px; border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden;">
+        <sc-for list="{{ readRows }}" as="r" hint-placeholder-count="6">
+          <div style="display: grid; grid-template-columns: 190px 1fr; gap: 20px; padding: 13px 22px; border-bottom: 1px solid #f0f0f2; font-size: 13px; line-height: 1.55;">
+            <span style="font-weight: 600;">{{ r.k }}</span><span style="color: #494952;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">A practical note: the certified recoverable amount on the cover is a calculation under the stated rules and evidence. It is not an invoice, and it is not an assertion that a court has decided anything. It is the number the record supports.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">05 · The Trust Score, and why you only see certified reports</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">Every run produces a Trust Score from 0 to 100. It measures <strong>evidence coverage</strong> — how much of the data needed to check a finding was actually present — rather than confidence in the conclusion.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 14px;">
+        <div style="border: 1.5px solid #3c434d; border-radius: 14px; padding: 18px 20px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid #3c434d; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 13px; color: #3c434d;">85+</span><span style="font-weight: 600; font-size: 14px;">Certified</span></div>
+          <p style="margin: 10px 0 0; font-size: 12.5px; line-height: 1.55; color: #494952;">A CAAR is issued. Evidence coverage was complete enough to stand behind the figures. This is the only tier you will ever receive.</p>
+        </div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 20px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid #a1a1a6; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; color: #6e6e73;">75–84</span><span style="font-weight: 600; font-size: 14px; color: #494952;">Validated</span></div>
+          <p style="margin: 10px 0 0; font-size: 12.5px; line-height: 1.55; color: #6e6e73;">A sealed report goes to the operator listing every evidence gap and how to close it — but no CAAR, and no certified amount.</p>
+        </div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 20px;">
+          <div style="display: flex; align-items: center; gap: 10px;"><span style="width: 44px; height: 44px; display: grid; place-items: center; border: 2px solid #d9d9de; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 11px; color: #a1a1a6;">0–74</span><span style="font-weight: 600; font-size: 14px; color: #6e6e73;">Reviewed</span></div>
+          <p style="margin: 10px 0 0; font-size: 12.5px; line-height: 1.55; color: #6e6e73;">A sealed report goes to the operator with the gaps itemised. Again no CAAR, and no certified amount.</p>
+        </div>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13.5px; line-height: 1.6; max-width: 78ch; color: #494952;"><strong>If the evidence had been thin, you would not be holding this document.</strong> Nothing reaches you until the coverage threshold is met — so the Trust Score on your cover page is not a hedge; it is the residue of a gate the run had to pass before the report existed.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">06 · The record is fixed at issue</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">A CAAR is sealed the moment it is generated: its hash is computed over the final rendered document, which is written to an append-only vault under retention controls. From that point it cannot be edited — not by the operator, not by their accountant, not by FohBoh. The same applies to the source evidence, hashed at receipt before any rule ran. Two things follow, and they cut in both directions:</p>
+      <ul style="margin: 10px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.75; color: #494952; max-width: 78ch;">
+        <li><strong>The version in your inbox is the version that persists.</strong> Eighteen months from now, in front of an auditor or in a proceeding, the document produced will be byte-for-byte the one you are reading.</li>
+        <li><strong>The same permanence protects you.</strong> The operator cannot quietly enlarge a finding after you respond. Changing the figures requires a new certification — a new identifier, a new hash, and a visible relationship to this one.</li>
+      </ul>
+      <p style="margin: 10px 0 0; font-size: 12.5px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">Practical consequence: if you re-save, re-export, or print the PDF to a new file, the hash will no longer match — not because anything was falsified, but because the bytes changed. Keep the original as received; forward it rather than re-generating it.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">07 · Verifying it yourself</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">You do not need anything from FohBoh to check the seal. The hash is printed on the report — compute it on the file you received and compare, character for character.</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; max-width: 860px;">
+        <div style="background: #1d1d1f; border-radius: 12px; padding: 16px 20px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.5);">MACOS / LINUX</div><code style="display: block; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7ee0a3;">shasum -a 256 CAAR-M02-2026-07-000418.pdf</code></div>
+        <div style="background: #1d1d1f; border-radius: 12px; padding: 16px 20px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: rgba(255,255,255,0.5);">WINDOWS POWERSHELL</div><code style="display: block; margin-top: 8px; font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #7ee0a3;">Get-FileHash -Algorithm SHA256 .\CAAR-M02-2026-07-000418.pdf</code></div>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">A match means the document is exactly as issued. It does not, on its own, mean you agree with the findings — that is section 10 — but it removes one whole category of argument from the table, which is usually in everyone's interest.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">08 · Why the rules of evidence matter here</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">Not because anyone wants a courtroom — because the way this document is built determines how much of a conversation is left to have, and it is worth knowing what your counsel will see when you forward it.</p>
+      <div style="margin-top: 14px; border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden;">
+        <sc-for list="{{ freRows }}" as="r" hint-placeholder-count="4">
+          <div style="display: grid; grid-template-columns: 210px 1fr; gap: 20px; padding: 13px 22px; border-bottom: 1px solid #f0f0f2; font-size: 13px; line-height: 1.55;">
+            <span style="font-weight: 600;">{{ r.k }}</span><span style="color: #494952;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">Rule 1006(b) requires the offering party to make the underlying records available to the other side — the most common reason summaries get excluded. The evidence pack below is that tender, prepared in advance. None of this decides whether anything is owed; it means the argument, if there is one, will be about the numbers and the contract rather than about whether the document says what it says.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">09 · The evidence pack</div>
+      <p style="margin: 12px 0 0; font-size: 14px; line-height: 1.65; max-width: 78ch; color: #494952;">Alongside the CAAR, the operator can provide the complete evidence pack: every source record the reconciliation relied on, sealed, with the manifest tying each one to the findings it supports — including your own settlement and statement files exactly as you issued them. The pack exists so your team can reproduce the calculation independently. If your figure differs, working through the pack will show where the two diverge — a different denominator, a different effective date, a rate table never loaded, an amendment never provided. That is where most disagreements actually live. If you received the CAAR but not the pack, ask the operator for it.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">10 · Responding well</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px;">
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 22px;"><div style="font-weight: 600; font-size: 13.5px;">Reference the finding, not the report.</div><p style="margin: 6px 0 0; font-size: 12.5px; line-height: 1.55; color: #494952;">Findings are numbered. A response that addresses finding 4 specifically moves things forward; one that addresses "the claim" does not.</p></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 22px;"><div style="font-weight: 600; font-size: 13.5px;">If a document supersedes the contract basis, send it.</div><p style="margin: 6px 0 0; font-size: 12.5px; line-height: 1.55; color: #494952;">An amended addendum or countersigned tier change resolves a finding immediately — and if it was never provided to the operator, it could not have been loaded.</p></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 22px;"><div style="font-weight: 600; font-size: 13.5px;">If your own records differ, say where.</div><p style="margin: 6px 0 0; font-size: 12.5px; line-height: 1.55; color: #494952;">Give the transaction, batch or order identifiers. The manifest makes them directly comparable.</p></div>
+        <div style="border: 1px solid #e8e8ed; border-radius: 14px; padding: 18px 22px;"><div style="font-weight: 600; font-size: 13.5px;">If a finding is correct, credit it and set it aside.</div><p style="margin: 6px 0 0; font-size: 12.5px; line-height: 1.55; color: #494952;">Partial resolution is normal. Separating agreed items from disputed ones shrinks the conversation quickly.</p></div>
+      </div>
+      <div style="margin-top: 14px; border-left: 3px solid #d63031; padding: 12px 18px; background: #fdf5f5; border-radius: 0 10px 10px 0; max-width: 820px;">
+        <div style="font-weight: 600; font-size: 13.5px;">What does not work</div>
+        <p style="margin: 6px 0 0; font-size: 13px; line-height: 1.6; color: #494952;">A general denial, a restatement of policy, or a referral to a self-service portal will not close a certified claim — and it is itself preserved in the claim file. Operators track rejections; a third one typically moves the matter to outside counsel with the sealed pack attached, a worse outcome for both sides than a substantive reply now.</p>
+      </div>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">11 · If you disagree</div>
+      <div style="margin-top: 14px; border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden;">
+        <sc-for list="{{ disputeRows }}" as="r" hint-placeholder-count="4">
+          <div style="display: grid; grid-template-columns: 230px 1fr; gap: 20px; padding: 13px 22px; border-bottom: 1px solid #f0f0f2; font-size: 13px; line-height: 1.55;">
+            <span style="font-weight: 600;">{{ r.k }}</span><span style="color: #494952;">{{ r.v }}</span>
+          </div>
+        </sc-for>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">Notice what is not on that list: whether the numbers were assembled honestly, whether the evidence was selected to suit the conclusion, and whether the document was altered since issue. Those are the arguments the seal and pre-analysis hashing are designed to retire.</p>
+    </section>
+    <section>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">12 · What a CAAR does not claim</div>
+      <ul style="margin: 12px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.8; color: #494952; max-width: 78ch;">
+        <li><strong>Not a legal opinion,</strong> and not an independent audit under any auditing standard.</li>
+        <li><strong>Does not adjudicate liability.</strong> A certified recoverable amount is a calculation under stated rules and evidence, not a determination that you owe it.</li>
+        <li><strong>Does not guarantee admissibility.</strong> Authenticity without a live witness is a narrower thing; admissibility and weight are decided by a court. A custodian declaration describing how the report was produced is available on request.</li>
+        <li><strong>Does not certify your systems, compliance, or conduct</strong> — it certifies a reconciliation of defined data against defined terms, for one period.</li>
+        <li><strong>Cannot certify what it was not given.</strong> Records never provided are outside scope, and the report says which.</li>
+      </ul>
+    </section>
+    <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="background: #1d1d1f; border-radius: 16px; padding: 26px 30px; color: #ffffff;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55);">13 · Questions about the claim</div>
+        <p style="margin: 10px 0 0; font-size: 13.5px; line-height: 1.65; color: rgba(255,255,255,0.8);">The amount, the credit, the timing — go to the operator. It is their claim; FohBoh will not discuss it on their behalf or intervene in it.</p>
+      </div>
+      <div style="border: 1px solid #e8e8ed; border-radius: 16px; padding: 26px 30px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">Questions about the methodology</div>
+        <p style="margin: 10px 0 0; font-size: 13.5px; line-height: 1.65; color: #494952;">How a rule works, what a Trust Score band means, how to verify a seal — <a href="mailto:certification@fohboh.com?subject=CAAR%20methodology%20inquiry">certification@fohboh.com</a>. We answer for either party, because a methodology only one side understands is not much of a standard. See the <a href="caar-example.html">example report</a> before yours arrives.</p>
+      </div>
+    </section>
+  </div>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 20px 64px; display: flex; justify-content: space-between; font-size: 12.5px; color: #86868b;">
+    <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+    <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a></span>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      readRows: [
+        { k: 'Cover', v: 'The CAAR identifier, entity, period, module, total certified recoverable amount, and Trust Score. Quote the CAAR identifier in every reply — it is how both sides stay on the same document.' },
+        { k: 'Chain of custody', v: 'Each source file, when it was received, and its hash at receipt. Check the files listed are the ones you issued.' },
+        { k: 'Findings', v: 'One entry per discrepancy: what was billed, what the agreement provides for, the difference, the rule that fired, and the records involved. This is where a disagreement should be aimed.' },
+        { k: 'Contract basis', v: 'The specific provisions each finding is measured against, as loaded from the executed agreement. If an amendment supersedes one, this is the section to address.' },
+        { k: 'Evidence manifest', v: 'Every source record, by identifier. This is how a stated count becomes checkable.' },
+        { k: 'Seal', v: 'The SHA-256 hash of the final document, the rule-set version, and the timestamp of issue.' },
+      ],
+      freRows: [
+        { k: 'FRE 803(6) · Business records', v: 'The underlying records — your settlement files, the operator\u2019s point-of-sale export — are records of a regularly conducted activity. The foundation everything else rests on.' },
+        { k: 'FRE 902(13) · Self-authentication', v: 'A record generated by an electronic process that produces an accurate result, with a written certification. Authenticity does not require a live witness.' },
+        { k: 'FRE 902(14) · Hashed copies', v: 'Every source file is a copy authenticated by digital identification — the SHA-256 taken at receipt.' },
+        { k: 'FRE 1006 · Summaries', v: 'A calculation proving the content of voluminous records. Since the December 1, 2024 amendment, such a summary is admitted as substantive evidence — not a demonstrative aid.' },
+      ],
+      disputeRows: [
+        { k: 'The contract basis is wrong', v: 'An amendment, addendum or schedule change was in force and was not loaded. Provide the executed document with its effective date.' },
+        { k: 'The source data is incomplete', v: 'A file you issued was missing or partial. Identify it; the chain-of-custody section lists exactly what was received.' },
+        { k: 'The interpretation is contested', v: 'You read a provision differently. State your reading and cite the clause — a genuine dispute the record does not pretend to settle.' },
+        { k: 'The arithmetic is wrong', v: 'Rare, and checkable. Reproduce it from the pack and show the divergence. If a rule is defective, FohBoh wants to know.' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
