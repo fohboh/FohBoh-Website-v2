@@ -14,6 +14,16 @@
 <style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
 </helmet>
 <div style="background: #FAF9F6; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="index.html" aria-label="FohBoh.ai — Certified Intelligence" style="display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; white-space: nowrap;"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></a>
+    <a href="sentry.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="cortex.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Cortex™</a>
+    <a href="mge.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">MGE™</a>
+    <a href="caar-example.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Example CAAR</a>
+    <a href="partners.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Partners</a>
+    <a href="roi-simulator.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">ROI Simulator</a>
+    <a href="contact.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #6D28D9; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #7C3AED;">Book a demo</a>
+  </nav>
 <sc-if value="{{ hidden }}" hint-placeholder-val="{{ false }}">
   <div style="min-height: 60vh; display: grid; place-items: center; padding: 80px 64px;">
     <div style="text-align: center; max-width: 46ch;">
@@ -33,7 +43,7 @@
       <button type="button" onClick="{{ toggleBilling }}" aria-label="Toggle annual billing" style="{{ switchStyle }}">
         <span style="{{ thumbStyle }}"></span>
       </button>
-      <span onClick="{{ setAnnual }}" style="{{ annualLabelStyle }}">Annual&nbsp; <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; color: #0a7a3d; background: #e8f5ee; border-radius: 5px; padding: 3px 7px;">Save 15%</span></span>
+      <span onClick="{{ setAnnual }}" style="{{ annualLabelStyle }}">Annual&nbsp; <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; color: #007A7A; background: #e8f5ee; border-radius: 5px; padding: 3px 7px;">Save 15%</span></span>
     </div>
   </div>
   <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; padding: 32px 64px 8px; align-items: stretch;">
@@ -46,14 +56,14 @@
         </sc-for>
       </div>
       <sc-if value="{{ sentryOffer }}" hint-placeholder-val="{{ false }}">
-        <span style="align-self: flex-start; margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #0a7a3d; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 5px; padding: 3px 8px;">Special offer</span>
+        <span style="align-self: flex-start; margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #007A7A; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 5px; padding: 3px 8px;">Special offer</span>
       </sc-if>
       <div style="display: flex; align-items: baseline; gap: 8px; margin-top: 12px; flex-wrap: wrap;">
         <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px;">{{ sentryPrice }}</span>
         <sc-if value="{{ sentryOffer }}" hint-placeholder-val="{{ false }}"><span style="font-size: 16px; color: #b3b3b8; text-decoration: line-through;">{{ sentryWas }}</span></sc-if>
         <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
       </div>
-      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ sentryAnnualNote }}</div></sc-if>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #007A7A;">{{ sentryAnnualNote }}</div></sc-if>
       <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> {{ sentrySub }}</div>
       <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
       <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
@@ -71,7 +81,7 @@
         <span style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px;">{{ cortexPrice }}</span>
         <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
       </div>
-      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ cortexAnnualNote }}</div></sc-if>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #007A7A;">{{ cortexAnnualNote }}</div></sc-if>
       <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> Includes 150 Cortex Conversations per month.</div>
       <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
       <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
@@ -96,7 +106,7 @@
         <span style="font-size: 16px; color: #b3b3b8; text-decoration: line-through;">{{ bundleWas }}</span>
         <span style="font-size: 13px; color: #6e6e73;">/ location / month</span>
       </div>
-      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #0a7a3d;">{{ bundleAnnualNote }}</div></sc-if>
+      <sc-if value="{{ annual }}" hint-placeholder-val="{{ false }}"><div style="margin-top: 4px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; color: #007A7A;">{{ bundleAnnualNote }}</div></sc-if>
       <div style="margin-top: 10px; font-size: 12.5px; line-height: 1.5; color: #86868b; min-height: 40px;"><span style="color: #494952; font-weight: 500;">Minimum 25 locations.</span> {{ bundleSub }} + 10–15% of certified recoverable value, invoiced on seal.</div>
       <div style="height: 1px; background: #e8e8ed; margin: 16px 0;"></div>
       <ul style="margin: 0 0 22px; padding-left: 18px; font-size: 13.5px; line-height: 1.85; color: #494952; flex: 1;">
@@ -134,11 +144,11 @@
           </sc-if>
           <sc-if value="{{ r.isPlan }}" hint-placeholder-val="{{ false }}">
             <div style="display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 1fr; padding: 11px 30px; font-size: 13px; border-bottom: 1px solid #f0f0f2; background: {{ r.bg }}; align-items: baseline;">
-              <span>{{ r.name }} <sc-if value="{{ r.hasPill }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #0a7a3d; background: #e8f5ee; border-radius: 4px; padding: 2px 6px; margin-left: 6px;">{{ r.pill }}</span></sc-if></span>
+              <span>{{ r.name }} <sc-if value="{{ r.hasPill }}" hint-placeholder-val="{{ false }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #007A7A; background: #e8f5ee; border-radius: 4px; padding: 2px 6px; margin-left: 6px;">{{ r.pill }}</span></sc-if></span>
               <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.monthly }}</span>
               <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.annualMo }}</span>
               <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px;">{{ r.annualYr }}</span>
-              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #0a7a3d;">{{ r.save }}</span>
+              <span style="text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 12.5px; color: #007A7A;">{{ r.save }}</span>
             </div>
           </sc-if>
         </sc-for>
@@ -157,7 +167,7 @@
   </div>
   <div style="padding: 28px 64px 48px;">
     <p style="margin: 0; font-size: 12px; line-height: 1.7; color: #86868b; max-width: 90ch;">All operator plans require a minimum of 25 locations. The CAAR transaction fee is not a bounty and is not contingent on collection — it is invoiced automatically when a CAAR seals on certified recoverable value and traces back to the specific certified run. Annual billing applies to the platform subscription only; CAAR fees are invoiced per certified run regardless of billing cycle.</p>
-    <p style="margin: 14px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #6e6e73;">◈ POWERED BY MGE™ — EVERY NUMBER ON THIS PAGE RUNS THROUGH THE SAME DETERMINISTIC GOVERNANCE CORE YOUR TEAM WILL USE.</p>
+    <p style="margin: 14px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.06em; color: #007A7A;">◈ POWERED BY MGE™ — EVERY NUMBER ON THIS PAGE RUNS THROUGH THE SAME DETERMINISTIC GOVERNANCE CORE YOUR TEAM WILL USE.</p>
     <div style="display: flex; justify-content: center; margin-top: 36px;">
       <a href="roi-simulator.html" style="display: inline-flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #ffffff; background: #6D28D9; text-decoration: none; padding: 13px 26px; border-radius: 980px;" style-hover="background: #7C3AED;">Try our ROI Simulator →</a>
     </div>
@@ -263,7 +273,7 @@
       toggleBilling: () => setBilling(!annual),
       monthlyLabelStyle: 'font-size: 13.5px; cursor: pointer; user-select: none; font-weight: ' + (annual ? '400' : '600') + '; color: ' + (annual ? '#86868b' : '#1d1d1f') + ';',
       annualLabelStyle: 'display: flex; align-items: center; gap: 8px; font-size: 13.5px; cursor: pointer; user-select: none; font-weight: ' + (annual ? '600' : '400') + '; color: ' + (annual ? '#1d1d1f' : '#86868b') + ';',
-      switchStyle: 'position: relative; width: 46px; height: 26px; border-radius: 980px; border: none; cursor: pointer; padding: 0; transition: background 0.25s ease; background: ' + (annual ? '#0a7a3d' : '#c9c9d1') + ';',
+      switchStyle: 'position: relative; width: 46px; height: 26px; border-radius: 980px; border: none; cursor: pointer; padding: 0; transition: background 0.25s ease; background: ' + (annual ? '#007A7A' : '#c9c9d1') + ';',
       thumbStyle: 'position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.25); transition: transform 0.25s ease; transform: translateX(' + (annual ? '20px' : '0px') + ');',
       sentryOpts: Object.keys(S).map((k) => ({ label: S[k].label, style: btnStyle(k === sentryKey), pick: () => this.setState({ sentryKey: k }) })),
       bundleOpts: Object.keys(B).map((k) => ({ label: B[k].label, style: btnStyle(k === bundleKey), pick: () => this.setState({ bundleKey: k }) })),
