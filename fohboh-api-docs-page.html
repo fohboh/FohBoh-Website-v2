@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FohBoh | MGE — API Documentation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#d63031;--red-dim:rgba(214,48,49,.12);--red-bdr:rgba(214,48,49,.28);
+  --green:#00c853;--green-dim:rgba(0,200,83,.10);--green-bdr:rgba(0,200,83,.28);
+  --gold:#f5c842;--gold-dim:rgba(245,200,66,.11);--gold-bdr:rgba(245,200,66,.28);
+  --ink:#07090f;--card:#0d1017;--card2:#111520;
+  --bdr:rgba(255,255,255,.07);--bdr-hi:rgba(255,255,255,.13);
+  --t0:#f8faff;--t1:#e8ecf4;--t2:#8892a4;--t3:#4a5568;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',system-ui,sans-serif;background:var(--ink);color:var(--t0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ── Layout ── */
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.sec{padding:72px 0}
+hr.div{border:none;border-top:1px solid var(--bdr);margin:0}
+
+/* ── Top bar ── */
+.topbar{padding:22px 0;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:10;background:rgba(7,9,15,.85);backdrop-filter:blur(14px)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--t0);letter-spacing:-.01em;text-decoration:none}
+.brand .pipe{color:var(--t3);margin:0 8px}
+.brand .product{color:var(--red)}
+.brand-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:4px}
+.topnav{display:flex;gap:6px;align-items:center}
+.topnav a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:7px 14px;border-radius:6px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s}
+.topnav a:hover{color:var(--t0);border-color:var(--bdr-hi);background:rgba(255,255,255,.03)}
+.topnav a.active{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+
+/* ── Type ── */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.kicker::before{content:'';width:20px;height:1px;background:var(--red);flex-shrink:0}
+.kicker.green{color:var(--green)}.kicker.green::before{background:var(--green)}
+.kicker.gold{color:var(--gold)}.kicker.gold::before{background:var(--gold)}
+h1{font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--t0)}
+h1 em{font-style:normal;color:var(--red)}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--t0)}
+h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
+.lead{font-size:1rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:580px}
+
+/* ── Tag atoms ── */
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid}
+.tag-r{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+.tag-g{color:var(--green);border-color:var(--green-bdr);background:var(--green-dim)}
+.tag-n{color:var(--t2);border-color:var(--bdr-hi);background:rgba(255,255,255,.04)}
+
+/* ── Header ── */
+.header{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden}
+.header-bg{position:absolute;inset:0;pointer-events:none}
+.header-bg::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:680px;height:480px;background:radial-gradient(ellipse,rgba(214,48,49,.13) 0%,transparent 65%)}
+.header-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--red-dim);border:1px solid var(--red-bdr);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:28px}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);animation:gp 2s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:1}50%{opacity:.3}}
+.header h1{max-width:800px;margin:0 auto 20px}
+.header .lead{margin:0 auto 36px;text-align:center}
+.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+
+/* ── Status banner ── */
+.status-banner{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--gold-bdr);border-radius:16px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:40px;position:relative;overflow:hidden}
+.status-banner::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.status-text strong{display:block;font-size:15px;color:var(--t0);font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.status-text strong em{font-style:normal;color:var(--gold)}
+.status-text small{font-size:12px;color:var(--t2);font-weight:300;letter-spacing:0}
+.status-pill{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-bdr);padding:8px 14px;border-radius:6px;white-space:nowrap}
+.status-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:gp 2s ease-in-out infinite}
+
+/* ── Support / feature grid ── */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+.feat-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:22px 24px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s}
+.feat-card:hover{border-color:var(--bdr-hi)}
+.feat-num{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--red);background:var(--red-dim);border:1px solid var(--red-bdr);padding:4px 9px;border-radius:6px;flex-shrink:0;line-height:1}
+.feat-text{font-size:13px;color:var(--t1);font-weight:300;line-height:1.65}
+
+/* ── Principles ── */
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+.principle{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 24px;position:relative;overflow:hidden;transition:border-color .2s}
+.principle:hover{border-color:var(--bdr-hi)}
+.principle::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.principle:nth-child(1)::before{background:linear-gradient(90deg,var(--green),transparent)}
+.principle:nth-child(2)::before{background:linear-gradient(90deg,var(--red),transparent)}
+.principle:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.principle-icon{font-size:24px;display:block;margin-bottom:14px}
+.principle-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.principle:nth-child(1) .principle-num{color:var(--green)}
+.principle:nth-child(2) .principle-num{color:var(--red)}
+.principle:nth-child(3) .principle-num{color:var(--gold)}
+.principle h3{font-size:15px;font-weight:700;color:var(--t0);margin-bottom:10px;letter-spacing:-.01em;line-height:1.3}
+.principle p{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.7}
+
+/* ── Standards list ── */
+.standards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
+.standard-item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--t2)}
+.standard-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* ── Access / Advisory split ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.access-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 26px}
+.access-card h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--t0);margin-bottom:16px}
+.access-card ul{list-style:none;margin:0;padding:0}
+.access-card li{font-size:13px;color:var(--t1);font-weight:300;line-height:1.85;display:flex;align-items:flex-start;gap:10px}
+.access-card li::before{content:'→';color:var(--red);font-weight:700;flex-shrink:0}
+.access-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.advisory{background:var(--red-dim);border:1px solid var(--red-bdr);border-radius:16px;padding:28px 26px}
+.advisory-mark{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.advisory-mark::before{content:'⚠';font-size:13px}
+.advisory p{font-size:12.5px;color:var(--t1);font-weight:300;line-height:1.7}
+
+/* ── Contact CTA ── */
+.contact-cta{margin-top:0;background:linear-gradient(135deg,rgba(214,48,49,.07),rgba(0,200,83,.05));border:1px solid var(--red-bdr);border-radius:20px;padding:48px 48px;text-align:center;position:relative;overflow:hidden}
+.contact-cta::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(ellipse,rgba(214,48,49,.1),transparent 70%);pointer-events:none}
+.contact-cta-mark{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:16px;position:relative;z-index:1}
+.contact-cta h2{margin-bottom:10px;position:relative;z-index:1}
+.contact-cta h2 em{font-style:normal;color:var(--red)}
+.contact-cta p{font-size:13.5px;color:var(--t2);font-weight:300;margin-bottom:26px;position:relative;z-index:1}
+.contact-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none;border:1px solid var(--red);transition:transform .2s,box-shadow .2s,background .2s;position:relative;z-index:1}
+.contact-btn::before{content:'✉';font-family:'Sora',sans-serif;font-size:13px}
+.contact-btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(214,48,49,.35);background:#e63a3b}
+
+/* ── Footer ── */
+.footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
+.footer p{font-size:12px;color:var(--t3);line-height:2}
+.footer strong{color:var(--t2)}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;margin-top:6px}
+.footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--red)}
+
+/* ── Responsive ── */
+@media(max-width:780px){
+  .feat-grid,.principles,.standards,.split{grid-template-columns:1fr}
+  .contact-cta{padding:36px 26px}
+  .topnav{gap:2px}
+  .topnav a{padding:6px 10px;font-size:9px}
+  .status-banner{flex-direction:column;align-items:flex-start}
+}
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back-home" aria-label="Back to home">← Home</a>
+<script>(function(){try{var f=new URLSearchParams(location.search).get('from');if(!f)return;var b=document.querySelector('a.back-home');if(!b)return;b.setAttribute('href','index.html#'+encodeURIComponent(f));b.setAttribute('aria-label','Back');b.textContent='← Back';}catch(e){}})();</script>
+
+<!-- ── TOP BAR ── -->
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="index.html" class="brand">
+      FohBoh<span class="pipe">|</span><span class="product">MGE</span>
+      <span class="brand-sub">Metric Governance &amp; Certification</span>
+    </a>
+    <nav class="topnav">
+      <a href="fohboh-mge.html">Modules</a>
+      <a href="fohboh-usecases.html">Use Cases</a>
+      <a href="index.html#faq">Help</a>
+      <a href="fohboh-api-docs-page.html" class="active">API Docs</a>
+    </nav>
+  </div>
+</div>
+
+<!-- ── HEADER ── -->
+<div class="header">
+  <div class="header-bg"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="eyebrow">Developer Portal</div>
+    <h1>API <em>Documentation.</em></h1>
+    <p class="lead">FohBoh.ai is building a public, schema-first API that provides programmatic access to the Metrics Governance Engine (MGE) — for developers, platforms, and enterprises that want to integrate data certification and Trust Scores directly into their systems, workflows, and products.</p>
+    <div class="header-tags">
+      <span class="tag tag-r">Schema-First</span>
+      <span class="tag tag-g">Deterministic</span>
+      <span class="tag tag-r">Versioned</span>
+      <span class="tag tag-g">Auditable</span>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── STATUS + SUPPORT ── -->
+<div class="sec">
+  <div class="wrap">
+
+    <div class="status-banner">
+      <div class="status-text">
+        <strong>API Status: <em>Pre-Release</em></strong>
+        <small>Under active development. Launching Q2 2026.</small>
+      </div>
+      <div class="status-pill">Active Development</div>
+    </div>
+
+    <p class="kicker">Capabilities</p>
+    <h2>What the Public API Will Support</h2>
+    <p class="lead">Four primary integration surfaces — covering submission, retrieval, transparency, and platform connectivity.</p>
+
+    <div class="feat-grid">
+      <div class="feat-card">
+        <span class="feat-num">01</span>
+        <span class="feat-text">Submission of operational and financial data for governance evaluation.</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">02</span>
+        <span class="feat-text">Retrieval of Trust Scores, certifications, and evidence packages.</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">03</span>
+        <span class="feat-text">Metrics and rule transparency via schema-first contracts.</span>
+      </div>
+      <div class="feat-card">
+        <span class="feat-num">04</span>
+        <span class="feat-text">Integration with POS, back-office, financial, and analytics platforms.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── TECHNICAL PRINCIPLES ── -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker green">Architectural Posture</p>
+    <h2>Technical Principles</h2>
+    <p class="lead">Three commitments that govern every endpoint, every payload, every release.</p>
+
+    <div class="principles">
+      <div class="principle">
+        <span class="principle-icon">◎</span>
+        <div class="principle-num">Principle 01</div>
+        <h3>Deterministic</h3>
+        <p>No opaque or advisory logic. Results are computed via auditable governance schemas. Same input, same output, every time.</p>
+      </div>
+      <div class="principle">
+        <span class="principle-icon">▤</span>
+        <div class="principle-num">Principle 02</div>
+        <h3>Versioned</h3>
+        <p>Stable, backward-compatible endpoints for production-grade reliability. Deprecations are announced with long lead times.</p>
+      </div>
+      <div class="principle">
+        <span class="principle-icon">▣</span>
+        <div class="principle-num">Principle 03</div>
+        <h3>Auditable</h3>
+        <p>Evidence and reasoning payloads are included in every response. You always see the rule that produced the result.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── DOCUMENTATION & STANDARDS ── -->
+<div class="sec">
+  <div class="wrap">
+    <p class="kicker gold">Standards</p>
+    <h2>Documentation &amp; Conventions</h2>
+    <p class="lead">When available, documentation will include versioned schemas, examples, and integration guidance — following RESTful conventions and OpenAPI specifications.</p>
+
+    <div class="standards">
+      <div class="standard-item">Auth · API Keys · OAuth</div>
+      <div class="standard-item">Response Schemas</div>
+      <div class="standard-item">Example Payloads</div>
+      <div class="standard-item">Error Handling</div>
+      <div class="standard-item">Rate Limits</div>
+      <div class="standard-item">Deprecation Policy</div>
+    </div>
+
+    <div class="split">
+      <div class="access-card">
+        <h3>Access &amp; Usage</h3>
+        <ul>
+          <li>Account registration required</li>
+          <li>Acceptance of API Terms of Use</li>
+          <li>Rate limits and fair-use policies apply</li>
+        </ul>
+        <div class="access-foot">Commercial usage may require a paid tier</div>
+      </div>
+      <div class="advisory">
+        <div class="advisory-mark">No Advisory Services</div>
+        <p>The FohBoh.ai API exposes governance and certification outputs only. It does not provide financial, accounting, legal, tax, labor, or operational advice.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="div">
+
+<!-- ── CONTACT CTA ── -->
+<div class="sec">
+  <div class="wrap">
+    <div class="contact-cta">
+      <div class="contact-cta-mark">Get Notified</div>
+      <h2>Be First to <em>Integrate.</em></h2>
+      <p>To be notified upon release or to discuss integration plans:</p>
+      <a href="mailto:hello@fohboh.com" class="contact-btn">hello@fohboh.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<div class="footer">
+  <div class="wrap">
+    <p><strong>© 2026 FohBoh.ai, Inc.</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; US Patent Pending</p>
+    <div class="footer-links">
+      <a href="https://fohbohsentry.com" target="_blank" rel="noopener">Sentry™</a>
+      <a href="fohboh-cortext.html">Cortex™</a>
+      <a href="fohboh-mge.html">MGE™</a>
+      <a href="fohboh-architecture.html">Architecture</a>
+      <a href="index.html">Admin Portal</a>
+      <a href="index.html#contact-form">Contact Us</a>
+      <a href="terms.html">Terms &amp; Conditions</a>
+      <a href="fohboh-api-docs-page.html">API Docs</a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
