@@ -26,8 +26,7 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}@keyframes omSlideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}@keyframes omXfadeA{0%,42%{opacity:1}50%,92%{opacity:0}100%{opacity:1}}@keyframes omXfadeB{0%,42%{opacity:0}50%,92%{opacity:1}100%{opacity:0}}@media (prefers-reduced-motion: reduce){.om-xfade-a,.om-xfade-b{animation:none !important}.om-xfade-b{opacity:0 !important}}</style>
-<link rel="stylesheet" href="mobile-fix.css">
+<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}@keyframes omSlideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}</style>
 </helmet>
 <div style="background: #FAF9F6; min-width: 1120px;">
 
@@ -70,7 +69,7 @@
         </div>
       </sc-if>
       <div style="position: relative; display: {{ graphicDisplay }};">
-        <div class="om-xfade-a" style="animation: omXfadeA 18s ease-in-out infinite;">
+        <div class="om-xfade-a">
         <div style="zoom: 0.5; display: flex; justify-content: center;">
       <div style="transform: rotate(-3deg); width: 780px; margin: 0 auto; display: grid; grid-template-columns: 170px 56px 1fr; align-items: center;">
       <div style="background: #ffffff; border: 1px solid #e0e0e5; border-radius: 14px; padding: 18px 18px; box-shadow: -14px 18px 36px rgba(29,29,31,0.1);">
@@ -138,9 +137,6 @@
     </div>
       </div>
       
-        </div>
-        <div class="om-xfade-b" style="position: absolute; inset: 0; display: grid; place-items: center; background: #ffffff; opacity: 0; animation: omXfadeB 18s ease-in-out infinite;">
-          <img src="assets/mge-structural-moat.png" alt="FohBoh MGE structural defensibility elements — architectural blueprint" style="max-width: 100%; max-height: 100%; object-fit: contain;">
         </div>
       </div>
       <figcaption style="margin-top: 20px; padding-top: 12px; border-top: 1px solid #e8e8ed; font-size: 12px; text-align: center; color: #86868b;">The FohBoh.ai Platform — one engine, three certified products · structural defensibility, drawn to scale</figcaption>
@@ -350,6 +346,5 @@ class Component extends DCLogic {
   }
 }
 </script>
-<script src="mobile-fix.js" defer></script>
 </body>
 </html>
