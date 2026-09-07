@@ -102,17 +102,65 @@ div[style*="min-width: 1120px"] {
   }
 }
 
-/* 5. Decorative fixed-width mockup graphics — scale down instead of
-   forcing page-wide overflow. */
+/* 5. Homepage platform-diagram mockup. It was built for desktop only:
+   a fixed 780px canvas (rotated 3deg) rendered at zoom:0.5 to fit the
+   hero card, with an inner 170px/56px/1fr grid (icon column | arrow |
+   product-card stack). None of that scales — on a phone the 1fr column
+   gets squeezed so hard that nowrap badges ("Deterministic core",
+   "Certified-only") clip off the right edge. Neutralize the desktop
+   scaling trick and let it stack full-width instead. */
 @media (max-width: 820px) {
-  div[style*="width: 780px"] { width: 100% !important; max-width: 420px; }
+  div[style*="zoom: 0.5"] { zoom: 1 !important; }
+  div[style*="width: 780px"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    transform: none !important;
+  }
+  div[style*="grid-template-columns: 170px 56px 1fr"] {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    row-gap: 12px;
+  }
   img[style*="width: 430px"] { width: 100% !important; max-width: 320px; height: auto !important; }
 }
 
-/* 6. Fluid hero type. */
+/* 6. Any space-between flex row (card titles next to a badge, CTA text
+   next to buttons, footer rows) — these pair a flexible item with a
+   nowrap/flex-shrink:0 item and no wrap, so on a phone the second item
+   either clips or spills outside the card. Wrapping is a no-op when
+   content already fits, so this is safe sitewide. */
+@media (max-width: 700px) {
+  [style*="justify-content: space-between"] {
+    flex-wrap: wrap !important;
+    row-gap: 14px;
+  }
+}
+
+/* 7. Fluid hero type. */
 @media (max-width: 640px) {
   h1 { font-size: clamp(28px, 8vw, 40px) !important; line-height: 1.15 !important; }
 }
 
-/* 7. General safety net. */
+/* 8. Universal 64px desktop gutter. Nearly every full-width section on
+   every page uses 64px as its horizontal padding or margin (nav, hero,
+   stat rows, footer rows, CTA cards, legal pages) — on a 375px phone
+   that alone consumes a third of the screen before any content renders,
+   which is why cards, buttons and CTA rows were spilling past the edge
+   even after the grid/flex fixes above. Reduce just the horizontal
+   component; top/bottom spacing (never 64px in this codebase) is
+   untouched. Scoped to elements that actually declare padding/margin,
+   so fixed-size icons/badges that merely happen to be 64px square
+   (checked against the live site) are not matched. */
+@media (max-width: 700px) {
+  [style*="padding:"][style*="64px"] {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  [style*="margin:"][style*="64px"] {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+/* 9. General safety net. */
 img, iframe, video { max-width: 100%; }
