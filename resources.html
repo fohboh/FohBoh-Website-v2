@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#0A0A0A;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}img,iframe,video{max-width:100%}</style>
+<link rel="stylesheet" href="mobile-fix.css">
 </helmet>
 <div style="background: #FAF9F6; min-width: 0;">
   <nav style="display: flex; flex-wrap: wrap; align-items: center; gap: 22px; padding: 14px clamp(20px, 5vw, 64px); border-bottom: 1px solid #e8e8ed;">
@@ -47,9 +48,12 @@
     <h2 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 24px;">Video library</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; margin-top: 18px;">
       <sc-for list="{{ videos }}" as="v" hint-placeholder-count="14">
-        <div style="border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden;">
-          <div style="position: relative; aspect-ratio: 16 / 9; background: #1d1d1f;"><iframe src="{{ v.src }}" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;" allow="fullscreen; picture-in-picture" allowfullscreen="allowfullscreen" title="{{ v.title }}"></iframe></div>
-          <div style="padding: 12px 16px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 14px;">{{ v.title }}</div><div style="margin-top: 3px; font-size: 12px; color: #6e6e73;">{{ v.blurb }}</div></div>
+        <div class="fb-video-card" data-src="{{ v.src }}" style="border: 1px solid #e8e8ed; border-radius: 14px; overflow: hidden; cursor: pointer;">
+          <div style="position: relative; aspect-ratio: 16 / 9; background: #1d1d1f;">
+            <img src="{{ v.thumb }}" alt="{{ v.title }}" loading="lazy" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+            <div style="position: absolute; inset: 0; display: grid; place-items: center;"><div style="width: 46px; height: 46px; border-radius: 50%; background: rgba(10,10,10,0.55); display: grid; place-items: center;"><div style="width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 13px solid #ffffff; margin-left: 3px;"></div></div></div>
+          </div>
+          <div style="padding: 12px 16px;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 14px;">{{ v.title }}</div><div style="margin-top: 3px; font-size: 12px; color: #6e6e73; line-height: 1.5;">{{ v.blurb }}</div></div>
         </div>
       </sc-for>
     </div>
@@ -110,6 +114,16 @@
     </div>
   </footer>
 </div>
+  <div id="fb-video-modal" style="display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(10,10,10,0.86); align-items: center; justify-content: center; padding: 24px;">
+    <div style="width: 100%; max-width: 960px;">
+      <div style="display: flex; justify-content: flex-end; margin-bottom: 10px;">
+        <button id="fb-video-close" aria-label="Close video" style="background: none; border: 1px solid rgba(255,255,255,0.35); color: #ffffff; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 18px; line-height: 1;">&times;</button>
+      </div>
+      <div style="position: relative; aspect-ratio: 16 / 9; background: #000000; border-radius: 10px; overflow: hidden;">
+        <iframe id="fb-video-frame" src="" style="position: absolute; inset: 0; width: 100%; height: 100%; border: 0;" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen="allowfullscreen" title="Video player"></iframe>
+      </div>
+    </div>
+  </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
@@ -118,24 +132,23 @@ class Component extends DCLogic {
     const P = 'https://player.vimeo.com/video/';
     return {
       videos: [
-        { src: P + '1223121308', title: 'FohBoh | MGE™ — the missing organ', blurb: 'Why restaurant data needs a governance core.' },
-        { src: P + '1212469185?h=0908d411c0', title: 'FohBoh | Sentry™ in two minutes', blurb: 'M01 + M02 recovery, certified end to end.' },
-        { src: P + '1212469186?h=103bfa7990', title: 'FohBoh | Cortex™ — ops intelligence', blurb: 'Certified answers, at store and above store.' },
-        { src: P + '1212469221', title: 'Understanding economic leakage', blurb: 'Where 3–7% of revenue per location goes.' },
-        { src: P + '1212469220?h=5305ff51dc', title: 'How certification works — M02', blurb: 'Delivery Service Provider fee certification.' },
-        { src: P + '1212469183?h=f9e6cbf42a', title: 'FohBoh | MGE™ overview', blurb: 'The Metrics Governance Engine, explained.' },
-        { src: P + '1180521433?h=0913feca26', title: 'The trust layer AI depends on', blurb: 'Who and what FohBoh.ai is and does.' },
-        { src: P + '1165044320?h=b7c312222c', title: 'Deterministic metrics — KPI Registry & Vault', blurb: 'Accurate, bankable data inside MGE™.' },
-        { src: P + '1223840417', title: 'The Explainer', blurb: 'From the FohBoh video library.' },
-        { src: P + '1165053197?h=93594f5a75', title: 'Certified Intelligence™', blurb: 'Restaurant AI + metrics governance, together.' },
-        { src: P + '1222848686', title: 'FohBoh platform briefing I', blurb: 'From the FohBoh video library.' },
-        { src: P + '1222827335', title: 'FohBoh platform briefing II', blurb: 'From the FohBoh video library.' },
-        { src: P + '1163319198', title: 'FohBoh platform briefing III', blurb: 'From the FohBoh video library.' },
-        { src: P + '1223134765', title: 'FohBoh platform briefing IV', blurb: 'From the FohBoh video library.' },
-        { src: P + '1223121306', title: 'FohBoh platform briefing V', blurb: 'From the FohBoh video library.' },
-      ],
+        { id: '1223121308', src: P + '1223121308', title: 'FohBoh | MGE™ — the missing organ', blurb: 'Why restaurant data needs a governance core.' },
+        { id: '1212469185', src: P + '1212469185?h=0908d411c0', title: 'FohBoh | Sentry™ in two minutes', blurb: 'M01 + M02 recovery, certified end to end.' },
+        { id: '1212469186', src: P + '1212469186?h=103bfa7990', title: 'FohBoh | Cortex™ — ops intelligence', blurb: 'Certified answers, at store and above store.' },
+        { id: '1212469221', src: P + '1212469221', title: 'Understanding economic leakage', blurb: 'Where 3–7% of revenue per location goes.' },
+        { id: '1212469220', src: P + '1212469220?h=5305ff51dc', title: 'How certification works — M02', blurb: 'Delivery Service Provider fee certification.' },
+        { id: '1212469183', src: P + '1212469183?h=f9e6cbf42a', title: 'FohBoh | MGE™ overview', blurb: 'The Metrics Governance Engine, explained.' },
+        { id: '1180521433', src: P + '1180521433?h=0913feca26', title: 'The trust layer AI depends on', blurb: 'Who and what FohBoh.ai is and does.' },
+        { id: '1165044320', src: P + '1165044320?h=b7c312222c', title: 'Deterministic metrics — KPI Registry & Vault', blurb: 'Accurate, bankable data inside MGE™.' },
+        { id: '1223840417', src: P + '1223840417', title: 'The Explainer', blurb: 'The 90-second summary of what FohBoh does.' },
+        { id: '1165053197', src: P + '1165053197?h=93594f5a75', title: 'Certified Intelligence™', blurb: 'Restaurant AI + metrics governance, together.' },
+        { id: '1222848686', src: P + '1222848686', title: 'FohBoh platform briefing I', blurb: 'The problem: why restaurant data goes uncertified today.' },
+        { id: '1222827335', src: P + '1222827335', title: 'FohBoh platform briefing II', blurb: 'The engine: inside the 8-step certification pipeline.' },
+        { id: '1163319198', src: P + '1163319198', title: 'FohBoh platform briefing III', blurb: 'The products: Sentry™ and Cortex™, built on one core.' },
+        { id: '1223134765', src: P + '1223134765', title: 'FohBoh platform briefing IV', blurb: 'The proof: Trust Gates, MQ6 scoring, evidence chains.' },
+        { id: '1223121306', src: P + '1223121306', title: 'FohBoh platform briefing V', blurb: 'Getting started: what onboarding looks like.' },
+      ].map(v => ({ ...v, thumb: 'https://vumbnail.com/' + v.id + '.jpg' })),
       articles: [
-        { tag: 'Research', title: 'The $47B leak: where restaurant revenue actually goes', blurb: 'Industry-wide leakage, category by category.', href: B },
         { tag: 'Guides', title: 'Reading your processor statement like an auditor', blurb: 'Downgrades, markups, and fees that should not be there.', href: B },
         { tag: 'Above-Store Intel', title: 'Why every KPI needs a Trust Score', blurb: 'Confidence in the process, not approval of the result.', href: B },
         { tag: 'Restaurant AI', title: 'Deterministic vs. probabilistic: AI you can defend', blurb: 'Same input, same output — and why that matters legally.', href: B },
@@ -157,6 +170,38 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script src="mobile-fix.js" defer></script>
+<script>
+(function () {
+  var modal, frame;
+  function refs() {
+    modal = modal || document.getElementById('fb-video-modal');
+    frame = frame || document.getElementById('fb-video-frame');
+  }
+  function openVideo(src) {
+    refs();
+    if (!modal || !frame) return;
+    frame.src = src;
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+  function closeVideo() {
+    refs();
+    if (!modal) return;
+    modal.style.display = 'none';
+    frame.src = '';
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('click', function (e) {
+    var card = e.target.closest('.fb-video-card');
+    if (card) { openVideo(card.getAttribute('data-src')); return; }
+    if (e.target.id === 'fb-video-close' || e.target.id === 'fb-video-modal') closeVideo();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeVideo();
+  });
+})();
 </script>
 </body>
 </html>
