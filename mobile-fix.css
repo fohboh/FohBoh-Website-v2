@@ -164,3 +164,10 @@ div[style*="min-width: 1120px"] {
 
 /* 9. General safety net. */
 img, iframe, video { max-width: 100%; }
+
+/* 10. Phone nav (added Oct 2026): the brand lockup plus the "Certified
+   Intelligence" tagline was wider than a 390px phone, pushing the hamburger
+   off-screen. Hide the tagline and its divider on narrow screens. */
+@media (max-width: 520px) {
+  nav[style*="padding: 14px 64px"] > a:first-child > span:not(:first-of-type) { display: none; }
+}

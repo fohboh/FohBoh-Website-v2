@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20x%3D'6'%20y%3D'4'%20width%3D'48'%20height%3D'44'%20fill%3D'%230B1F3B'%2F%3E%3Crect%20x%3D'46'%20y%3D'52'%20width%3D'48'%20height%3D'44'%20fill%3D'%236D28D9'%2F%3E%3Crect%20x%3D'27'%20y%3D'29'%20width%3D'46'%20height%3D'42'%20fill%3D'%2300A7A7'%20stroke%3D'%23FAF9F6'%20stroke-width%3D'7'%2F%3E%3C%2Fsvg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FohBoh | ROI Simulator — how recovery pays for the platform</title>
-<meta name="description" content="Enter your operational reality and see what Sentry recovers — net of the platform investment. Every number stays in your browser.">
+<title>FohBoh | ROI Simulator — what Sentry could certify</title>
+<meta name="description" content="Estimate what Sentry could certify for recovery, net of its subscription and CAAR fee. An estimate only; every number stays in your browser.">
 <link rel="canonical" href="https://fohboh.ai/roi-simulator.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FohBoh.ai">
 <meta property="og:url" content="https://fohboh.ai/roi-simulator.html">
-<meta property="og:title" content="FohBoh | ROI Simulator — how recovery pays for the platform">
-<meta property="og:description" content="Enter your operational reality and see what Sentry recovers — net of the platform investment. Every number stays in your browser.">
+<meta property="og:title" content="FohBoh | ROI Simulator — what Sentry could certify">
+<meta property="og:description" content="Estimate what Sentry could certify for recovery, net of its subscription and CAAR fee. An estimate only; every number stays in your browser.">
 <meta property="og:image" content="https://fohboh.ai/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FohBoh | ROI Simulator — how recovery pays for the platform">
-<meta name="twitter:description" content="Enter your operational reality and see what Sentry recovers — net of the platform investment. Every number stays in your browser.">
+<meta name="twitter:title" content="FohBoh | ROI Simulator — what Sentry could certify">
+<meta name="twitter:description" content="Estimate what Sentry could certify for recovery, net of its subscription and CAAR fee. An estimate only; every number stays in your browser.">
 <meta name="twitter:image" content="https://fohboh.ai/assets/og-card.png">
 <script src="./support.js"></script>
 </head>
@@ -38,16 +38,16 @@
   </nav>
   <div style="padding: 48px 64px 24px; max-width: 1200px;">
     <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Sentry ROI Simulator</span>
-    <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.1; letter-spacing: -0.02em; max-width: 26ch;">How revenue recovery pays for the platform.</h1>
-    <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.55; max-width: 66ch; color: #494952;">Enter your operational reality and see what Sentry recovers — net of the platform investment. Contract − reality = recoverable. Every number stays in your browser.</p>
+    <h1 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.1; letter-spacing: -0.02em; max-width: 26ch;">What Sentry could certify for you, net of its cost.</h1>
+    <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.55; max-width: 66ch; color: #494952;">Enter your own figures to estimate what Sentry might certify for recovery, net of the subscription and the CAAR (Certified Analysis and Audit Report) fee. Contract − reality = recoverable. This is an estimate, not a CAAR, and every number stays in your browser.</p>
   </div>
   <div style="display: grid; grid-template-columns: 1fr 380px; gap: 28px; padding: 8px 64px 64px; align-items: start;">
     <div style="display: flex; flex-direction: column; gap: 18px;">
       <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">1 · Choose your plan</div>
-        <p style="margin: 8px 0 0; font-size: 13px; color: #86868b;">FohBoh pricing is fixed — the same constants as the pricing page. Pick the plan that fits your model.</p>
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 14px;">
-          <sc-for list="{{ planOpts }}" as="p" hint-placeholder-count="6">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">1 · Choose your package</div>
+        <p style="margin: 8px 0 0; font-size: 13px; color: #86868b;">The same prices as the <a href="pricing.html" style="color: #6D28D9;">pricing page</a>, per location per month.</p>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px;">
+          <sc-for list="{{ planOpts }}" as="p" hint-placeholder-count="2">
             <button type="button" onClick="{{ p.pick }}" style="{{ p.style }}">
               <span style="display: block; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.06em; text-transform: uppercase;">{{ p.kicker }}</span>
               <span style="display: block; margin-top: 3px; font-weight: 600; font-size: 13px;">{{ p.name }}</span>
@@ -55,41 +55,28 @@
             </button>
           </sc-for>
         </div>
-        <sc-if value="{{ specialOffer }}" hint-placeholder-val="{{ true }}">
-          <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #007A7A; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 6px; padding: 6px 10px; display: inline-block;">Special offer — both engines for the price of one module: $199 <span style="text-decoration: line-through; color: #7fae92;">$398</span> / loc / mo</div>
+        <sc-if value="{{ m04Active }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: #007A7A; background: #e8f5ee; border: 1px solid #bfe3cd; border-radius: 6px; padding: 6px 10px; display: inline-block;">M04 sign-up offer: M04's monthly fee free in months 11 and 12</div>
         </sc-if>
       </div>
       <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
         <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">2 · Your footprint</div>
         <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 14px;">
           <div>
-            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Number of restaurants</label>
-            <input type="number" min="25" value="{{ locations }}" onChange="{{ setLocations }}" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 14px;">
-            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Minimum 25 · {{ tierNote }}</div>
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Billing</label>
-            <div style="display: flex; gap: 4px; padding: 3px; background: #f0f0f2; border-radius: 9px;">
-              <button type="button" onClick="{{ setMonthlyB }}" style="{{ monthlyBtnStyle }}">Monthly</button>
-              <button type="button" onClick="{{ setAnnualB }}" style="{{ annualBtnStyle }}">Annual −15%</button>
-            </div>
-            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Annual billing takes 15% off the platform rate.</div>
-          </div>
-          <div>
-            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Average annual unit volume ($)</label>
-            <input type="number" value="{{ auv }}" onChange="{{ setAuv }}" style="width: 100%; box-sizing: border-box; padding: 9px 12px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 14px;">
-            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Used for the 3–7% benchmark.</div>
+            <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">Number of locations</label>
+            <input type="number" min="1" value="{{ locations }}" onChange="{{ setLocations }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
+            <div style="margin-top: 4px; font-size: 11px; color: #86868b;">Priced per location, billed monthly in advance.</div>
           </div>
         </div>
       </div>
       <sc-if value="{{ m01Active }}" hint-placeholder-val="{{ true }}">
         <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
           <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">3 · M01 — Merchant Fee Recovery</div>
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">107 rules · per location / month</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">3 · M01 — Card processing fees</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">per location / month</span>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
-            <sc-for list="{{ m01Fields }}" as="f" hint-placeholder-count="7">
+            <sc-for list="{{ m01Fields }}" as="f" hint-placeholder-count="6">
               <div>
                 <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">{{ f.label }}</label>
                 <input type="number" value="{{ f.val }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
@@ -98,21 +85,21 @@
             </sc-for>
           </div>
           <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #d9d9de;">
-            <sc-for list="{{ m01Cats }}" as="c" hint-placeholder-count="5">
+            <sc-for list="{{ m01Cats }}" as="c" hint-placeholder-count="4">
               <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 7px; color: #494952;">{{ c.name }} <span style="color: #3c434d; font-weight: 600;">{{ c.val }}</span></span>
             </sc-for>
-            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">MFR / loc / mo: {{ m01Monthly }}</span>
+            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">M01 / loc / mo: {{ m01Monthly }}</span>
           </div>
         </div>
       </sc-if>
       <sc-if value="{{ m02Active }}" hint-placeholder-val="{{ true }}">
         <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
           <div style="display: flex; justify-content: space-between; align-items: baseline;">
-            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">4 · M02 — Delivery Fee Recovery</div>
-            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">83 rules · per location / month</span>
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">4 · M02 — Delivery platform fees</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">per location / month</span>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
-            <sc-for list="{{ m02Fields }}" as="f" hint-placeholder-count="7">
+            <sc-for list="{{ m02Fields }}" as="f" hint-placeholder-count="6">
               <div>
                 <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">{{ f.label }}</label>
                 <input type="number" value="{{ f.val }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
@@ -124,48 +111,63 @@
             <sc-for list="{{ m02Cats }}" as="c" hint-placeholder-count="4">
               <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 7px; color: #494952;">{{ c.name }} <span style="color: #3c434d; font-weight: 600;">{{ c.val }}</span></span>
             </sc-for>
-            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">DFR / loc / mo: {{ m02Monthly }}</span>
+            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">M02 / loc / mo: {{ m02Monthly }}</span>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ m04Active }}" hint-placeholder-val="{{ true }}">
+        <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">5 · M04 — Supplier invoices</div>
+            <span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #86868b;">per location / month</span>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
+            <sc-for list="{{ m04Fields }}" as="f" hint-placeholder-count="6">
+              <div>
+                <label style="display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px;">{{ f.label }}</label>
+                <input type="number" value="{{ f.val }}" onChange="{{ f.set }}" placeholder="{{ f.ph }}" style="width: 100%; box-sizing: border-box; padding: 8px 11px; border: 1px solid #d9d9de; border-radius: 9px; font-size: 13.5px;">
+                <div style="margin-top: 3px; font-size: 10.5px; color: #86868b;">{{ f.hint }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; padding-top: 14px; border-top: 1px dashed #d9d9de;">
+            <sc-for list="{{ m04Cats }}" as="c" hint-placeholder-count="4">
+              <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 7px; color: #494952;">{{ c.name }} <span style="color: #3c434d; font-weight: 600;">{{ c.val }}</span></span>
+            </sc-for>
+            <span style="margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; font-weight: 600; color: #1d1d1f;">M04 / loc / mo: {{ m04Monthly }}</span>
           </div>
         </div>
       </sc-if>
       <div style="background: #fafafa; border: 1px solid #e8e8ed; border-radius: 16px; padding: 24px 28px;">
-        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">5 · Certification fee</div>
-        <p style="margin: 8px 0 0; font-size: 13px; color: #86868b;">Paid to FohBoh on validated recoveries — payment for the certified report, not a bounty. Trust Score ≥ 85 required.</p>
-        <div style="display: flex; gap: 8px; margin-top: 12px;">
-          <sc-for list="{{ feeOpts }}" as="f" hint-placeholder-count="3">
-            <button type="button" onClick="{{ f.pick }}" style="{{ f.style }}">{{ f.label }}</button>
-          </sc-for>
-        </div>
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">6 · CAAR transaction fee</div>
+        <p style="margin: 8px 0 0; font-size: 13px; line-height: 1.55; color: #494952;">15% of the certified recoverable amount, only on a fee-bearing CAAR: CERTIFIED (Trust Score 85–100), eligible, and certifying a positive amount. No fee when a CAAR certifies less than $500. Earned when the CAAR is delivered, not when you collect. This estimate assumes one CAAR per module per location each month, every one CERTIFIED.</p>
       </div>
     </div>
     <div style="position: sticky; top: 20px; background: #1d1d1f; border-radius: 20px; padding: 28px 30px; color: #ffffff;">
-      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55);">Annual economics — {{ planName }}</div>
-      <div style="margin-top: 16px; font-size: 12.5px; color: rgba(255,255,255,0.65);">Annual Sentry recovery (gross)</div>
+      <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.55);">Estimated year one — {{ planName }}</div>
+      <div style="margin-top: 16px; font-size: 12.5px; color: rgba(255,255,255,0.65);">Estimated certified for recovery (gross)</div>
       <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 40px; letter-spacing: -0.01em;">{{ grossAnnual }}</div>
-      <div style="margin-top: 2px; font-size: 12px; color: rgba(255,255,255,0.55);">across {{ locations }} locations · {{ auvPct }} of AUV <span style="color: rgba(255,255,255,0.4);">(FohBoh range 3–7%)</span></div>
-      <div style="display: flex; gap: 10px; margin-top: 14px;">
-        <sc-if value="{{ m01Active }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">MFR / loc / yr {{ m01Annual }}</span></sc-if>
-        <sc-if value="{{ m02Active }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">DFR / loc / yr {{ m02Annual }}</span></sc-if>
-      </div>
-      <div style="display: flex; align-items: center; gap: 14px; margin-top: 20px; padding: 14px 16px; background: rgba(255,255,255,0.07); border-radius: 12px;">
-        <span style="width: 52px; height: 52px; display: grid; place-items: center; border: 2px solid {{ trustColor }}; border-radius: 50%; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 19px; color: {{ trustColor }};">{{ trustScore }}</span>
-        <div><div style="font-size: 12.5px; font-weight: 600;">Trust Score (input quality)</div><div style="margin-top: 2px; font-size: 11.5px; color: rgba(255,255,255,0.6);">{{ trustNote }}</div></div>
+      <div style="margin-top: 2px; font-size: 12px; color: rgba(255,255,255,0.55);">across {{ locations }} locations, 12 months</div>
+      <div style="display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">M01 / loc / yr {{ m01Annual }}</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">M02 / loc / yr {{ m02Annual }}</span>
+        <sc-if value="{{ m04Active }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 10px; background: rgba(255,255,255,0.1); border-radius: 7px;">M04 / loc / yr {{ m04Annual }}</span></sc-if>
       </div>
       <div style="margin-top: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
-        <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.65);">FohBoh subscription <span style="color: rgba(255,255,255,0.4);">({{ subNote }})</span></span><span style="font-family: 'JetBrains Mono', monospace;">−{{ subscription }}</span></div>
-        <div style="display: flex; justify-content: space-between;"><span style="color: rgba(255,255,255,0.65);">Certification fee ({{ certPct }} on recoveries)</span><span style="font-family: 'JetBrains Mono', monospace;">−{{ certFee }}</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: rgba(255,255,255,0.65);">Sentry subscription <span style="color: rgba(255,255,255,0.4);">({{ subNote }})</span></span><span style="font-family: 'JetBrains Mono', monospace; white-space: nowrap;">−{{ subscription }}</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 12px;"><span style="color: rgba(255,255,255,0.65);">CAAR fees (15%, $500 minimum per CAAR)</span><span style="font-family: 'JetBrains Mono', monospace; white-space: nowrap;">−{{ certFee }}</span></div>
       </div>
       <div style="margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.15);">
-        <div style="font-size: 12.5px; color: rgba(255,255,255,0.65);">Net annual benefit to your business</div>
+        <div style="font-size: 12.5px; color: rgba(255,255,255,0.65);">Estimated net, if you collect everything certified</div>
         <div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 34px; color: {{ netColor }};">{{ netAnnual }}</div>
         <div style="margin-top: 2px; font-size: 12px; color: rgba(255,255,255,0.55);">{{ coverNote }}</div>
       </div>
       <a href="contact.html#demo" style="display: block; margin-top: 20px; text-align: center; font-size: 14px; font-weight: 600; color: #1d1d1f; background: #ffffff; padding: 12px 0; border-radius: 980px; text-decoration: none;">Book a demo on your real data</a>
-      <p style="margin: 16px 0 0; font-size: 10.5px; line-height: 1.6; color: rgba(255,255,255,0.45);">Simulator estimate only — outputs are estimates, not CAARs. Certified recovery requires MGE™ certification with a Trust Score ≥ 85 across all 11 Trust Gates. Your inputs never leave this browser.</p>
+      <p style="margin: 16px 0 0; font-size: 10.5px; line-height: 1.6; color: rgba(255,255,255,0.45);">Estimate only, not a CAAR. Sentry certifies what the evidence supports; a result that is not CERTIFIED certifies nothing for recovery and carries no fee. Sentry never collects money or contacts vendors: your team does. Your inputs never leave this browser.</p>
     </div>
   </div>
   <div style="margin: 0 64px 40px; padding: 18px 24px; background: #f5f5f7; border: 1px solid #e8e8ed; border-radius: 12px;">
-    <p style="margin: 0; font-size: 11.5px; line-height: 1.7; color: #86868b; max-width: 110ch;"><span style="font-weight: 600; color: #494952;">Disclaimer.</span> This simulator is provided for illustrative purposes only. All outputs are estimates generated from user-supplied inputs and industry variance patterns; they are not certified findings, do not constitute a CAAR, and may not represent actual results, recoveries, or savings for any operation. FohBoh.ai, Inc. makes no representation, warranty, or guarantee of any recovery amount. Actual certified recovery requires MGE™ certification with a Trust Score ≥ 85. By using this simulator you agree to hold FohBoh.ai, Inc. harmless from any decision made in reliance on its outputs, as set out in our <a href="terms.html" style="color: #3c434d;">Terms &amp; Conditions</a>.</p>
+    <p style="margin: 0; font-size: 11.5px; line-height: 1.7; color: #86868b; max-width: 110ch;"><span style="font-weight: 600; color: #494952;">Disclaimer.</span> This simulator is provided for illustrative purposes only. All outputs are estimates generated only from user-supplied inputs; they are not certified findings, do not constitute a CAAR, and may not represent actual results, recoveries, or savings for any operation. FohBoh.ai, Inc. makes no representation, warranty, or guarantee of any recovery amount. Amounts are certified for recovery only by MGE™ certification with a CERTIFIED outcome (Trust Score 85–100), and FohBoh does not collect them. By using this simulator you agree to hold FohBoh.ai, Inc. harmless from any decision made in reliance on its outputs, as set out in our <a href="terms.html" style="color: #3c434d;">Terms &amp; Conditions</a>.</p>
   </div>
   <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
@@ -179,7 +181,7 @@
         <a href="sentry.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
         <a href="cortex.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
         <a href="mge.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
-        <a href="m04-scr.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · SCR Preview</a>
+        <a href="m04-scr.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · Supplier Invoices</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 9px;">
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
@@ -208,7 +210,7 @@
     </div>
     <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
       <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
-      <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a> · LinkedIn · Twitter</span>
+      <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a></span>
     </div>
   </footer>
 </div>
@@ -216,124 +218,110 @@
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   state = {
-    plan: 'both', billing: 'monthly', locations: 25, auv: 1500000, fee: 0.125,
-    pVol: 85000, pCur: 2.85, pCon: 2.65, pStmtA: 89, pStmtE: 45, pPci: 24.95, pTerm: 35, pDep: '',
+    plan: 'sentry', locations: 5,
+    pVol: 85000, pCur: 2.85, pCon: 2.65, pStmtA: 89, pStmtE: 45, pDep: '',
     dSales: 28000, dPos: 27600, dCur: 24, dCon: 22, dFeeA: 310, dFeeE: 260, dDep: '',
+    sSpend: 30000, sPrice: 1.5, sCred: 250,
   };
   num(k) { const v = parseFloat(this.state[k]); return isNaN(v) ? 0 : v; }
   set(k) { return (e) => this.setState({ [k]: e.target.value }); }
   renderVals() {
+    // Prices: FohBoh public pricing, October 8, 2026 (Sentry $199; M04 $199; CAAR fee 15%, $500 minimum per CAAR).
+    const SENTRY = 199, M04 = 199, RATE = 0.15, FLOOR = 500;
     const st = this.state;
     const PLANS = {
-      m01: { name: 'Sentry M01', kicker: 'Merchant fees', rate: 199, m01: true, m02: false },
-      m02: { name: 'Sentry M02', kicker: 'Delivery fees', rate: 199, m01: false, m02: true },
-      both: { name: 'Sentry Both', kicker: 'Special offer', rate: 199, m01: true, m02: true, special: true },
-      wgs: { name: 'Sentry White Glove', kicker: 'WGS-managed', rate: 349, m01: true, m02: true },
-      bsg: { name: 'Cortex + Sentry', kicker: 'Suite · Self-Guided', rate: 399, m01: true, m02: true },
-      bwgs: { name: 'Cortex + Sentry WGS', kicker: 'Suite · White Glove', rate: 549, m01: true, m02: true },
+      sentry: { name: 'Sentry', kicker: 'M01 + M02', priceLine: '$199 / loc / mo', m04: false },
+      sentrym04: { name: 'Sentry + M04', kicker: 'Adds supplier invoices', priceLine: '$398 / loc / mo', m04: true },
     };
     const plan = PLANS[st.plan];
-    const money = (n) => '$' + Math.round(n).toLocaleString();
+    const money = (n) => '$' + Math.round(n).toLocaleString('en-US');
     const n = (k) => this.num(k);
-    const locs = Math.max(25, Math.round(n('locations')) || 25);
-    // volume rates are quoted per portfolio on the pricing page; the simulator uses the published base rate
-    const tierDisc = 0;
-    const tierNote = 'volume rates quoted per portfolio';
-    const annual = st.billing === 'annual';
-    const subRate = plan.rate * (1 - tierDisc) * (annual ? 0.85 : 1);
-    const subscription = subRate * 12 * locs;
-    // M01 math
-    const downgrade = n('pVol') * 0.0010;
+    const locs = Math.max(1, Math.round(n('locations')) || 1);
+    // M01: rate above contract, statement fees above contract, deposit shortfall (only if entered)
     const markup = Math.max(0, (n('pCur') - n('pCon')) / 100) * n('pVol');
     const unauth = Math.max(0, n('pStmtA') - n('pStmtE'));
-    const pciTerm = 0.5 * (n('pPci') + n('pTerm'));
     const pDepSet = String(st.pDep).trim() !== '';
     const pExpectedNet = n('pVol') * (1 - n('pCon') / 100) - n('pStmtE');
     const pFunding = pDepSet ? Math.max(0, pExpectedNet - n('pDep')) : 0;
-    const m01Mo = plan.m01 ? downgrade + markup + unauth + pciTerm + pFunding : 0;
-    // M02 math
+    const m01Mo = markup + unauth + pFunding;
+    // M02: commission above contract, POS vs platform sales, fee discrepancies, deposit shortfall
     const creep = Math.max(0, (n('dCur') - n('dCon')) / 100) * n('dSales');
     const salesVar = Math.max(0, n('dSales') - n('dPos')) * (n('dCur') / 100);
     const feeDisc = Math.max(0, n('dFeeA') - n('dFeeE'));
     const dDepSet = String(st.dDep).trim() !== '';
     const dExpectedNet = n('dSales') * (1 - n('dCon') / 100) - n('dFeeE');
     const dFunding = dDepSet ? Math.max(0, dExpectedNet - n('dDep')) : 0;
-    const m02Mo = plan.m02 ? creep + salesVar + feeDisc + dFunding : 0;
-    const grossAnnual = (m01Mo + m02Mo) * 12 * locs;
-    const certFee = grossAnnual * st.fee;
+    const m02Mo = creep + salesVar + feeDisc + dFunding;
+    // M04: billed above contract price, missing credits and short deliveries
+    const priceVar = plan.m04 ? n('sSpend') * Math.max(0, n('sPrice')) / 100 : 0;
+    const credits = plan.m04 ? Math.max(0, n('sCred')) : 0;
+    const m04Mo = priceVar + credits;
+    const grossAnnual = (m01Mo + m02Mo + m04Mo) * 12 * locs;
+    // one CAAR per module per location per month; fee only at or above the $500 minimum
+    const fee = (mo) => (mo >= FLOOR ? mo * RATE : 0);
+    const certFee = (fee(m01Mo) + fee(m02Mo) + fee(m04Mo)) * 12 * locs;
+    // year one: M04 months 11 and 12 free under the sign-up offer
+    const subscription = (SENTRY * 12 + (plan.m04 ? M04 * 10 : 0)) * locs;
     const net = grossAnnual - subscription - certFee;
-    const auvTotal = n('auv') * locs;
-    const auvPct = auvTotal > 0 ? ((grossAnnual / auvTotal) * 100).toFixed(1) + '%' : '—';
-    // trust score: 70 base, +15 per active stream with deposit evidence (30 if single stream)
-    const streams = (plan.m01 ? 1 : 0) + (plan.m02 ? 1 : 0);
-    const per = streams === 1 ? 30 : 15;
-    let trust = 70 + (plan.m01 && pDepSet ? per : 0) + (plan.m02 && dDepSet ? per : 0);
-    trust = Math.min(100, trust);
     const planBtn = (k) => {
-      const sel = st.plan === k, p = PLANS[k];
-      return 'text-align: left; padding: 11px 14px; border-radius: 11px; cursor: pointer; border: 1.5px solid ' + (sel ? '#6D28D9' : '#e0e0e5') + '; background: ' + (sel ? '#ffffff' : '#ffffff') + '; color: #1d1d1f; box-shadow: ' + (sel ? '0 2px 8px rgba(214,48,49,0.12)' : 'none') + ';';
+      const sel = st.plan === k;
+      return 'text-align: left; padding: 11px 14px; border-radius: 11px; cursor: pointer; border: 1.5px solid ' + (sel ? '#6D28D9' : '#e0e0e5') + '; background: #ffffff; color: #1d1d1f; box-shadow: ' + (sel ? '0 2px 8px rgba(109,40,217,0.12)' : 'none') + ';';
     };
-    const segBtn = (sel) => 'flex: 1; padding: 8px 4px; border-radius: 7px; border: none; cursor: pointer; font-family: JetBrains Mono, monospace; font-size: 11px; white-space: nowrap; background: ' + (sel ? '#ffffff' : 'transparent') + '; color: ' + (sel ? '#3c434d' : '#86868b') + '; font-weight: ' + (sel ? '600' : '400') + '; box-shadow: ' + (sel ? '0 1px 3px rgba(0,0,0,0.1)' : 'none') + ';';
-    const feeBtn = (sel) => 'flex: 1; padding: 9px 6px; border-radius: 9px; cursor: pointer; font-family: JetBrains Mono, monospace; font-size: 11px; border: 1.5px solid ' + (sel ? '#6D28D9' : '#e0e0e5') + '; background: #ffffff; color: ' + (sel ? '#6D28D9' : '#86868b') + '; font-weight: ' + (sel ? '600' : '400') + ';';
     const field = (label, key, hint, ph) => ({ label, val: st[key], set: this.set(key), hint, ph: ph || '' });
     return {
       planOpts: Object.keys(PLANS).map((k) => {
         const p = PLANS[k];
-        return { name: p.name, kicker: p.kicker, priceLine: '$' + p.rate + ' / loc / mo' + (p.special ? ' · was $398' : ''), style: planBtn(k), pick: () => this.setState({ plan: k }) };
+        return { name: p.name, kicker: p.kicker, priceLine: p.priceLine, style: planBtn(k), pick: () => this.setState({ plan: k }) };
       }),
-      specialOffer: !!plan.special,
       planName: plan.name,
-      locations: st.locations, setLocations: this.set('locations'), tierNote,
-      auv: st.auv, setAuv: this.set('auv'),
-      setMonthlyB: () => this.setState({ billing: 'monthly' }),
-      setAnnualB: () => this.setState({ billing: 'annual' }),
-      monthlyBtnStyle: segBtn(!annual), annualBtnStyle: segBtn(annual),
-      m01Active: !!plan.m01, m02Active: !!plan.m02,
+      locations: locs, setLocations: this.set('locations'),
+      m01Active: true, m02Active: true, m04Active: plan.m04,
       m01Fields: [
-        field('Monthly card volume ($/loc)', 'pVol', 'Total credit/debit volume.'),
+        field('Monthly card volume ($/loc)', 'pVol', 'Total credit and debit volume.'),
         field('Current effective rate (%)', 'pCur', 'All-in rate from your statement.'),
-        field('Contracted rate (%)', 'pCon', 'What your contract specifies.'),
+        field('Contracted rate (%)', 'pCon', 'What your signed agreement says.'),
         field('Statement fees, actual ($)', 'pStmtA', '$/loc/mo, on the statement.'),
-        field('Statement fees, expected ($)', 'pStmtE', '$/loc/mo, per contract.'),
-        field('PCI non-compliance fees ($)', 'pPci', 'Often disputable — 50% credited.'),
-        field('Terminal lease fees ($)', 'pTerm', 'If you don\u2019t own terminals — 50% credited.'),
-        field('Actual bank deposits ($)', 'pDep', 'Blank = matches expected. Unlocks certification.', 'optional'),
+        field('Statement fees, per contract ($)', 'pStmtE', '$/loc/mo, what the agreement allows.'),
+        field('Actual bank deposits ($)', 'pDep', 'Optional. Blank = no shortfall.', 'optional'),
       ],
       m01Cats: [
-        { name: 'Downgrade', val: money(downgrade) },
-        { name: 'Hidden markup', val: money(markup) },
-        { name: 'Unauthorized fees', val: money(unauth) },
-        { name: 'PCI / terminal', val: money(pciTerm) },
-        { name: 'Funding variance', val: money(pFunding) },
+        { name: 'Rate above contract', val: money(markup) },
+        { name: 'Fees above contract', val: money(unauth) },
+        { name: 'Deposit shortfall', val: money(pFunding) },
       ],
       m01Monthly: money(m01Mo), m01Annual: money(m01Mo * 12),
       m02Fields: [
-        field('Monthly delivery sales ($/loc)', 'dSales', 'All 3rd-party DSPs combined.'),
+        field('Monthly delivery sales ($/loc)', 'dSales', 'All delivery platforms combined.'),
         field('POS-recorded delivery sales ($)', 'dPos', 'What your POS shows, same period.'),
-        field('Current commission rate (%)', 'dCur', 'What the DSP actually charges.'),
-        field('Contracted rate (%)', 'dCon', 'What your contract says.'),
-        field('Platform fees, actual ($)', 'dFeeA', '$/loc/mo, all DSPs.'),
-        field('Platform fees, expected ($)', 'dFeeE', '$/loc/mo, per contract.'),
-        field('Actual bank deposits ($)', 'dDep', 'Blank = no shortfall. Unlocks certification.', 'optional'),
+        field('Commission charged (%)', 'dCur', 'What the platform actually charges.'),
+        field('Contracted commission (%)', 'dCon', 'What your agreement says.'),
+        field('Platform fees, actual ($)', 'dFeeA', '$/loc/mo, all platforms.'),
+        field('Platform fees, per contract ($)', 'dFeeE', '$/loc/mo, what the agreement allows.'),
+        field('Actual bank deposits ($)', 'dDep', 'Optional. Blank = no shortfall.', 'optional'),
       ],
       m02Cats: [
-        { name: 'Commission creep', val: money(creep) },
+        { name: 'Commission above contract', val: money(creep) },
         { name: 'Sales variance', val: money(salesVar) },
         { name: 'Fee discrepancies', val: money(feeDisc) },
-        { name: 'Funding variance', val: money(dFunding) },
+        { name: 'Deposit shortfall', val: money(dFunding) },
       ],
       m02Monthly: money(m02Mo), m02Annual: money(m02Mo * 12),
-      feeOpts: [
-        { label: '10% · low end', v: 0.10 }, { label: '12.5% · midpoint', v: 0.125 }, { label: '15% · top of range', v: 0.15 },
-      ].map((f) => ({ label: f.label, style: feeBtn(st.fee === f.v), pick: () => this.setState({ fee: f.v }) })),
-      grossAnnual: money(grossAnnual), auvPct,
-      trustScore: trust, trustColor: trust >= 85 ? '#4fd08a' : '#e8b34b',
-      trustNote: trust >= 85 ? 'Gate met (≥ 85) — recovery is certifiable.' : 'Add bank-deposit evidence to reach the ≥ 85 certification gate.',
+      m04Fields: [
+        field('Monthly supplier invoices ($/loc)', 'sSpend', 'Total invoiced by your suppliers.'),
+        field('Billed above contract price (%)', 'sPrice', 'Your estimate of price variance.'),
+        field('Missing credits and short deliveries ($)', 'sCred', '$/loc/mo, your estimate.'),
+      ],
+      m04Cats: [
+        { name: 'Price above contract', val: money(priceVar) },
+        { name: 'Credits and short deliveries', val: money(credits) },
+      ],
+      m04Monthly: money(m04Mo), m04Annual: money(m04Mo * 12),
+      grossAnnual: money(grossAnnual),
       subscription: money(subscription),
-      subNote: '$' + Math.round(subRate) + '/loc/mo · base rate' + (annual ? ' · annual −15%' : ''),
-      certPct: (st.fee * 100).toFixed(1).replace('.0', '') + '%', certFee: money(certFee),
+      subNote: plan.m04 ? '$199 × 12 + M04 $199 × 10 per location' : '$199 × 12 per location',
+      certFee: money(certFee),
       netAnnual: money(net), netColor: net >= 0 ? '#4fd08a' : '#ff7a76',
-      coverNote: subscription > 0 ? (grossAnnual >= subscription + certFee ? 'Recovery covers the platform ' + (grossAnnual / (subscription + certFee)).toFixed(1) + '× over' : 'Recovery does not cover the platform at these inputs') : '',
+      coverNote: (subscription + certFee) > 0 ? (net >= 0 ? 'Certified amounts would cover Sentry\'s cost ' + (grossAnnual / (subscription + certFee)).toFixed(1) + '×, at these inputs' : 'Certified amounts would not cover Sentry\'s cost at these inputs') : '',
     };
   }
 }
