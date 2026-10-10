@@ -1,19 +1,665 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FohBoh | MGE — Developer Guide</title>
-<meta http-equiv="refresh" content="0; url=fohboh-mge-developer-guide-v1.0.pdf">
-<link rel="canonical" href="https://www.fohboh.ai/fohboh-mge-developer-guide-v1.0.pdf">
+<meta name="description" content="Developer guide to the FohBoh MGE API: authentication, endpoints, schemas, examples, errors, rate limits and versioning.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
 <style>
-:root{--p:#6D28D9;--ink:#0A0A0A;--bg:#FAF9F6}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Sora,system-ui,sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:16px;text-align:center}
-a{color:var(--p);font-weight:600}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --red:#d63031;--red-dim:rgba(214,48,49,.12);--red-bdr:rgba(214,48,49,.28);
+  --green:#00c853;--green-dim:rgba(0,200,83,.10);--green-bdr:rgba(0,200,83,.28);
+  --gold:#f5c842;--gold-dim:rgba(245,200,66,.11);--gold-bdr:rgba(245,200,66,.28);
+  --ink:#07090f;--card:#0d1017;--card2:#111520;
+  --bdr:rgba(255,255,255,.07);--bdr-hi:rgba(255,255,255,.13);
+  --t0:#f8faff;--t1:#e8ecf4;--t2:#8892a4;--t3:#4a5568;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',system-ui,sans-serif;background:var(--ink);color:var(--t0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
+
+/* ── Layout ── */
+.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
+.sec{padding:72px 0}
+hr.div{border:none;border-top:1px solid var(--bdr);margin:0}
+
+/* ── Top bar ── */
+.topbar{padding:22px 0;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:10;background:rgba(7,9,15,.85);backdrop-filter:blur(14px)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.brand{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--t0);letter-spacing:-.01em;text-decoration:none}
+.brand .pipe{color:var(--t3);margin:0 8px}
+.brand .product{color:var(--red)}
+.brand-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:4px}
+.topnav{display:flex;gap:6px;align-items:center}
+.topnav a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:7px 14px;border-radius:6px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s}
+.topnav a:hover{color:var(--t0);border-color:var(--bdr-hi);background:rgba(255,255,255,.03)}
+.topnav a.active{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+
+/* ── Type ── */
+.kicker{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.kicker::before{content:'';width:20px;height:1px;background:var(--red);flex-shrink:0}
+.kicker.green{color:var(--green)}.kicker.green::before{background:var(--green)}
+.kicker.gold{color:var(--gold)}.kicker.gold::before{background:var(--gold)}
+h1{font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--t0)}
+h1 em{font-style:normal;color:var(--red)}
+h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--t0)}
+h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
+.lead{font-size:1rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:580px}
+
+/* ── Tag atoms ── */
+.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid}
+.tag-r{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
+.tag-g{color:var(--green);border-color:var(--green-bdr);background:var(--green-dim)}
+.tag-n{color:var(--t2);border-color:var(--bdr-hi);background:rgba(255,255,255,.04)}
+
+/* ── Header ── */
+.header{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden}
+.header-bg{position:absolute;inset:0;pointer-events:none}
+.header-bg::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:680px;height:480px;background:radial-gradient(ellipse,rgba(214,48,49,.13) 0%,transparent 65%)}
+.header-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--red-dim);border:1px solid var(--red-bdr);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:28px}
+.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);animation:gp 2s ease-in-out infinite}
+@keyframes gp{0%,100%{opacity:1}50%{opacity:.3}}
+.header h1{max-width:800px;margin:0 auto 20px}
+.header .lead{margin:0 auto 36px;text-align:center}
+.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+
+/* ── Status banner ── */
+.status-banner{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--gold-bdr);border-radius:16px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:40px;position:relative;overflow:hidden}
+.status-banner::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
+.status-text strong{display:block;font-size:15px;color:var(--t0);font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
+.status-text strong em{font-style:normal;color:var(--gold)}
+.status-text small{font-size:12px;color:var(--t2);font-weight:300;letter-spacing:0}
+.status-pill{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-bdr);padding:8px 14px;border-radius:6px;white-space:nowrap}
+.status-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:gp 2s ease-in-out infinite}
+
+/* ── Support / feature grid ── */
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
+.feat-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:22px 24px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s}
+.feat-card:hover{border-color:var(--bdr-hi)}
+.feat-num{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--red);background:var(--red-dim);border:1px solid var(--red-bdr);padding:4px 9px;border-radius:6px;flex-shrink:0;line-height:1}
+.feat-text{font-size:13px;color:var(--t1);font-weight:300;line-height:1.65}
+
+/* ── Principles ── */
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
+.principle{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 24px;position:relative;overflow:hidden;transition:border-color .2s}
+.principle:hover{border-color:var(--bdr-hi)}
+.principle::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.principle:nth-child(1)::before{background:linear-gradient(90deg,var(--green),transparent)}
+.principle:nth-child(2)::before{background:linear-gradient(90deg,var(--red),transparent)}
+.principle:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),transparent)}
+.principle-icon{font-size:24px;display:block;margin-bottom:14px}
+.principle-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
+.principle:nth-child(1) .principle-num{color:var(--green)}
+.principle:nth-child(2) .principle-num{color:var(--red)}
+.principle:nth-child(3) .principle-num{color:var(--gold)}
+.principle h3{font-size:15px;font-weight:700;color:var(--t0);margin-bottom:10px;letter-spacing:-.01em;line-height:1.3}
+.principle p{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.7}
+
+/* ── Standards list ── */
+.standards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
+.standard-item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--t2)}
+.standard-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
+
+/* ── Access / Advisory split ── */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
+.access-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 26px}
+.access-card h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--t0);margin-bottom:16px}
+.access-card ul{list-style:none;margin:0;padding:0}
+.access-card li{font-size:13px;color:var(--t1);font-weight:300;line-height:1.85;display:flex;align-items:flex-start;gap:10px}
+.access-card li::before{content:'→';color:var(--red);font-weight:700;flex-shrink:0}
+.access-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.advisory{background:var(--red-dim);border:1px solid var(--red-bdr);border-radius:16px;padding:28px 26px}
+.advisory-mark{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
+.advisory-mark::before{content:'⚠';font-size:13px}
+.advisory p{font-size:12.5px;color:var(--t1);font-weight:300;line-height:1.7}
+
+/* ── Contact CTA ── */
+.contact-cta{margin-top:0;background:linear-gradient(135deg,rgba(214,48,49,.07),rgba(0,200,83,.05));border:1px solid var(--red-bdr);border-radius:20px;padding:48px 48px;text-align:center;position:relative;overflow:hidden}
+.contact-cta::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(ellipse,rgba(214,48,49,.1),transparent 70%);pointer-events:none}
+.contact-cta-mark{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:16px;position:relative;z-index:1}
+.contact-cta h2{margin-bottom:10px;position:relative;z-index:1}
+.contact-cta h2 em{font-style:normal;color:var(--red)}
+.contact-cta p{font-size:13.5px;color:var(--t2);font-weight:300;margin-bottom:26px;position:relative;z-index:1}
+.contact-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none;border:1px solid var(--red);transition:transform .2s,box-shadow .2s,background .2s;position:relative;z-index:1}
+.contact-btn::before{content:'✉';font-family:'Sora',sans-serif;font-size:13px}
+.contact-btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(214,48,49,.35);background:#e63a3b}
+
+/* ── Footer ── */
+.footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
+.footer p{font-size:12px;color:var(--t3);line-height:2}
+.footer strong{color:var(--t2)}
+.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;margin-top:6px}
+.footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--red)}
+
+/* ── Responsive ── */
+@media(max-width:780px){
+  .feat-grid,.principles,.standards,.split{grid-template-columns:1fr}
+  .contact-cta{padding:36px 26px}
+  .topnav{gap:2px;flex-wrap:wrap;justify-content:flex-end}
+  .topnav a{padding:6px 10px;font-size:9px}
+  .status-banner{flex-direction:column;align-items:flex-start}
+}
+.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
+.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
+
+.docs{display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;align-items:start;padding-top:56px;padding-bottom:80px}
+.docs>main{min-width:0}
+.toc{position:sticky;top:96px;max-height:calc(100vh - 120px);overflow:auto;border-right:1px solid var(--bdr);padding-right:18px}
+.toc p{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
+.toc a{display:block;font-size:13px;color:var(--t2);text-decoration:none;padding:5px 0 5px 10px;border-left:2px solid transparent}
+.toc a:hover,.toc a.on{color:var(--t0);border-left-color:var(--red)}
+.dsec{padding:0 0 56px;margin-bottom:56px;border-bottom:1px solid var(--bdr);scroll-margin-top:96px}
+.dsec:last-child{border-bottom:none}
+.dsec h2{margin-bottom:18px}.dsec h2 code{font-size:.7em}
+.dsec p{color:var(--t1);font-weight:300;line-height:1.75;margin:0 0 14px;font-size:15px}
+.dsec a{color:var(--red)}
+.dsec code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:5px;padding:1px 6px;color:var(--t0);word-break:break-word}
+.code{position:relative;margin:12px 0 18px}
+.code pre{background:#05070c;border:1px solid var(--bdr-hi);border-radius:12px;padding:18px 20px;overflow:auto;max-height:520px}
+.code pre code{background:none;border:none;padding:0;font-size:12px;line-height:1.65;color:#cfd6e4;white-space:pre}
+.copy{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);background:var(--card2);border:1px solid var(--bdr-hi);border-radius:6px;padding:5px 10px;cursor:pointer}
+.copy:hover{color:var(--t0)}
+.tbl{overflow-x:auto;margin:10px 0 20px;border:1px solid var(--bdr);border-radius:12px}
+.tbl table{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);background:var(--card2);padding:11px 14px;border-bottom:1px solid var(--bdr)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--bdr);color:var(--t1);font-weight:300;vertical-align:top;line-height:1.6}
+.tbl tr:last-child td{border-bottom:none}
+.note{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--bdr-hi);border-left:3px solid var(--gold);border-radius:12px;padding:16px 20px;margin:14px 0;color:var(--t1);font-size:14px;font-weight:300;line-height:1.7}
+.steps{padding-left:22px;color:var(--t1)}.steps>li{margin:0 0 22px;font-weight:300;line-height:1.75}
+.ticks{list-style:none;padding:0;margin:8px 0 16px}
+.ticks li{position:relative;padding-left:22px;margin:0 0 10px;color:var(--t1);font-weight:300;line-height:1.7;font-size:15px}
+.ticks li::before{content:'';position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--red)}
+@media (max-width:900px){.docs{grid-template-columns:minmax(0,1fr)}.toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--bdr);padding:0 0 14px}}
 </style>
 </head>
 <body>
-<!-- The developer guide is published as a branded PDF (Michael, October 10, 2026). This page forwards old links. -->
-<p>The FohBoh MGE Developer Guide is a PDF: <a href="fohboh-mge-developer-guide-v1.0.pdf">open the Developer Guide v1.0</a>.</p>
+<a href="fohboh-api-docs-page.html" class="back-home" aria-label="Back to API documentation">← API Docs</a>
+<div class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="index.html" class="brand">FohBoh<span class="pipe">|</span><span class="product">MGE</span><span class="brand-sub">Metric Governance &amp; Certification</span></a>
+    <nav class="topnav">
+      <a href="mge.html">MGE</a>
+      <a href="partners.html">Partners</a>
+      <a href="resources.html#faq">Help</a>
+      <a href="fohboh-api-docs-page.html">API Docs</a>
+      <a href="fohboh-developer-guide.html" class="active">Developer Guide</a>
+      <a href="https://form.jotform.com/262818884506065">Sandbox Access</a>
+    </nav>
+  </div>
+</div>
+<div class="header" style="padding:72px 0 56px">
+  <div class="header-bg"></div>
+  <div class="wrap" style="position:relative;z-index:1">
+    <div class="eyebrow">Developer Guide · API v1 · Contract 1.11</div>
+    <h1>Build on <em>certified truth.</em></h1>
+    <p class="lead">Everything you need to submit evidence to MGE, read back sealed certified records, and verify them. Every example on this page is real output from MGE, produced from synthetic data.</p>
+    <div class="header-tags"><span class="tag tag-r">REST · JSON</span><span class="tag tag-g">OpenAPI 3.1</span><span class="tag tag-r">Scoped API keys</span><span class="tag tag-g">Publicly verifiable</span></div>
+    <p style="margin-top:26px;display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;justify-content:center"><a href="https://form.jotform.com/262818884506065" style="display:inline-flex;align-items:center;padding:13px 24px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none">Request sandbox access</a><a href="fohboh-mge-developer-guide-v1.0.pdf" style="color:var(--gold);font-size:14px">Download as PDF</a></p>
+  </div>
+</div>
+<hr class="div">
+<div class="wrap docs">
+  <nav class="toc" aria-label="Contents"><p>Contents</p><a href="#overview">Overview</a><a href="#quickstart">Quickstart</a><a href="#auth">Authentication & keys</a><a href="#endpoints">Endpoints</a><a href="#certify">Submit evidence</a><a href="#jobs">Jobs & polling</a><a href="#conventions">Request conventions</a><a href="#modules">Modules</a><a href="#records">Response schema</a><a href="#outcomes">Outcomes & states</a><a href="#verify">Verification</a><a href="#errors">Error handling</a><a href="#ratelimits">Rate limits</a><a href="#idempotency">Idempotency & retries</a><a href="#versioning">Versioning & deprecation</a><a href="#notyet">Not yet available</a><a href="#support">Support & terms</a></nav>
+  <main><section id="overview" class="dsec"><p class="kicker">Start here</p><h2>Overview</h2>
+<p>MGE, the Metrics Governance Engine, <strong>certifies evidence</strong>. You send one location's evidence for one module and one
+fiscal period; MGE runs a deterministic certification, with no AI anywhere in it, and seals the result as an append-only
+<strong>vault record</strong> carrying a Trust Score (0–100), an outcome, certified findings, reconciliations and a cryptographic seal
+that anyone can verify.</p>
+<p>The API has two doors and a public surface. Each key opens exactly one door.</p>
+<div class="tbl "><table><thead><tr><th>Door</th><th>Who uses it</th><th>Endpoints</th></tr></thead><tbody><tr><td><strong>Write</strong> (Contract №1)</td><td>Whoever submits evidence</td><td><code>POST /certify</code> · <code>POST /certify/batch</code> · <code>GET /jobs/{id}</code> · <code>GET /modules</code> · <code>GET /modules/{id}/schema</code></td></tr><tr><td><strong>Read</strong> (Contract №2)</td><td>Whoever displays results</td><td><code>GET /vault</code> · <code>GET /vault/{id}</code> · <code>GET /vault/{id}/evidence</code> · <code>GET /vault/{id}/exportpack</code> · <code>GET /recoveries</code> · <code>GET /rules</code></td></tr><tr><td><strong>Public</strong> (no key)</td><td>Anyone</td><td><code>GET /vault/{id}/verify</code> · <code>GET /keys</code> · <code>GET /openapi.json</code></td></tr></tbody></table></div>
+<div class="note"><strong>Base URL.</strong> Production: <code>https://api.fohboh.ai/mge/v1</code>. Your sandbox host and keys arrive with your access sheet during onboarding.
+The machine-readable reference, OpenAPI 3.1 generated from the same contract package, is always at <code>GET /mge/v1/openapi.json</code>;
+a dated copy is <a href="fohboh-mge-openapi.json" download>available to download</a>.</div>
+<div class="note"><strong>MGE certifies; it does not recover money or give advice.</strong> It holds no disputes, letters or tasks. Your product
+presents MGE's certified facts under your own brand.</div>
+</section><section id="quickstart" class="dsec"><p class="kicker">Five minutes</p><h2>Quickstart</h2>
+<ol class="steps">
+<li><strong>Get sandbox keys.</strong> <a href="https://form.jotform.com/262818884506065" style="color:var(--gold)">Request sandbox access</a>; during onboarding FohBoh issues a write key and a read key (<code>mge_write_sbx_…</code>, <code>mge_read_sbx_…</code>).
+Every sandbox certification is a TEST RUN: never billed, deletable, and never written to write-once storage.</li>
+<li><strong>Submit evidence</strong> for one location, one module, one period:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-bash">curl -X POST https://api.fohboh.ai/mge/v1/certify \
+  -H &quot;Authorization: Bearer $MGE_WRITE_KEY&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -H &quot;Idempotency-Key: loc-0142:M02:doordash:2026-08-01:r1&quot; \
+  --data @m02-august.json</code></pre></div>
+The body (abridged; the complete synthetic example is in <a href="#certify">Submit evidence</a>):<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;module_id&quot;: &quot;M02&quot;,
+  &quot;location_id&quot;: &quot;loc-0142&quot;,
+  &quot;source_system&quot;: &quot;doordash&quot;,
+  &quot;period&quot;: {
+    &quot;start&quot;: &quot;2026-08-01&quot;,
+    &quot;end&quot;: &quot;2026-08-31&quot;
+  },
+  &quot;idempotency_key&quot;: &quot;loc-0142:M02:doordash:2026-08-01:r1&quot;,
+  &quot;records&quot;: [
+    {
+      &quot;record_id&quot;: &quot;AGR-1&quot;,
+      &quot;record_type&quot;: &quot;dsp_agreement&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;agreement_id&quot;: &quot;DD-MA-2026&quot;,
+      &quot;agreement_sha256&quot;: &quot;436bfe7866cfe9535a210904c9c6ac09a51780350fa7561e1ae28bb6c0f45144&quot;,
+      &quot;signed_date&quot;: &quot;2025-12-15&quot;,
+      &quot;effective_start&quot;: &quot;2026-01-01&quot;,
+      &quot;plan_tier&quot;: &quot;Plus&quot;,
+      &quot;commission_bps&quot;: 2000,
+      &quot;commission_basis&quot;: &quot;subtotal_ex_tax&quot;
+    },
+    {
+      &quot;record_id&quot;: &quot;FT-ERR&quot;,
+      &quot;record_type&quot;: &quot;dsp_fee_term&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;agreement_id&quot;: &quot;DD-MA-2026&quot;,
+      &quot;charge_class&quot;: &quot;error_charge&quot;,
+      &quot;authorized&quot;: true,
+      &quot;per&quot;: &quot;order&quot;,
+      &quot;max_per_order&quot;: 1
+    },
+    {
+      &quot;record_id&quot;: &quot;STMT-08&quot;,
+      &quot;record_type&quot;: &quot;dsp_statement&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;statement_id&quot;: &quot;DD-2026-08&quot;,
+      &quot;period_start&quot;: &quot;2026-08-01&quot;,
+      &quot;period_end&quot;: &quot;2026-08-31&quot;,
+      &quot;issued_date&quot;: &quot;2026-09-03&quot;,
+      &quot;source_format&quot;: &quot;doordash.merchant_statement.v1&quot;,
+      &quot;order_count&quot;: 812,
+      &quot;gross_sales_cents&quot;: 3150000,
+      &quot;net_payout_cents&quot;: 2517850,
+      &quot;source_document_sha256&quot;: &quot;1fa6d2048f8ab60e2d4a3154d46c66337ba7ee4decaac6654c908ac4228c22ff&quot;
+    },
+    &quot;… 6 more records: statement lines, an order charge, POS sales, a bank deposit, fulfillment proof …&quot;
+  ]
+}</code></pre></div>
+MGE accepts the work and answers at once with <code>202 Accepted</code>:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;job_id&quot;: &quot;job_576765b2e8185a33c4082ace&quot;,
+  &quot;status&quot;: &quot;queued&quot;,
+  &quot;record_count&quot;: 9,
+  &quot;estimated_ms&quot;: 200,
+  &quot;accepted_at&quot;: &quot;2026-09-24T15:02:17.000Z&quot;
+}</code></pre></div></li>
+<li><strong>Poll the job</strong> until <code>status</code> is <code>certified</code> or <code>failed</code>:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-bash">curl https://api.fohboh.ai/mge/v1/jobs/job_576765b2e8185a33c4082ace \
+  -H &quot;Authorization: Bearer $MGE_WRITE_KEY&quot;</code></pre></div><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;job_id&quot;: &quot;job_576765b2e8185a33c4082ace&quot;,
+  &quot;status&quot;: &quot;certified&quot;,
+  &quot;module_id&quot;: &quot;M02&quot;,
+  &quot;location_id&quot;: &quot;loc-0142&quot;,
+  &quot;vault_id&quot;: &quot;vr_a2e1f8d6429ae4afb0f912833c8c6827&quot;,
+  &quot;error&quot;: null,
+  &quot;created_at&quot;: &quot;2026-10-10T01:10:33.330Z&quot;,
+  &quot;record&quot;: &quot;… the full vault record (below) …&quot;
+}</code></pre></div></li>
+<li><strong>Read the sealed record</strong> with your read key:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-bash">curl https://api.fohboh.ai/mge/v1/vault/vr_a2e1f8d6429ae4afb0f912833c8c6827 \
+  -H &quot;Authorization: Bearer $MGE_READ_KEY&quot;</code></pre></div>
+The outcome is in <code>certified_metrics.outcome</code>; a certified <em>job</em> is not the same as a CERTIFIED <em>outcome</em> (see <a href="#outcomes">Outcomes</a>).</li>
+<li><strong>Verify the seal</strong>, no key needed, so your client or a counterparty can check it too:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-bash">curl &quot;https://api.fohboh.ai/mge/v1/vault/vr_a2e1f8d6429ae4afb0f912833c8c6827/verify?sha256_hash=a2e1f8d6429ae4afb0f912833c8c6827d378e5dc711dd126067191e2700f8b54&quot;</code></pre></div><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;vault_id&quot;: &quot;vr_a2e1f8d6429ae4afb0f912833c8c6827&quot;,
+  &quot;valid&quot;: true,
+  &quot;superseded_by&quot;: null,
+  &quot;signature_valid&quot;: true
+}</code></pre></div></li>
+</ol>
+</section><section id="auth" class="dsec"><p class="kicker">Security</p><h2>Authentication &amp; keys</h2>
+<p>Every call except the public ones sends a bearer key:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-http">Authorization: Bearer mge_write_sbx_&lt;your key&gt;</code></pre></div>
+<p>Each key is scoped to <strong>integration × location group × door</strong>, and to one <strong>environment</strong>:</p>
+<div class="tbl "><table><thead><tr><th>Scope</th><th>Meaning</th></tr></thead><tbody><tr><td>Integration</td><td>Your integration id, for example <code>acme-pos</code>.</td></tr><tr><td>Location group</td><td>A set of your client's locations. A key acts only on locations inside its group.</td></tr><tr><td>Door</td><td><code>write</code> or <code>read</code>. A write key cannot read vault records; a read key cannot submit evidence. <code>GET /jobs/{id}</code> and <code>GET /modules</code> accept either.</td></tr><tr><td>Environment</td><td><code>sandbox</code> (<code>mge_…_sbx_…</code>): every certification is a TEST RUN. <code>production</code> (<code>mge_write_…</code>, <code>mge_read_…</code>): real, billable certifications, issued only after FohBoh's production approval.</td></tr></tbody></table></div>
+<ul class="ticks">
+<li><strong>Shown once.</strong> FohBoh shows a key one time when it is issued; MGE keeps only its SHA-256 fingerprint. Store it in your secret manager immediately. FohBoh never sends keys by email.</li>
+<li><strong>Expiry.</strong> Sandbox keys last 30 days and production keys up to a year. Every authenticated response carries an <code>MGE-Key-Expires</code> header, so you can rotate in good time.</li>
+<li><strong>Rotation.</strong> Ask FohBoh for a new key, switch over, then have the old key revoked. Both work during the overlap.</li>
+<li><strong>No OAuth.</strong> MGE uses scoped API keys only; there is no user sign-in on the API.</li>
+</ul>
+<div class="tbl "><table><thead><tr><th>Situation</th><th>Status</th><th><code>error.code</code></th></tr></thead><tbody><tr><td>No <code>Authorization</code> header, or an unknown or revoked key</td><td>401</td><td><code>UNAUTHENTICATED</code></td></tr><tr><td>An expired key (rotate before the date in MGE-Key-Expires)</td><td>401</td><td><code>KEY_EXPIRED</code></td></tr><tr><td>The key's door cannot use this endpoint (for example a read key on /certify)</td><td>401</td><td><code>KEY_SCOPE</code></td></tr><tr><td>The location is outside the key's location group</td><td>401</td><td><code>LOCATION_NOT_IN_SCOPE</code></td></tr><tr><td>A record that belongs to another account</td><td>404</td><td><code>NOT_FOUND</code> (MGE never confirms that it exists)</td></tr></tbody></table></div>
+<p>A read key used on <code>/certify</code>, as returned by MGE:</p><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;KEY_SCOPE&quot;,
+    &quot;message&quot;: &quot;A read key cannot use this endpoint&quot;
+  },
+  &quot;request_id&quot;: &quot;req_433gh1x8sf&quot;
+}</code></pre></div>
+</section><section id="endpoints" class="dsec"><p class="kicker">Reference</p><h2>Endpoints</h2><div class="tbl "><table><thead><tr><th>Method and path</th><th>Key</th><th>Purpose</th></tr></thead><tbody><tr><td><code>POST /certify</code></td><td>write</td><td>Submit one certification (202, asynchronous).</td></tr><tr><td><code>POST /certify/batch</code></td><td>write</td><td>Submit 1–50 certifications in one call.</td></tr><tr><td><code>GET /jobs/{job_id}</code></td><td>write or read</td><td>Job status; the full vault record once certified.</td></tr><tr><td><code>GET /modules</code></td><td>write or read</td><td>The live module registry: status and maximum records per request.</td></tr><tr><td><code>GET /modules/{module_id}/schema</code></td><td>write or read</td><td>The JSON Schema of <code>records[]</code> for that module.</td></tr><tr><td><code>GET /vault</code></td><td>read</td><td>Your sealed records, newest first, with filters.</td></tr><tr><td><code>GET /vault/{vault_id}</code></td><td>read</td><td>One sealed record.</td></tr><tr><td><code>GET /vault/{vault_id}/evidence</code></td><td>read</td><td>The evidence index, or a Merkle inclusion proof with <code>?record_id=</code>.</td></tr><tr><td><code>GET /vault/{vault_id}/exportpack</code></td><td>read</td><td>The ExportPack: received data, evidence with inclusion proofs, the record, narrative, keys and a SHA-256 manifest.</td></tr><tr><td><code>GET /recoveries</code></td><td>read</td><td>The recovery ledger: which credits paid back earlier findings.</td></tr><tr><td><code>GET /rules</code></td><td>read</td><td>Rule counts by category. Rule identifiers, logic and weights are never exposed.</td></tr><tr><td><code>GET /actions</code> · <code>POST /actions/{action_id}/resolve</code> · <code>GET /patterns</code></td><td>read</td><td>Follow-ups MGE raises after certification, and weekly patterns across records, for integrations that act on them.</td></tr><tr><td><code>GET /vault/{vault_id}/verify</code></td><td>none</td><td>Public seal verification.</td></tr><tr><td><code>GET /keys</code></td><td>none</td><td>MGE's public signing keys, including retired ones.</td></tr><tr><td><code>GET /openapi.json</code></td><td>none</td><td>OpenAPI 3.1 reference.</td></tr></tbody></table></div><p>All paths are relative to the base URL ending in <code>/mge/v1</code>.</p></section><section id="certify" class="dsec"><p class="kicker">Contract №1</p><h2>Submit evidence: <code>POST /certify</code></h2>
+<p>One request certifies <strong>one location × one module × one period</strong>, with up to <strong>10,000 records</strong>.</p>
+<div class="tbl "><table><thead><tr><th>Field</th><th>Type</th><th>Required</th><th>Notes</th></tr></thead><tbody><tr><td><code>module_id</code></td><td><code>M01</code> · <code>M02</code> · <code>M04</code></td><td>yes</td><td>Only active modules certify (see <a href='#modules'>Modules</a>).</td></tr><tr><td><code>location_id</code></td><td>string</td><td>yes</td><td>Must be inside your key's location group.</td></tr><tr><td><code>source_system</code></td><td>string</td><td>yes</td><td>A canonical key for the module, for example <code>doordash</code>.</td></tr><tr><td><code>period</code></td><td><code>{ start, end }</code>, ISO dates</td><td>yes</td><td>Exactly one fiscal period of your client's calendar (a calendar month by default). M01 uses one processor statement period of 1–35 days.</td></tr><tr><td><code>records</code></td><td>array, 1–10,000</td><td>yes</td><td>The module's evidence records; each has a <code>record_id</code> unique in the request and a <code>record_type</code>.</td></tr><tr><td><code>idempotency_key</code></td><td>string, 1–128</td><td>no</td><td>Or the <code>Idempotency-Key</code> header. See <a href='#idempotency'>Idempotency</a>.</td></tr><tr><td><code>test_run</code></td><td>boolean</td><td>no</td><td>A TEST RUN is certified twice and never supersedes. Always true on sandbox keys.</td></tr><tr><td><code>direction</code></td><td><code>UNILATERAL</code> · <code>INBOUND</code> · <code>OUTBOUND</code></td><td>no</td><td>Default UNILATERAL. INBOUND and OUTBOUND need a bidirectional plan.</td></tr><tr><td><code>paired_vault_id</code></td><td><code>vr_…</code></td><td>OUTBOUND only</td><td>The INBOUND certification this decision answers.</td></tr></tbody></table></div>
+<p>The complete synthetic M02 (delivery fees) request used throughout this guide. It validates against the contract and certified as shown:</p>
+<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;module_id&quot;: &quot;M02&quot;,
+  &quot;location_id&quot;: &quot;loc-0142&quot;,
+  &quot;source_system&quot;: &quot;doordash&quot;,
+  &quot;period&quot;: {
+    &quot;start&quot;: &quot;2026-08-01&quot;,
+    &quot;end&quot;: &quot;2026-08-31&quot;
+  },
+  &quot;idempotency_key&quot;: &quot;loc-0142:M02:doordash:2026-08-01:r1&quot;,
+  &quot;records&quot;: [
+    {
+      &quot;record_id&quot;: &quot;AGR-1&quot;,
+      &quot;record_type&quot;: &quot;dsp_agreement&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;agreement_id&quot;: &quot;DD-MA-2026&quot;,
+      &quot;agreement_sha256&quot;: &quot;436bfe7866cfe9535a210904c9c6ac09a51780350fa7561e1ae28bb6c0f45144&quot;,
+      &quot;signed_date&quot;: &quot;2025-12-15&quot;,
+      &quot;effective_start&quot;: &quot;2026-01-01&quot;,
+      &quot;plan_tier&quot;: &quot;Plus&quot;,
+      &quot;commission_bps&quot;: 2000,
+      &quot;commission_basis&quot;: &quot;subtotal_ex_tax&quot;
+    },
+    {
+      &quot;record_id&quot;: &quot;FT-ERR&quot;,
+      &quot;record_type&quot;: &quot;dsp_fee_term&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;agreement_id&quot;: &quot;DD-MA-2026&quot;,
+      &quot;charge_class&quot;: &quot;error_charge&quot;,
+      &quot;authorized&quot;: true,
+      &quot;per&quot;: &quot;order&quot;,
+      &quot;max_per_order&quot;: 1
+    },
+    {
+      &quot;record_id&quot;: &quot;STMT-08&quot;,
+      &quot;record_type&quot;: &quot;dsp_statement&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;statement_id&quot;: &quot;DD-2026-08&quot;,
+      &quot;period_start&quot;: &quot;2026-08-01&quot;,
+      &quot;period_end&quot;: &quot;2026-08-31&quot;,
+      &quot;issued_date&quot;: &quot;2026-09-03&quot;,
+      &quot;source_format&quot;: &quot;doordash.merchant_statement.v1&quot;,
+      &quot;order_count&quot;: 812,
+      &quot;gross_sales_cents&quot;: 3150000,
+      &quot;net_payout_cents&quot;: 2517850,
+      &quot;source_document_sha256&quot;: &quot;1fa6d2048f8ab60e2d4a3154d46c66337ba7ee4decaac6654c908ac4228c22ff&quot;
+    },
+    {
+      &quot;record_id&quot;: &quot;STMT-08-L1&quot;,
+      &quot;record_type&quot;: &quot;dsp_statement_charge&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;statement_id&quot;: &quot;DD-2026-08&quot;,
+      &quot;line_number&quot;: 1,
+      &quot;charge_class&quot;: &quot;commission&quot;,
+      &quot;description&quot;: &quot;Commission&quot;,
+      &quot;amount_cents&quot;: 630000,
+      &quot;basis_cents&quot;: 3150000,
+      &quot;rate_bps&quot;: 2000
+    },
+    {
+      &quot;record_id&quot;: &quot;STMT-08-L2&quot;,
+      &quot;record_type&quot;: &quot;dsp_statement_charge&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;statement_id&quot;: &quot;DD-2026-08&quot;,
+      &quot;line_number&quot;: 2,
+      &quot;charge_class&quot;: &quot;error_charge&quot;,
+      &quot;description&quot;: &quot;Error charges&quot;,
+      &quot;amount_cents&quot;: 2150
+    },
+    {
+      &quot;record_id&quot;: &quot;OC-50117-1&quot;,
+      &quot;record_type&quot;: &quot;dsp_order_charge&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;order_id&quot;: &quot;ORD-50117&quot;,
+      &quot;order_date&quot;: &quot;2026-08-14&quot;,
+      &quot;statement_id&quot;: &quot;DD-2026-08&quot;,
+      &quot;line_number&quot;: 1,
+      &quot;charge_class&quot;: &quot;error_charge&quot;,
+      &quot;amount_cents&quot;: 2150
+    },
+    {
+      &quot;record_id&quot;: &quot;POS-08&quot;,
+      &quot;record_type&quot;: &quot;pos_delivery_sales&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;period_start&quot;: &quot;2026-08-01&quot;,
+      &quot;period_end&quot;: &quot;2026-08-31&quot;,
+      &quot;order_count&quot;: 812,
+      &quot;gross_sales_cents&quot;: 3150000,
+      &quot;source_document_sha256&quot;: &quot;61a4a548153e305115e658ba2ab26199c9e2e1a92cec17106674378bbced08cd&quot;
+    },
+    {
+      &quot;record_id&quot;: &quot;DEP-0904&quot;,
+      &quot;record_type&quot;: &quot;bank_deposit&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;deposit_date&quot;: &quot;2026-09-04&quot;,
+      &quot;amount_cents&quot;: 2517850,
+      &quot;source_document_sha256&quot;: &quot;1ec72718b303e96406a5a58da363de2df5d0c3d904cca1addddcc0779e6875e9&quot;
+    },
+    {
+      &quot;record_id&quot;: &quot;PF-50117&quot;,
+      &quot;record_type&quot;: &quot;order_fulfillment&quot;,
+      &quot;dsp&quot;: &quot;doordash&quot;,
+      &quot;order_id&quot;: &quot;ORD-50117&quot;,
+      &quot;proof_type&quot;: &quot;kds_completion&quot;,
+      &quot;captured_at&quot;: &quot;2026-08-14T19:42:10-05:00&quot;,
+      &quot;document_sha256&quot;: &quot;373d279185f44d9cababbfe3678dbaabc433e38dee2131f8b711eb6c55925def&quot;
+    }
+  ]
+}</code></pre></div>
+<p><strong>Batch.</strong> <code>POST /certify/batch</code> takes <code>{ &quot;requests&quot;: [ … 1–50 … ] }</code> and returns <code>202 { &quot;jobs&quot;: [ … ] }</code> in request order.
+A batch is <strong>not atomic</strong>: MGE stops at the first request it refuses and returns that error; the requests before it were accepted.
+Put an <code>idempotency_key</code> on every batch request so resending after a fix is safe.</p>
+</section><section id="jobs" class="dsec"><p class="kicker">Asynchronous</p><h2>Jobs &amp; polling</h2>
+<div class="tbl "><table><thead><tr><th>status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>queued</code></td><td>Accepted and stored; accepted work survives a server restart.</td></tr><tr><td><code>processing</code></td><td>Being certified.</td></tr><tr><td><code>certified</code></td><td>Sealed. <code>vault_id</code> and the full <code>record</code> are present.</td></tr><tr><td><code>failed</code></td><td>Not sealed; <code>error.code</code> says why. No vault record exists.</td></tr></tbody></table></div>
+<p>Poll with backoff: start near <code>estimated_ms</code>, then slow down. Webhooks are not available yet.</p>
+<div class="tbl "><table><thead><tr><th>Job failure code</th><th>Meaning</th><th>What to do</th></tr></thead><tbody><tr><td><code>PERIOD_NOT_FISCAL</code></td><td>The period is not one whole fiscal period (M01: not a 1–35 day statement period).</td><td>Send the fiscal or statement period.</td></tr><tr><td><code>SCHEMA_VIOLATION</code></td><td>A record failed an intake check the request schema cannot express.</td><td>Fix the record and resubmit.</td></tr><tr><td><code>NO_STATEMENT</code> · <code>NO_INVOICE</code></td><td>The module's anchor document is missing.</td><td>Include the statement or invoice.</td></tr><tr><td><code>ORPHAN_LINE</code></td><td>A line with no statement or invoice header.</td><td>Include the header.</td></tr><tr><td><code>DUPLICATE_ORDER</code> · <code>DUPLICATE_STATEMENT</code></td><td>An id appears twice.</td><td>De-duplicate.</td></tr><tr><td><code>MIXED_PROCESSOR</code></td><td>M01: records from more than one processor.</td><td>Certify each processor account separately.</td></tr><tr><td><code>MODULE_NOT_ACTIVE</code></td><td>The module stopped accepting certifications.</td><td>Contact FohBoh.</td></tr><tr><td><code>DETERMINISM_FAILURE</code> · <code>INTERNAL_ERROR</code></td><td>An MGE-side integrity or processing error, not your data.</td><td>Retry with the same idempotency key, then contact FohBoh.</td></tr></tbody></table></div>
+</section><section id="conventions" class="dsec"><p class="kicker">Deterministic by design</p><h2>Request conventions</h2>
+<ul class="ticks">
+<li><strong>Money is integer cents</strong>; rates are integer basis points (<code>2000</code> = 20.00%). A float in a money field is refused with <code>400 SCHEMA_VIOLATION</code>; MGE never rounds for you.</li>
+<li><strong>Quantities and weights</strong> are decimal strings, for example <code>&quot;12.5&quot;</code>, at most 4 decimal places.</li>
+<li><strong>Dates</strong> are <code>YYYY-MM-DD</code>; timestamps are ISO 8601 with an offset.</li>
+<li><strong>Document hashes</strong> are lowercase 64-hex SHA-256 of the source document you hold.</li>
+<li><strong><code>record_id</code></strong> is your own id (1–128 characters), unique in the request; findings, proofs and gaps cite it back to you. Record order does not matter.</li>
+</ul>
+</section><section id="modules" class="dsec"><p class="kicker">Coverage</p><h2>Modules</h2>
+<div class="tbl "><table><thead><tr><th>Module</th><th>What it certifies</th><th><code>source_system</code> keys</th><th>Status</th></tr></thead><tbody><tr><td>M01 Merchant Fee Recovery</td><td>Card processor charges against the processing agreement</td><td><code>toast</code> <code>heartland</code> <code>square</code> <code>stripe</code> <code>worldpay</code> <code>fiserv</code> <code>chase</code> <code>other_processor</code></td><td><span class='tag tag-g'>Active</span></td></tr><tr><td>M02 Delivery Fee Recovery</td><td>Delivery platform charges against the merchant agreement</td><td><code>doordash</code> <code>ubereats</code> <code>grubhub</code></td><td><span class='tag tag-g'>Active</span></td></tr><tr><td>M04 Supply Chain Certification</td><td>Distributor invoices against contract prices and receiving</td><td><code>sysco</code> <code>usfoods</code> <code>pfg</code> <code>gfs</code> <code>other_distributor</code></td><td><span class='tag tag-g'>Active</span></td></tr><tr><td>M03 Royalty Fee Recovery</td><td>Franchisor royalty and fund charges</td><td><code>franchisor_statement</code> <code>pos_export</code></td><td><span class='tag tag-n'>Not yet active</span></td></tr></tbody></table></div>
+<p>Fetch each module's exact record schema from <code>GET /modules/{module_id}/schema</code>; it is generated from the contract and is always current.
+Field-by-field record guides for each module are shared during onboarding.</p>
+</section><section id="records" class="dsec"><p class="kicker">Contract №2</p><h2>Response schema: the vault record</h2><div class="tbl "><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>vault_id</code></td><td>Record id (<code>vr_</code> + 32 hex), derived from the seal hash.</td></tr><tr><td><code>cert_ref</code></td><td>Human reference, for example <code>CRT-2026-0001</code>.</td></tr><tr><td><code>tenant_id</code> · <code>location_id</code> · <code>module_id</code> · <code>period</code></td><td>As certified.</td></tr><tr><td><code>fiscal_period</code> · <code>period_label</code> · <code>cadence</code></td><td>The client's fiscal period and cadence.</td></tr><tr><td><code>state</code></td><td>S1–S7 (see <a href='#outcomes'>Outcomes</a>).</td></tr><tr><td><code>certified_at</code></td><td>An input to the seal.</td></tr><tr><td><code>sha256_hash</code></td><td>The <strong>seal hash</strong>: use it for public verification.</td></tr><tr><td><code>content_sha256</code></td><td>The <strong>content fingerprint</strong>: identical for any two certifications of the same evidence under the same settings and versions.</td></tr><tr><td><code>merkle_root</code></td><td>Root over your submitted evidence records (RFC 6962).</td></tr><tr><td><code>formula_version</code> · <code>rule_set_version</code> · <code>sector_pack</code></td><td>The pinned versions the record was certified under.</td></tr><tr><td><code>certified_metrics</code></td><td><code>trust_score</code>, <code>outcome</code>, <code>hard_gate_overrides</code>, <code>penalty_rows</code> (where coverage was lost and how to fix it), <code>disputed_total_cents</code>, <code>findings</code>, <code>kpis</code>, <code>reconciliation</code>, and where present <code>recoveries</code>, <code>evidence_gaps</code>, <code>held_items</code>.</td></tr><tr><td><code>narrative</code></td><td>The sealed plain-language certification narrative and its SHA-256 (DCLS, the Deterministic Certified Language System).</td></tr><tr><td><code>manifest_sha256</code> · <code>stage_chain</code></td><td>Hashes of the certification manifest and of each Trust Loop stage.</td></tr><tr><td><code>seal</code></td><td>Custody metadata: standard, custodian, sealed time, jurisdiction, legal hold.</td></tr><tr><td><code>signature</code></td><td>MGE's signature over the sealed record (<code>ED25519</code> or <code>ECDSA_P256_SHA256</code>); match <code>key_id</code> in <code>GET /keys</code>.</td></tr><tr><td><code>evidence_bundle</code></td><td>Receipt for the write-once evidence bundle; null for TEST RUNs.</td></tr><tr><td><code>superseded_by</code> · <code>test_run</code></td><td>Set when a later certification replaced this one; whether it is a TEST RUN.</td></tr></tbody></table></div>
+<p><strong>Findings</strong> carry <code>ref</code> (<code>F-001</code> for recoveries, <code>V-001</code> for items needing review), <code>kind</code>, a plain-language
+<code>label</code> and <code>description</code>, <code>amount_cents</code>, and the <code>evidence</code> record ids that support it. Build your interface from these fields;
+MGE never exposes rule identifiers, rule logic or scoring weights.</p>
+<p>The record MGE returned for the example (abridged where marked):</p><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;vault_id&quot;: &quot;vr_a2e1f8d6429ae4afb0f912833c8c6827&quot;,
+  &quot;cert_ref&quot;: &quot;CRT-2026-0001&quot;,
+  &quot;tenant_id&quot;: &quot;acme-pos-demo&quot;,
+  &quot;location_id&quot;: &quot;loc-0142&quot;,
+  &quot;module_id&quot;: &quot;M02&quot;,
+  &quot;period&quot;: {
+    &quot;start&quot;: &quot;2026-08-01&quot;,
+    &quot;end&quot;: &quot;2026-08-31&quot;
+  },
+  &quot;fiscal_period&quot;: &quot;2026-08&quot;,
+  &quot;cadence&quot;: &quot;fiscal_period&quot;,
+  &quot;period_label&quot;: &quot;2026-08&quot;,
+  &quot;state&quot;: &quot;S1&quot;,
+  &quot;certified_at&quot;: &quot;2026-09-24T15:02:18.000Z&quot;,
+  &quot;sha256_hash&quot;: &quot;a2e1f8d6429ae4afb0f912833c8c6827d378e5dc711dd126067191e2700f8b54&quot;,
+  &quot;content_sha256&quot;: &quot;3f395fd3136918230a023d827410dcbbd6571f057fa6b0131ead39a7b48ec16f&quot;,
+  &quot;merkle_root&quot;: &quot;dafc82c84e961b3b95498bfeeb5794437f21cbc594cd9258299202a063354fcc&quot;,
+  &quot;formula_version&quot;: &quot;m02_dfr_v3&quot;,
+  &quot;rule_set_version&quot;: &quot;DCLS-2.0-LEGAL@a51868bf6a2cbe14&quot;,
+  &quot;sector_pack&quot;: {
+    &quot;id&quot;: &quot;INST-01&quot;,
+    &quot;name&quot;: &quot;Restaurant MGE (INST-01 Restaurant pack)&quot;,
+    &quot;version&quot;: &quot;1.2.0&quot;
+  },
+  &quot;certified_metrics&quot;: {
+    &quot;trust_score&quot;: 100,
+    &quot;outcome&quot;: &quot;CERTIFIED&quot;,
+    &quot;hard_gate_overrides&quot;: [],
+    &quot;penalty_rows&quot;: [],
+    &quot;disputed_total_cents&quot;: 2150,
+    &quot;findings&quot;: [
+      {
+        &quot;ref&quot;: &quot;F-001&quot;,
+        &quot;kind&quot;: &quot;RECOVERY&quot;,
+        &quot;label&quot;: &quot;Chargeback or error charge not supported by the evidence&quot;,
+        &quot;description&quot;: &quot;Order ORD-50117 (2026-08-14) was charged an error charge of $21.50; the restaurant&#x27;s kitchen display completion show the order was fulfilled&quot;,
+        &quot;amount_cents&quot;: 2150,
+        &quot;evidence&quot;: [
+          &quot;OC-50117-1&quot;,
+          &quot;PF-50117&quot;,
+          &quot;STMT-08&quot;
+        ]
+      }
+    ],
+    &quot;kpis&quot;: {
+      &quot;bank_deposits_cents&quot;: 2517850,
+      &quot;commission_charged_cents&quot;: 630000,
+      &quot;commission_contracted_cents&quot;: 630000,
+      &quot;credits_cents&quot;: 0,
+      &quot;dsp_gross_sales_cents&quot;: 3150000,
+      &quot;error_charges_cents&quot;: 2150,
+      &quot;marketing_charged_cents&quot;: 0,
+      &quot;net_payout_cents&quot;: 2517850,
+      &quot;order_count&quot;: 812,
+      &quot;pos_gross_sales_cents&quot;: 3150000,
+      &quot;pos_order_count&quot;: 812,
+      &quot;statement_count&quot;: 1,
+      &quot;total_charges_cents&quot;: 632150
+    },
+    &quot;reconciliation&quot;: [
+      {
+        &quot;leg&quot;: &quot;DD-2026-08: gross sales POS↔DSP&quot;,
+        &quot;left_cents&quot;: 3150000,
+        &quot;right_cents&quot;: 3150000,
+        &quot;variance_cents&quot;: 0,
+        &quot;status&quot;: &quot;MATCHED&quot;
+      },
+      {
+        &quot;leg&quot;: &quot;DD-2026-08: statement footing&quot;,
+        &quot;left_cents&quot;: 2517850,
+        &quot;right_cents&quot;: 2517850,
+        &quot;variance_cents&quot;: 0,
+        &quot;status&quot;: &quot;MATCHED&quot;
+      },
+      &quot;… every reconciliation leg …&quot;
+    ]
+  },
+  &quot;seal&quot;: {
+    &quot;fre_standard&quot;: &quot;FRE 902(13)/(14) — self-authenticating electronic records&quot;,
+    &quot;custodian&quot;: &quot;FohBoh MGE&quot;,
+    &quot;sealed_at&quot;: &quot;2026-09-24T15:02:18.000Z&quot;,
+    &quot;jurisdiction&quot;: &quot;US&quot;,
+    &quot;legal_hold&quot;: false
+  },
+  &quot;narrative&quot;: {
+    &quot;text&quot;: &quot;DCLS certification narrative. Module M02 · location loc-0142 · fiscal period 2026-08 (2026-08-01 to 2026-08-31). 9 evidence records are committed under Merkle root dafc82c84e961b3b95498bfeeb5794437f21cbc594cd9258299202a063354fcc.\n1 certifie …&quot;,
+    &quot;sha256&quot;: &quot;be7362e0f3dbd0ad8891358a14555abbdd5245a34da6403b2bf168a29e194f3a&quot;
+  },
+  &quot;manifest_sha256&quot;: &quot;bba894b78481942bc7b2cfd9095140359d26c5475676e359f5a27c505d2e6f73&quot;,
+  &quot;stage_chain&quot;: [
+    {
+      &quot;stage&quot;: &quot;RESOLVE&quot;,
+      &quot;output_sha256&quot;: &quot;3447a5f847cf90e9f70250aa64eac381b4f4ae33f373fed201769d59f133ceda&quot;,
+      &quot;link_sha256&quot;: &quot;3703948c3767c0fd40381cdab5ce45bfbc72a4141abcd109cba7b251d08052ec&quot;
+    },
+    {
+      &quot;stage&quot;: &quot;GOVERN&quot;,
+      &quot;output_sha256&quot;: &quot;0765eedec4a303e53505f0be9dc3b3a83f55b28baa2b8d13749c84bc6043492d&quot;,
+      &quot;link_sha256&quot;: &quot;c3b50daab9399bbc2af54e7d2c76697b5d6c71b4c752addca28fde26a6bda268&quot;
+    },
+    &quot;… one entry per Trust Loop stage …&quot;
+  ],
+  &quot;signature&quot;: {
+    &quot;key_id&quot;: &quot;mge-seal-docs-1&quot;,
+    &quot;algorithm&quot;: &quot;ED25519&quot;,
+    &quot;value&quot;: &quot;BWVZHlFQDxCNuyFjlndcuycH…&quot;
+  },
+  &quot;evidence_bundle&quot;: null,
+  &quot;superseded_by&quot;: null,
+  &quot;test_run&quot;: true
+}</code></pre></div>
+</section><section id="outcomes" class="dsec"><p class="kicker">Published bands</p><h2>Outcomes &amp; states</h2><div class="tbl "><table><thead><tr><th>Outcome</th><th>Trust Score</th><th>State</th><th>Meaning</th></tr></thead><tbody><tr><td><strong>CERTIFIED</strong></td><td>85–100</td><td>S1</td><td>Fully certified.</td></tr><tr><td><strong>VERIFIED</strong></td><td>70–84</td><td>S2</td><td>Certified with discrepancies.</td></tr><tr><td><strong>REVIEWED</strong></td><td>60–69, or any score with a hard-gate override</td><td>S4</td><td>Certified on bounded scope: the available evidence only.</td></tr><tr><td><strong>FAILED</strong></td><td>0–59</td><td>S6</td><td>The evidence cannot support certification; gaps are itemized.</td></tr><tr><td>—</td><td>—</td><td>S5</td><td>Pending: no sealed record yet.</td></tr><tr><td>—</td><td>—</td><td>S7</td><td>Superseded by a later certification.</td></tr></tbody></table></div>
+<ul class="ticks">
+<li><strong>The Trust Score measures evidence coverage, not the number of problems.</strong> Findings never lower it: a record can be CERTIFIED and carry large findings. Missing mandatory evidence overrides the outcome to REVIEWED; it never deducts points.</li>
+<li><strong>Every outcome is sealed.</strong> A FAILED outcome is a sealed record; a failed job produced no record.</li>
+<li><strong>Sealed records are never updated or deleted.</strong> To correct evidence, submit a new certification for the same location, module, period and direction; the earlier record moves to S7 and names its replacement in <code>superseded_by</code>. TEST RUNs never supersede.</li>
+</ul>
+</section><section id="verify" class="dsec"><p class="kicker">Trust, but verify</p><h2>Verification</h2>
+<p><strong>Public check, no key:</strong> <code>GET /vault/{vault_id}/verify?sha256_hash=&lt;64 hex&gt;</code> returns <code>valid</code>, <code>superseded_by</code> and
+<code>signature_valid</code>, and reveals nothing else about the record.</p><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;vault_id&quot;: &quot;vr_a2e1f8d6429ae4afb0f912833c8c6827&quot;,
+  &quot;valid&quot;: true,
+  &quot;superseded_by&quot;: null,
+  &quot;signature_valid&quot;: true
+}</code></pre></div>
+<p><strong>Prove one evidence record was included</strong> without revealing the others: <code>GET /vault/{vault_id}/evidence?record_id=…</code> returns an RFC 6962 inclusion proof.
+Leaf hash = SHA-256(0x00 ‖ leaf); node hash = SHA-256(0x01 ‖ left ‖ right); the result must equal <code>merkle_root</code>.</p><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;vault_id&quot;: &quot;vr_a2e1f8d6429ae4afb0f912833c8c6827&quot;,
+  &quot;merkle_root&quot;: &quot;dafc82c84e961b3b95498bfeeb5794437f21cbc594cd9258299202a063354fcc&quot;,
+  &quot;proof&quot;: {
+    &quot;record_id&quot;: &quot;PF-50117&quot;,
+    &quot;leaf&quot;: &quot;{\&quot;captured_at\&quot;:\&quot;2026-08-14T19:42:10-05:00\&quot;,\&quot;document_sha256\&quot;:\&quot;373d279185f44d9cababbfe3678dbaabc433e38dee2131f8b711eb6c55925def\&quot;,\&quot;dsp\&quot;:\&quot;doordash\&quot;,\&quot;order_id\&quot;:\&quot;ORD-50117\&quot;,\&quot;proof_type\&quot;:\&quot;kds_completion\&quot;,\&quot;record_id\&quot;:\&quot;PF-50117\&quot;,\&quot;record_type\&quot;:\&quot;order_fulfillment\&quot;}&quot;,
+    &quot;index&quot;: 4,
+    &quot;tree_size&quot;: 9,
+    &quot;proof&quot;: [
+      &quot;e82e7108c7a1baaa247f60f69f447c5c32ce736906fb13a14ba76b8a9d47dc49&quot;,
+      &quot;6eb0a176ed0e594e680a10f151447abd208fea93d3d1e831628adbbd4228464f&quot;,
+      &quot;…&quot;
+    ]
+  }
+}</code></pre></div>
+<p><strong>Determinism.</strong> Certification is a pure function of the evidence, the client's pinned settings and the pinned formula and rule versions.
+The same evidence under the same versions gives the same <code>content_sha256</code>; the seal hash differs only because <code>certified_at</code> is sealed with it.
+Every TEST RUN is certified twice and must reproduce its own hash.</p>
+</section><section id="errors" class="dsec"><p class="kicker">When things go wrong</p><h2>Error handling</h2>
+<p>Every error, on every endpoint, has the same envelope. Quote <code>request_id</code> when you contact FohBoh.</p><div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-json">{
+  &quot;error&quot;: {
+    &quot;code&quot;: &quot;SCHEMA_VIOLATION&quot;,
+    &quot;message&quot;: &quot;Request failed schema validation&quot;,
+    &quot;violations&quot;: [
+      {
+        &quot;field&quot;: &quot;records.0.amount_cents&quot;,
+        &quot;record_id&quot;: &quot;STMT-08-L1&quot;,
+        &quot;reason&quot;: &quot;Expected integer, received float&quot;
+      }
+    ]
+  },
+  &quot;request_id&quot;: &quot;req_zmpdu2wy8i&quot;
+}</code></pre></div>
+<div class="tbl "><table><thead><tr><th>Status</th><th><code>error.code</code></th><th>When</th></tr></thead><tbody><tr><td>400</td><td><code>MALFORMED_REQUEST</code></td><td>The body is not valid JSON.</td></tr><tr><td>400</td><td><code>SCHEMA_VIOLATION</code></td><td>The request or a record fails the contract schema; <code>violations</code> gives the field path and your <code>record_id</code>.</td></tr><tr><td>401</td><td><code>UNAUTHENTICATED</code> · <code>KEY_EXPIRED</code> · <code>KEY_SCOPE</code> · <code>LOCATION_NOT_IN_SCOPE</code></td><td>See <a href='#auth'>Authentication</a>.</td></tr><tr><td>403</td><td><code>PRODUCT_NOT_SUBSCRIBED</code></td><td>Your integration's product is not in the account's package.</td></tr><tr><td>404</td><td><code>NOT_FOUND</code></td><td>No such job, record, module or evidence record in your account.</td></tr><tr><td>409</td><td><code>IDEMPOTENCY_CONFLICT</code></td><td>The key was already used for a different request.</td></tr><tr><td>422</td><td><code>MODULE_NOT_ACTIVE</code> · <code>DIRECTION_NOT_CONTRACTED</code> · <code>PAIRING_INVALID</code></td><td>Not certifiable as asked.</td></tr><tr><td>429</td><td><code>RATE_LIMITED</code></td><td>Too many requests; wait for the <code>Retry-After</code> seconds.</td></tr><tr><td>500</td><td><code>SEAL_BROKEN</code> · <code>INTERNAL_ERROR</code></td><td>An MGE-side problem. Contact FohBoh with the request id.</td></tr></tbody></table></div>
+</section><section id="ratelimits" class="dsec"><p class="kicker">Fair use</p><h2>Rate limits</h2><div class="tbl "><table><thead><tr><th>Limit</th><th>Per minute</th></tr></thead><tbody><tr><td>All requests, per key</td><td>1,200</td></tr><tr><td><code>POST /certify</code> and <code>/certify/batch</code>, per key</td><td>300</td></tr><tr><td>Requests without a key (public verification), per address</td><td>120</td></tr></tbody></table></div><p>Over a limit, MGE answers <code>429 RATE_LIMITED</code> with a <code>Retry-After</code> header in seconds. An address-level firewall limit also applies in front of the API.
+Batch where you can, poll with backoff, and contact FohBoh if your volume needs higher limits.</p></section><section id="idempotency" class="dsec"><p class="kicker">Safe retries</p><h2>Idempotency &amp; retries</h2>
+<ul class="ticks">
+<li>MGE identifies a submission by its <code>idempotency_key</code>, then the <code>Idempotency-Key</code> header, then the canonical SHA-256 of the request itself, so an identical body resent without a key returns the same job.</li>
+<li><strong>Same key, same request:</strong> <code>202</code> with the same <code>job_id</code> and its current status. Nothing is re-run and nothing is billed.</li>
+<li><strong>Same key, different request:</strong> <code>409 IDEMPOTENCY_CONFLICT</code>.</li>
+<li>Recommended key: <code>&lt;location_id&gt;:&lt;module_id&gt;:&lt;period.start&gt;:&lt;revision&gt;</code>. Bump the revision when you deliberately re-certify corrected evidence.</li>
+<li>Retry <code>429</code> after <code>Retry-After</code>, and <code>5xx</code> with backoff and the same key. Never retry a <code>4xx</code> unchanged.</li>
+</ul>
+</section><section id="versioning" class="dsec"><p class="kicker">Stability</p><h2>Versioning &amp; deprecation</h2>
+<ul class="ticks">
+<li>The major version is in the path (<code>/mge/v1</code>). Within a major version, changes are additive only: new optional fields, new endpoints, new values. Ignore fields you do not recognize.</li>
+<li>A breaking change ships as a new major version, announced in advance, with a <strong>90-day transition</strong> during which both versions run.</li>
+<li>The contract is published as versioned schemas generated from one source; <code>GET /openapi.json</code> always describes the version you are calling. Partners receive the contract changelog during onboarding.</li>
+<li>Sealed records keep the formula and rule-set versions they were certified under, forever.</li>
+</ul>
+</section><section id="notyet" class="dsec"><p class="kicker">Plainly stated</p><h2>Not yet available</h2><div class="tbl "><table><thead><tr><th>Capability</th><th>Status</th></tr></thead><tbody><tr><td>Webhooks</td><td>Not built. <code>webhook_url</code> is accepted but not called. Poll <code>GET /jobs/{id}</code>.</td></tr><tr><td>M03 Royalty Fee Recovery</td><td>Contracted, not active: <code>422 MODULE_NOT_ACTIVE</code>.</td></tr><tr><td>Legal seal level</td><td><code>seal_level: &quot;legal&quot;</code> is accepted; no legal threshold is defined yet, so it produces a standard record.</td></tr><tr><td>Job status <code>partial</code></td><td>Reserved in the contract; not produced.</td></tr></tbody></table></div><p>We would rather tell you than have you find out.</p></section><section id="support" class="dsec"><p class="kicker">People, not tickets</p><h2>Support &amp; terms</h2>
+<ul class="ticks">
+<li><strong>Onboarding:</strong> start with a <a href="https://form.jotform.com/262818884506065" style="color:var(--gold)">sandbox access request</a>; partners follow a ten-step track from sandbox to production; production keys are issued only after FohBoh's approval.</li>
+<li><strong>Commercials:</strong> a license fee plus a per-certification toll; sandbox TEST RUNs, rejected requests and idempotent retries are never billed. <a href="pricing.html">See pricing</a>.</li>
+<li><strong>Terms:</strong> use of the API is subject to your partner agreement and the API terms of use.</li>
+<li><strong>No advisory services:</strong> the API returns governance and certification outputs only, never financial, accounting, legal, tax, labor or operational advice.</li>
+<li><strong>Contact:</strong> <a href="mailto:hello@fohboh.com?subject=MGE%20API">hello@fohboh.com</a>. Quote the <code>request_id</code> from any error.</li>
+</ul>
+</section></main>
+</div>
+<div class="footer">
+  <div class="wrap">
+    <p><strong>© 2026 FohBoh.ai, Inc.</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; US Patent Pending</p>
+    <div class="footer-links">
+      <a href="sentry.html">Sentry™</a><a href="cortex.html">Cortex™</a><a href="mge.html">MGE™</a><a href="caar-example.html">Example CAAR</a>
+      <a href="login.html">Sign in</a><a href="contact.html">Contact Us</a><a href="terms.html">Terms &amp; Conditions</a><a href="fohboh-api-docs-page.html">API Docs</a>
+    </div>
+  </div>
+</div>
+<script>
+document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){var t=b.parentNode.querySelector('code').innerText;
+(navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500)}).catch(function(){})})});
+(function(){var links=[].slice.call(document.querySelectorAll('.toc a'));var secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+function on(){var y=window.scrollY+120,cur=0;secs.forEach(function(s,i){if(s&&s.offsetTop<=y)cur=i});links.forEach(function(a,i){a.classList.toggle('on',i===cur)})}
+window.addEventListener('scroll',on,{passive:true});on()})();
+</script>
 </body>
 </html>

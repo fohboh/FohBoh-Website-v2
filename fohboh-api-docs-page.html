@@ -140,7 +140,7 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 @media(max-width:780px){
   .feat-grid,.principles,.standards,.split{grid-template-columns:1fr}
   .contact-cta{padding:36px 26px}
-  .topnav{gap:2px}
+  .topnav{gap:2px;flex-wrap:wrap;justify-content:flex-end}
   .topnav a{padding:6px 10px;font-size:9px}
   .status-banner{flex-direction:column;align-items:flex-start}
 }
@@ -165,7 +165,8 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
       <a href="partners.html">Partners</a>
       <a href="resources.html#faq">Help</a>
       <a href="fohboh-api-docs-page.html" class="active">API Docs</a>
-      <a href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener">Developer Guide (PDF)</a>
+      <a href="fohboh-developer-guide.html">Developer Guide</a>
+      <a href="https://form.jotform.com/262818884506065">Sandbox Access</a>
     </nav>
   </div>
 </div>
@@ -195,7 +196,7 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
     <div class="status-banner">
       <div class="status-text">
         <strong>API Status: <em>Partner onboarding</em></strong>
-        <small>Running in staging. Partners start in a sandbox, where test runs are never billed, and receive production access after FohBoh's approval. The <a href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="color:var(--gold)">developer guide (PDF)</a> is open to read; keys and field-level module guides are shared during onboarding.</small>
+        <small>Running in staging. Partners start in a sandbox, where test runs are never billed, and receive production access after FohBoh's approval. The <a href="fohboh-developer-guide.html" style="color:var(--gold)">developer guide</a> is open to read; keys and field-level module guides are shared during onboarding.</small>
       </div>
       <div class="status-pill">By arrangement</div>
     </div>
@@ -265,15 +266,15 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
   <div class="wrap">
     <p class="kicker gold">Standards</p>
     <h2>Documentation &amp; Conventions</h2>
-    <p class="lead">The <a href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="color:var(--gold)">developer guide (PDF)</a> covers every convention below, with real examples, following RESTful conventions and an OpenAPI 3.1 reference. Breaking changes ship as a new major version with a 90-day transition.</p>
+    <p class="lead">The <a href="fohboh-developer-guide.html" style="color:var(--gold)">developer guide</a> covers every convention below, with real examples, following RESTful conventions and an OpenAPI 3.1 reference. Breaking changes ship as a new major version with a 90-day transition.</p>
 
     <div class="standards">
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Auth · Scoped API Keys</a>
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Response Schemas</a>
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Example Payloads</a>
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Error Handling</a>
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Rate Limits</a>
-      <a class="standard-item" href="fohboh-mge-developer-guide-v1.0.pdf" target="_blank" rel="noopener" style="text-decoration:none;color:inherit">Deprecation Policy</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#auth" style="text-decoration:none;color:inherit">Auth · Scoped API Keys</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#records" style="text-decoration:none;color:inherit">Response Schemas</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#quickstart" style="text-decoration:none;color:inherit">Example Payloads</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#errors" style="text-decoration:none;color:inherit">Error Handling</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#ratelimits" style="text-decoration:none;color:inherit">Rate Limits</a>
+      <a class="standard-item" href="fohboh-developer-guide.html#versioning" style="text-decoration:none;color:inherit">Deprecation Policy</a>
     </div>
 
     <div class="split">
@@ -300,10 +301,11 @@ h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-
 <div class="sec">
   <div class="wrap">
     <div class="contact-cta">
-      <div class="contact-cta-mark">Get Notified</div>
-      <h2>Talk to us about <em>integrating.</em></h2>
-      <p>To discuss Headless MGE and partner onboarding:</p>
-      <a href="mailto:hello@fohboh.com?subject=Headless%20MGE%20API" class="contact-btn">hello@fohboh.com</a>
+      <div class="contact-cta-mark">Get Access</div>
+      <h2>Ready to <em>integrate?</em></h2>
+      <p>Request sandbox keys (sandbox test runs are never billed). FohBoh replies within one business day.</p>
+      <a href="https://form.jotform.com/262818884506065" class="contact-btn">Request sandbox access</a>
+      <p style="margin-top:14px;font-size:13px">Questions first? <a href="mailto:hello@fohboh.com?subject=Headless%20MGE%20API" style="color:var(--gold)">hello@fohboh.com</a></p>
     </div>
   </div>
 </div>
