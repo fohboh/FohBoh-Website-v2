@@ -1,0 +1,2981 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "FohBoh MGE API",
+    "version": "1.11 (contract) · 2026-10-10",
+    "description": "Contract №1 (write door) and Contract №2 (read door). Rule identifiers, logic and weights are never exposed."
+  },
+  "servers": [
+    {
+      "url": "https://api.fohboh.ai/mge/v1",
+      "description": "Production (your sandbox host arrives with your access sheet)"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "mgeKey": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Key scoped integration × location group × door"
+      }
+    },
+    "schemas": {
+      "CertifyRequest": {
+        "type": "object",
+        "properties": {
+          "module_id": {
+            "type": "string",
+            "enum": [
+              "M01",
+              "M02",
+              "M03",
+              "M04",
+              "C01"
+            ]
+          },
+          "location_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_system": {
+            "type": "string",
+            "minLength": 1
+          },
+          "period": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date"
+              },
+              "end": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ],
+            "additionalProperties": false
+          },
+          "cadence": {
+            "type": "string",
+            "enum": [
+              "week",
+              "fiscal_period",
+              "quarter"
+            ]
+          },
+          "records": {
+            "type": "array",
+            "items": {},
+            "minItems": 1,
+            "maxItems": 10000
+          },
+          "seal_level": {
+            "type": "string",
+            "enum": [
+              "standard",
+              "legal"
+            ],
+            "default": "standard"
+          },
+          "idempotency_key": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "webhook_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "test_run": {
+            "type": "boolean",
+            "default": false
+          },
+          "direction": {
+            "type": "string",
+            "enum": [
+              "UNILATERAL",
+              "INBOUND",
+              "OUTBOUND"
+            ],
+            "default": "UNILATERAL"
+          },
+          "paired_vault_id": {
+            "type": "string",
+            "pattern": "^vr_[0-9a-f]{32}$"
+          }
+        },
+        "required": [
+          "module_id",
+          "location_id",
+          "source_system",
+          "period",
+          "records"
+        ],
+        "additionalProperties": false
+      },
+      "JobResponse": {
+        "type": "object",
+        "properties": {
+          "job_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "queued",
+              "processing",
+              "certified",
+              "failed",
+              "partial"
+            ]
+          },
+          "module_id": {
+            "type": "string",
+            "enum": [
+              "M01",
+              "M02",
+              "M03",
+              "M04",
+              "C01"
+            ]
+          },
+          "location_id": {
+            "type": "string"
+          },
+          "vault_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "record": {
+            "type": "object",
+            "properties": {
+              "vault_id": {
+                "type": "string"
+              },
+              "cert_ref": {
+                "type": "string",
+                "nullable": true
+              },
+              "tenant_id": {
+                "type": "string"
+              },
+              "location_id": {
+                "type": "string"
+              },
+              "module_id": {
+                "type": "string",
+                "enum": [
+                  "M01",
+                  "M02",
+                  "M03",
+                  "M04",
+                  "C01"
+                ]
+              },
+              "period": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "end": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "start",
+                  "end"
+                ],
+                "additionalProperties": false
+              },
+              "fiscal_period": {
+                "type": "string"
+              },
+              "cadence": {
+                "type": "string",
+                "enum": [
+                  "week",
+                  "fiscal_period",
+                  "quarter"
+                ]
+              },
+              "period_label": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string",
+                "enum": [
+                  "S1",
+                  "S2",
+                  "S3",
+                  "S4",
+                  "S5",
+                  "S6",
+                  "S7"
+                ]
+              },
+              "certified_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "sha256_hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "content_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "merkle_root": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "formula_version": {
+                "type": "string"
+              },
+              "rule_set_version": {
+                "type": "string"
+              },
+              "sector_pack": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "version": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "name",
+                  "version"
+                ],
+                "additionalProperties": false
+              },
+              "certified_metrics": {
+                "type": "object",
+                "properties": {
+                  "trust_score": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "outcome": {
+                    "type": "string",
+                    "enum": [
+                      "CERTIFIED",
+                      "VERIFIED",
+                      "REVIEWED",
+                      "FAILED"
+                    ]
+                  },
+                  "hard_gate_overrides": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "penalty_rows": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "reason": {
+                          "type": "string"
+                        },
+                        "fix": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "reason",
+                        "fix"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "disputed_total_cents": {
+                    "type": "integer"
+                  },
+                  "findings": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "ref": {
+                          "type": "string",
+                          "pattern": "^[FV]-\\d{3}$"
+                        },
+                        "kind": {
+                          "type": "string",
+                          "enum": [
+                            "RECOVERY",
+                            "REVIEW"
+                          ]
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "amount_cents": {
+                          "type": "integer"
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "ref",
+                        "kind",
+                        "label",
+                        "description",
+                        "amount_cents",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "kpis": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ]
+                    },
+                    "default": {}
+                  },
+                  "reconciliation": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "leg": {
+                          "type": "string"
+                        },
+                        "left_cents": {
+                          "type": "integer"
+                        },
+                        "right_cents": {
+                          "type": "integer"
+                        },
+                        "variance_cents": {
+                          "type": "integer"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "MATCHED",
+                            "CLASSIFIED",
+                            "UNEXPLAINED"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "leg",
+                        "left_cents",
+                        "right_cents",
+                        "variance_cents",
+                        "status"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "recoveries": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "prior_vault_id": {
+                          "type": "string"
+                        },
+                        "prior_ref": {
+                          "type": "string",
+                          "pattern": "^F-\\d{3}$"
+                        },
+                        "finding_cents": {
+                          "type": "integer"
+                        },
+                        "credited_before_cents": {
+                          "type": "integer"
+                        },
+                        "credited_cents": {
+                          "type": "integer"
+                        },
+                        "outstanding_cents": {
+                          "type": "integer"
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "prior_vault_id",
+                        "prior_ref",
+                        "finding_cents",
+                        "credited_before_cents",
+                        "credited_cents",
+                        "outstanding_cents",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "evidence_gaps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "subject": {
+                          "type": "string"
+                        },
+                        "cents": {
+                          "type": "integer"
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "subject",
+                        "cents",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "fee_basis": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "subject": {
+                          "type": "string"
+                        },
+                        "basis": {
+                          "type": "string",
+                          "enum": [
+                            "BATCHES_CLOSED_IN_PERIOD",
+                            "STATEMENT_SUMMARY"
+                          ]
+                        },
+                        "volume_cents": {
+                          "type": "integer"
+                        },
+                        "transaction_count": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "batch_count": {
+                          "type": "integer",
+                          "minimum": 0
+                        },
+                        "reason": {
+                          "type": "string"
+                        },
+                        "rate_basis": {
+                          "type": "string",
+                          "enum": [
+                            "CARD_TYPE",
+                            "SINGLE_RATE",
+                            "BLENDED_HIGHEST"
+                          ]
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "subject",
+                        "basis",
+                        "volume_cents",
+                        "transaction_count",
+                        "batch_count",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "rate_change": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "subject": {
+                          "type": "string"
+                        },
+                        "basis": {
+                          "type": "string",
+                          "enum": [
+                            "AFTER_INITIAL_TERM",
+                            "RATE_SET_BY_NOTICE"
+                          ]
+                        },
+                        "confirmation_needed_from": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "CONFIRMED",
+                            "UNCONFIRMED"
+                          ]
+                        },
+                        "contingent_cents": {
+                          "type": "integer"
+                        },
+                        "confirmation": {
+                          "type": "object",
+                          "properties": {
+                            "record_id": {
+                              "type": "string"
+                            },
+                            "confirmed_by": {
+                              "type": "string"
+                            },
+                            "confirmed_on": {
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "statement_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            },
+                            "document_sha256": {
+                              "type": "string",
+                              "pattern": "^[0-9a-f]{64}$"
+                            }
+                          },
+                          "required": [
+                            "record_id",
+                            "confirmed_by",
+                            "confirmed_on",
+                            "statement_sha256",
+                            "document_sha256"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "subject",
+                        "basis",
+                        "confirmation_needed_from",
+                        "status",
+                        "contingent_cents",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "held_items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "subject": {
+                          "type": "string"
+                        },
+                        "cents": {
+                          "type": "integer"
+                        },
+                        "hold_until": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "reason": {
+                          "type": "string"
+                        },
+                        "evidence": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "subject",
+                        "cents",
+                        "hold_until",
+                        "reason",
+                        "evidence"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "datasets": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "dataset": {
+                          "type": "string"
+                        },
+                        "label": {
+                          "type": "string"
+                        },
+                        "source_system": {
+                          "type": "string"
+                        },
+                        "integration": {
+                          "type": "string",
+                          "enum": [
+                            "API",
+                            "FILE",
+                            "MANUAL"
+                          ]
+                        },
+                        "records": {
+                          "type": "integer"
+                        },
+                        "trust_score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100
+                        },
+                        "outcome": {
+                          "type": "string",
+                          "enum": [
+                            "CERTIFIED",
+                            "VERIFIED",
+                            "REVIEWED",
+                            "FAILED"
+                          ]
+                        },
+                        "penalty_rows": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "reason": {
+                                "type": "string"
+                              },
+                              "fix": {
+                                "type": "string"
+                              }
+                            },
+                            "required": [
+                              "reason",
+                              "fix"
+                            ],
+                            "additionalProperties": false
+                          }
+                        }
+                      },
+                      "required": [
+                        "dataset",
+                        "label",
+                        "source_system",
+                        "integration",
+                        "records",
+                        "trust_score",
+                        "outcome",
+                        "penalty_rows"
+                      ],
+                      "additionalProperties": false
+                    }
+                  },
+                  "kpi_results": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "unit": {
+                          "type": "string",
+                          "enum": [
+                            "cents",
+                            "percent",
+                            "cents_per_hour",
+                            "ratio"
+                          ]
+                        },
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "integer"
+                            }
+                          ],
+                          "nullable": true
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": [
+                            "CERTIFIED",
+                            "BLOCKED",
+                            "NOT_CONNECTED",
+                            "WAITS_FOR_CADENCE"
+                          ]
+                        },
+                        "requires": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "trust_score": {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 100,
+                          "nullable": true
+                        },
+                        "formula": {
+                          "type": "string"
+                        },
+                        "reason": {
+                          "type": "string",
+                          "nullable": true
+                        },
+                        "vault_id": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "integer",
+                          "minimum": 1
+                        },
+                        "definition_sha256": {
+                          "type": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "target": {
+                          "type": "object",
+                          "properties": {
+                            "op": {
+                              "type": "string",
+                              "enum": [
+                                "<=",
+                                ">="
+                              ]
+                            },
+                            "value": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "op",
+                            "value"
+                          ],
+                          "additionalProperties": false
+                        },
+                        "target_status": {
+                          "type": "string",
+                          "enum": [
+                            "MET",
+                            "MISSED"
+                          ]
+                        },
+                        "waits_for": {
+                          "type": "string",
+                          "enum": [
+                            "week",
+                            "period",
+                            "month",
+                            "count"
+                          ]
+                        },
+                        "basis": {
+                          "type": "string",
+                          "enum": [
+                            "TIME_AND_ATTENDANCE"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "code",
+                        "name",
+                        "unit",
+                        "value",
+                        "status",
+                        "requires",
+                        "trust_score",
+                        "formula",
+                        "reason"
+                      ],
+                      "additionalProperties": false
+                    }
+                  }
+                },
+                "required": [
+                  "trust_score",
+                  "outcome",
+                  "hard_gate_overrides",
+                  "penalty_rows",
+                  "disputed_total_cents",
+                  "findings"
+                ],
+                "additionalProperties": false
+              },
+              "seal": {
+                "type": "object",
+                "properties": {
+                  "fre_standard": {
+                    "type": "string"
+                  },
+                  "custodian": {
+                    "type": "string"
+                  },
+                  "sealed_at": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "jurisdiction": {
+                    "type": "string"
+                  },
+                  "legal_hold": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "fre_standard",
+                  "custodian",
+                  "sealed_at",
+                  "jurisdiction",
+                  "legal_hold"
+                ],
+                "additionalProperties": false
+              },
+              "narrative": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": "string"
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                },
+                "required": [
+                  "text",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "manifest_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "stage_chain": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "stage": {
+                      "type": "string"
+                    },
+                    "output_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "link_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  },
+                  "required": [
+                    "stage",
+                    "output_sha256",
+                    "link_sha256"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "signature": {
+                "type": "object",
+                "properties": {
+                  "key_id": {
+                    "type": "string"
+                  },
+                  "algorithm": {
+                    "type": "string",
+                    "enum": [
+                      "ECDSA_P256_SHA256",
+                      "ED25519"
+                    ]
+                  },
+                  "value": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "key_id",
+                  "algorithm",
+                  "value"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "evidence_bundle": {
+                "type": "object",
+                "properties": {
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  },
+                  "storage": {
+                    "type": "string"
+                  },
+                  "retain_until": {
+                    "type": "string",
+                    "format": "date"
+                  }
+                },
+                "required": [
+                  "sha256",
+                  "storage",
+                  "retain_until"
+                ],
+                "additionalProperties": false,
+                "nullable": true
+              },
+              "superseded_by": {
+                "type": "string",
+                "nullable": true
+              },
+              "test_run": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "vault_id",
+              "tenant_id",
+              "location_id",
+              "module_id",
+              "period",
+              "fiscal_period",
+              "state",
+              "certified_at",
+              "sha256_hash",
+              "content_sha256",
+              "merkle_root",
+              "formula_version",
+              "rule_set_version",
+              "certified_metrics",
+              "seal",
+              "narrative",
+              "signature",
+              "evidence_bundle",
+              "superseded_by",
+              "test_run"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "job_id",
+          "status",
+          "module_id",
+          "location_id",
+          "vault_id",
+          "error",
+          "created_at"
+        ],
+        "additionalProperties": false
+      },
+      "VaultRecord": {
+        "type": "object",
+        "properties": {
+          "vault_id": {
+            "type": "string"
+          },
+          "cert_ref": {
+            "type": "string",
+            "nullable": true
+          },
+          "tenant_id": {
+            "type": "string"
+          },
+          "location_id": {
+            "type": "string"
+          },
+          "module_id": {
+            "type": "string",
+            "enum": [
+              "M01",
+              "M02",
+              "M03",
+              "M04",
+              "C01"
+            ]
+          },
+          "period": {
+            "type": "object",
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date"
+              },
+              "end": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": [
+              "start",
+              "end"
+            ],
+            "additionalProperties": false
+          },
+          "fiscal_period": {
+            "type": "string"
+          },
+          "cadence": {
+            "type": "string",
+            "enum": [
+              "week",
+              "fiscal_period",
+              "quarter"
+            ]
+          },
+          "period_label": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "S1",
+              "S2",
+              "S3",
+              "S4",
+              "S5",
+              "S6",
+              "S7"
+            ]
+          },
+          "certified_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "sha256_hash": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "content_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "merkle_root": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "formula_version": {
+            "type": "string"
+          },
+          "rule_set_version": {
+            "type": "string"
+          },
+          "sector_pack": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "version"
+            ],
+            "additionalProperties": false
+          },
+          "certified_metrics": {
+            "type": "object",
+            "properties": {
+              "trust_score": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "CERTIFIED",
+                  "VERIFIED",
+                  "REVIEWED",
+                  "FAILED"
+                ]
+              },
+              "hard_gate_overrides": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "penalty_rows": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "reason": {
+                      "type": "string"
+                    },
+                    "fix": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "reason",
+                    "fix"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "disputed_total_cents": {
+                "type": "integer"
+              },
+              "findings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ref": {
+                      "type": "string",
+                      "pattern": "^[FV]-\\d{3}$"
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "RECOVERY",
+                        "REVIEW"
+                      ]
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "amount_cents": {
+                      "type": "integer"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "ref",
+                    "kind",
+                    "label",
+                    "description",
+                    "amount_cents",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "kpis": {
+                "type": "object",
+                "additionalProperties": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "integer"
+                    }
+                  ]
+                },
+                "default": {}
+              },
+              "reconciliation": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "leg": {
+                      "type": "string"
+                    },
+                    "left_cents": {
+                      "type": "integer"
+                    },
+                    "right_cents": {
+                      "type": "integer"
+                    },
+                    "variance_cents": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "MATCHED",
+                        "CLASSIFIED",
+                        "UNEXPLAINED"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "leg",
+                    "left_cents",
+                    "right_cents",
+                    "variance_cents",
+                    "status"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "recoveries": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "prior_vault_id": {
+                      "type": "string"
+                    },
+                    "prior_ref": {
+                      "type": "string",
+                      "pattern": "^F-\\d{3}$"
+                    },
+                    "finding_cents": {
+                      "type": "integer"
+                    },
+                    "credited_before_cents": {
+                      "type": "integer"
+                    },
+                    "credited_cents": {
+                      "type": "integer"
+                    },
+                    "outstanding_cents": {
+                      "type": "integer"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "prior_vault_id",
+                    "prior_ref",
+                    "finding_cents",
+                    "credited_before_cents",
+                    "credited_cents",
+                    "outstanding_cents",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "evidence_gaps": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "cents": {
+                      "type": "integer"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "subject",
+                    "cents",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "fee_basis": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "subject": {
+                      "type": "string"
+                    },
+                    "basis": {
+                      "type": "string",
+                      "enum": [
+                        "BATCHES_CLOSED_IN_PERIOD",
+                        "STATEMENT_SUMMARY"
+                      ]
+                    },
+                    "volume_cents": {
+                      "type": "integer"
+                    },
+                    "transaction_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "batch_count": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "rate_basis": {
+                      "type": "string",
+                      "enum": [
+                        "CARD_TYPE",
+                        "SINGLE_RATE",
+                        "BLENDED_HIGHEST"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "subject",
+                    "basis",
+                    "volume_cents",
+                    "transaction_count",
+                    "batch_count",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "rate_change": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "subject": {
+                      "type": "string"
+                    },
+                    "basis": {
+                      "type": "string",
+                      "enum": [
+                        "AFTER_INITIAL_TERM",
+                        "RATE_SET_BY_NOTICE"
+                      ]
+                    },
+                    "confirmation_needed_from": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "CONFIRMED",
+                        "UNCONFIRMED"
+                      ]
+                    },
+                    "contingent_cents": {
+                      "type": "integer"
+                    },
+                    "confirmation": {
+                      "type": "object",
+                      "properties": {
+                        "record_id": {
+                          "type": "string"
+                        },
+                        "confirmed_by": {
+                          "type": "string"
+                        },
+                        "confirmed_on": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "statement_sha256": {
+                          "type": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        },
+                        "document_sha256": {
+                          "type": "string",
+                          "pattern": "^[0-9a-f]{64}$"
+                        }
+                      },
+                      "required": [
+                        "record_id",
+                        "confirmed_by",
+                        "confirmed_on",
+                        "statement_sha256",
+                        "document_sha256"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "subject",
+                    "basis",
+                    "confirmation_needed_from",
+                    "status",
+                    "contingent_cents",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "held_items": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "subject": {
+                      "type": "string"
+                    },
+                    "cents": {
+                      "type": "integer"
+                    },
+                    "hold_until": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "reason": {
+                      "type": "string"
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "subject",
+                    "cents",
+                    "hold_until",
+                    "reason",
+                    "evidence"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "datasets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "dataset": {
+                      "type": "string"
+                    },
+                    "label": {
+                      "type": "string"
+                    },
+                    "source_system": {
+                      "type": "string"
+                    },
+                    "integration": {
+                      "type": "string",
+                      "enum": [
+                        "API",
+                        "FILE",
+                        "MANUAL"
+                      ]
+                    },
+                    "records": {
+                      "type": "integer"
+                    },
+                    "trust_score": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100
+                    },
+                    "outcome": {
+                      "type": "string",
+                      "enum": [
+                        "CERTIFIED",
+                        "VERIFIED",
+                        "REVIEWED",
+                        "FAILED"
+                      ]
+                    },
+                    "penalty_rows": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "reason": {
+                            "type": "string"
+                          },
+                          "fix": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "reason",
+                          "fix"
+                        ],
+                        "additionalProperties": false
+                      }
+                    }
+                  },
+                  "required": [
+                    "dataset",
+                    "label",
+                    "source_system",
+                    "integration",
+                    "records",
+                    "trust_score",
+                    "outcome",
+                    "penalty_rows"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "kpi_results": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "unit": {
+                      "type": "string",
+                      "enum": [
+                        "cents",
+                        "percent",
+                        "cents_per_hour",
+                        "ratio"
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "integer"
+                        }
+                      ],
+                      "nullable": true
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "CERTIFIED",
+                        "BLOCKED",
+                        "NOT_CONNECTED",
+                        "WAITS_FOR_CADENCE"
+                      ]
+                    },
+                    "requires": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "trust_score": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 100,
+                      "nullable": true
+                    },
+                    "formula": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "vault_id": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "integer",
+                      "minimum": 1
+                    },
+                    "definition_sha256": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "target": {
+                      "type": "object",
+                      "properties": {
+                        "op": {
+                          "type": "string",
+                          "enum": [
+                            "<=",
+                            ">="
+                          ]
+                        },
+                        "value": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "op",
+                        "value"
+                      ],
+                      "additionalProperties": false
+                    },
+                    "target_status": {
+                      "type": "string",
+                      "enum": [
+                        "MET",
+                        "MISSED"
+                      ]
+                    },
+                    "waits_for": {
+                      "type": "string",
+                      "enum": [
+                        "week",
+                        "period",
+                        "month",
+                        "count"
+                      ]
+                    },
+                    "basis": {
+                      "type": "string",
+                      "enum": [
+                        "TIME_AND_ATTENDANCE"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "name",
+                    "unit",
+                    "value",
+                    "status",
+                    "requires",
+                    "trust_score",
+                    "formula",
+                    "reason"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "trust_score",
+              "outcome",
+              "hard_gate_overrides",
+              "penalty_rows",
+              "disputed_total_cents",
+              "findings"
+            ],
+            "additionalProperties": false
+          },
+          "seal": {
+            "type": "object",
+            "properties": {
+              "fre_standard": {
+                "type": "string"
+              },
+              "custodian": {
+                "type": "string"
+              },
+              "sealed_at": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "jurisdiction": {
+                "type": "string"
+              },
+              "legal_hold": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "fre_standard",
+              "custodian",
+              "sealed_at",
+              "jurisdiction",
+              "legal_hold"
+            ],
+            "additionalProperties": false
+          },
+          "narrative": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "text",
+              "sha256"
+            ],
+            "additionalProperties": false
+          },
+          "manifest_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "stage_chain": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "stage": {
+                  "type": "string"
+                },
+                "output_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "link_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              },
+              "required": [
+                "stage",
+                "output_sha256",
+                "link_sha256"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "signature": {
+            "type": "object",
+            "properties": {
+              "key_id": {
+                "type": "string"
+              },
+              "algorithm": {
+                "type": "string",
+                "enum": [
+                  "ECDSA_P256_SHA256",
+                  "ED25519"
+                ]
+              },
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "key_id",
+              "algorithm",
+              "value"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "evidence_bundle": {
+            "type": "object",
+            "properties": {
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "storage": {
+                "type": "string"
+              },
+              "retain_until": {
+                "type": "string",
+                "format": "date"
+              }
+            },
+            "required": [
+              "sha256",
+              "storage",
+              "retain_until"
+            ],
+            "additionalProperties": false,
+            "nullable": true
+          },
+          "superseded_by": {
+            "type": "string",
+            "nullable": true
+          },
+          "test_run": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "vault_id",
+          "tenant_id",
+          "location_id",
+          "module_id",
+          "period",
+          "fiscal_period",
+          "state",
+          "certified_at",
+          "sha256_hash",
+          "content_sha256",
+          "merkle_root",
+          "formula_version",
+          "rule_set_version",
+          "certified_metrics",
+          "seal",
+          "narrative",
+          "signature",
+          "evidence_bundle",
+          "superseded_by",
+          "test_run"
+        ],
+        "additionalProperties": false
+      },
+      "VaultListing": {
+        "type": "object",
+        "properties": {
+          "records": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "vault_id": {
+                  "type": "string"
+                },
+                "cert_ref": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "location_id": {
+                  "type": "string"
+                },
+                "module_id": {
+                  "type": "string",
+                  "enum": [
+                    "M01",
+                    "M02",
+                    "M03",
+                    "M04",
+                    "C01"
+                  ]
+                },
+                "period": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "type": "string",
+                      "format": "date"
+                    },
+                    "end": {
+                      "type": "string",
+                      "format": "date"
+                    }
+                  },
+                  "required": [
+                    "start",
+                    "end"
+                  ],
+                  "additionalProperties": false
+                },
+                "cadence": {
+                  "type": "string",
+                  "enum": [
+                    "week",
+                    "fiscal_period",
+                    "quarter"
+                  ]
+                },
+                "period_label": {
+                  "type": "string"
+                },
+                "certified_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "trust_score": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "CERTIFIED",
+                    "VERIFIED",
+                    "REVIEWED",
+                    "FAILED"
+                  ]
+                },
+                "state": {
+                  "type": "string",
+                  "enum": [
+                    "S1",
+                    "S2",
+                    "S3",
+                    "S4",
+                    "S5",
+                    "S6",
+                    "S7"
+                  ]
+                },
+                "test_run": {
+                  "type": "boolean"
+                },
+                "superseded_by": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "vault_id",
+                "cert_ref",
+                "location_id",
+                "module_id",
+                "period",
+                "certified_at",
+                "trust_score",
+                "outcome",
+                "state",
+                "test_run",
+                "superseded_by"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "next": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "records",
+          "next"
+        ],
+        "additionalProperties": false
+      },
+      "VerifyResponse": {
+        "type": "object",
+        "properties": {
+          "vault_id": {
+            "type": "string"
+          },
+          "valid": {
+            "type": "boolean"
+          },
+          "superseded_by": {
+            "type": "string",
+            "nullable": true
+          },
+          "signature_valid": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "required": [
+          "vault_id",
+          "valid",
+          "superseded_by",
+          "signature_valid"
+        ],
+        "additionalProperties": false
+      },
+      "RulesDisclosure": {
+        "type": "object",
+        "properties": {
+          "platform": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "defined": {
+                "type": "integer"
+              },
+              "executable": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "name",
+              "defined",
+              "executable"
+            ],
+            "additionalProperties": false
+          },
+          "modules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "module_id": {
+                  "type": "string",
+                  "enum": [
+                    "M01",
+                    "M02",
+                    "M03",
+                    "M04",
+                    "C01"
+                  ]
+                },
+                "defined": {
+                  "type": "integer"
+                },
+                "executable": {
+                  "type": "integer"
+                },
+                "categories": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "defined": {
+                        "type": "integer"
+                      },
+                      "executable": {
+                        "type": "integer"
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "defined",
+                      "executable"
+                    ],
+                    "additionalProperties": false
+                  }
+                }
+              },
+              "required": [
+                "module_id",
+                "defined",
+                "executable",
+                "categories"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "platform",
+          "modules"
+        ],
+        "additionalProperties": false
+      },
+      "ActionList": {
+        "type": "object",
+        "properties": {
+          "actions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "action_id": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "RECOVERY_READY",
+                    "FEE_ANOMALY",
+                    "HOLD_FOLLOW_UP"
+                  ]
+                },
+                "gate": {
+                  "type": "string",
+                  "enum": [
+                    "OPEN",
+                    "LIMITED"
+                  ]
+                },
+                "location_id": {
+                  "type": "string"
+                },
+                "module_id": {
+                  "type": "string"
+                },
+                "vault_id": {
+                  "type": "string"
+                },
+                "cert_ref": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "cents": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "outcome": {
+                  "type": "string"
+                },
+                "trust_score": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "OPEN",
+                    "DONE",
+                    "DISMISSED",
+                    "SUPERSEDED"
+                  ]
+                },
+                "resolved_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "required": [
+                "action_id",
+                "kind",
+                "gate",
+                "location_id",
+                "module_id",
+                "vault_id",
+                "cert_ref",
+                "subject",
+                "cents",
+                "message",
+                "outcome",
+                "trust_score",
+                "status",
+                "resolved_at",
+                "created_at"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "actions"
+        ],
+        "additionalProperties": false
+      },
+      "PatternList": {
+        "type": "object",
+        "properties": {
+          "as_of": {
+            "type": "string",
+            "format": "date",
+            "nullable": true
+          },
+          "patterns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "type": "string",
+                  "enum": [
+                    "REPEAT_ANOMALY",
+                    "RISING_FEES",
+                    "RECURRING_GAP",
+                    "RECOVERY_RATE"
+                  ]
+                },
+                "module_id": {
+                  "type": "string"
+                },
+                "vendor": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "subject": {
+                  "type": "string"
+                },
+                "periods": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "cents": {
+                  "type": "integer"
+                },
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "kind",
+                "module_id",
+                "vendor",
+                "subject",
+                "periods",
+                "cents",
+                "message"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "as_of",
+          "patterns"
+        ],
+        "additionalProperties": false
+      },
+      "ErrorEnvelope": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              },
+              "violations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "field": {
+                      "type": "string"
+                    },
+                    "record_id": {
+                      "type": "string"
+                    },
+                    "reason": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "field",
+                    "reason"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false
+          },
+          "request_id": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "error",
+          "request_id"
+        ],
+        "additionalProperties": false
+      },
+      "RecoveryLedger": {
+        "type": "object",
+        "properties": {
+          "location_id": {
+            "type": "string"
+          },
+          "module_id": {
+            "type": "string",
+            "enum": [
+              "M01",
+              "M02",
+              "M03",
+              "M04",
+              "C01"
+            ],
+            "nullable": true
+          },
+          "totals": {
+            "type": "object",
+            "properties": {
+              "certified_cents": {
+                "type": "integer"
+              },
+              "recovered_cents": {
+                "type": "integer"
+              },
+              "outstanding_cents": {
+                "type": "integer"
+              },
+              "findings": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "certified_cents",
+              "recovered_cents",
+              "outstanding_cents",
+              "findings"
+            ],
+            "additionalProperties": false
+          },
+          "by_module": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "properties": {
+                "certified_cents": {
+                  "type": "integer"
+                },
+                "recovered_cents": {
+                  "type": "integer"
+                },
+                "outstanding_cents": {
+                  "type": "integer"
+                },
+                "findings": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "certified_cents",
+                "recovered_cents",
+                "outstanding_cents",
+                "findings"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "vault_id": {
+                  "type": "string"
+                },
+                "cert_ref": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "module_id": {
+                  "type": "string",
+                  "enum": [
+                    "M01",
+                    "M02",
+                    "M03",
+                    "M04",
+                    "C01"
+                  ]
+                },
+                "fiscal_period": {
+                  "type": "string"
+                },
+                "ref": {
+                  "type": "string",
+                  "pattern": "^F-\\d{3}$"
+                },
+                "label": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                },
+                "amount_cents": {
+                  "type": "integer"
+                },
+                "recovered_cents": {
+                  "type": "integer"
+                },
+                "outstanding_cents": {
+                  "type": "integer"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "OPEN",
+                    "PARTLY_RECOVERED",
+                    "RECOVERED"
+                  ]
+                },
+                "recovered_in": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "vault_id",
+                "cert_ref",
+                "module_id",
+                "fiscal_period",
+                "ref",
+                "label",
+                "description",
+                "amount_cents",
+                "recovered_cents",
+                "outstanding_cents",
+                "status",
+                "recovered_in"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "location_id",
+          "module_id",
+          "totals",
+          "by_module",
+          "findings"
+        ],
+        "additionalProperties": false
+      },
+      "SigningKeys": {
+        "type": "object",
+        "properties": {
+          "keys": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key_id": {
+                  "type": "string"
+                },
+                "algorithm": {
+                  "type": "string",
+                  "enum": [
+                    "ECDSA_P256_SHA256",
+                    "ED25519"
+                  ]
+                },
+                "public_key_pem": {
+                  "type": "string"
+                },
+                "activated_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "retired_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "key_id",
+                "algorithm",
+                "public_key_pem",
+                "activated_at",
+                "retired_at"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "keys"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "paths": {
+    "/certify": {
+      "post": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CertifyRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": "Accepted"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/certify/batch": {
+      "post": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Up to 50 jobs accepted"
+          }
+        }
+      }
+    },
+    "/jobs/{job_id}": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/modules": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Module registry"
+          }
+        }
+      }
+    },
+    "/modules/{module_id}/schema": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "records[] JSON Schema"
+          }
+        }
+      }
+    },
+    "/vault": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VaultListing"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vault/{vault_id}": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VaultRecord"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vault/{vault_id}/evidence": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Evidence index, or an inclusion proof with ?record_id="
+          }
+        }
+      }
+    },
+    "/vault/{vault_id}/exportpack": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "ExportPack: received data, evidence with inclusion proofs, client-safe record, narrative, keys, SHA-256 manifest (ADR 0041)"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vault/{vault_id}/verify": {
+      "get": {
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifyResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/recoveries": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "description": "The recovery ledger: certified findings and the credits that paid them back (optional location_id, module_id)",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecoveryLedger"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/keys": {
+      "get": {
+        "description": "MGE's public signing keys, retired keys included, for checking record signatures (no key)",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SigningKeys"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/openapi.json": {
+      "get": {
+        "description": "This OpenAPI 3.1 document (no key)",
+        "responses": {
+          "200": {
+            "description": "OpenAPI document"
+          }
+        }
+      }
+    },
+    "/rules": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RulesDisclosure"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/patterns": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatternList"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions": {
+      "get": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionList"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/actions/{action_id}/resolve": {
+      "post": {
+        "security": [
+          {
+            "mgeKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The resolved action"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
