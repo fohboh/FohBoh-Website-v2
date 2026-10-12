@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FohBoh.ai — Data Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="dr.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="room.html"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FFFFFF" stroke-width="7"></rect></svg><b>FohBoh<sup>®</sup><i>.ai</i></b><span class="bar"></span><small>Data Room</small></a>
+  <div class="who"><span>Signed in as <strong id="me">…</strong></span><span class="mono" style="font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#0B1F3B">Session logged</span><button class="linkbtn" id="out" type="button">Sign out</button></div>
+</header>
+<main>
+  <div class="wrap">
+    <div class="head">
+      <div style="display:flex;flex-direction:column;gap:12px"><span class="kicker">Confidential · Subject to NDA</span><h1>Index of materials</h1></div>
+      <p>Your password opens the standard folders. Folders marked Restricted need a PIN issued separately by Michael Atkinson.</p>
+    </div>
+    <nav class="pills" aria-label="Data room sections">
+      <button class="pill" type="button" data-tab="index" aria-pressed="true">Index</button>
+      <button class="pill" type="button" data-tab="faq" aria-pressed="false">FAQ</button>
+      <a class="pill" href="https://fohboh-glossary.netlify.app/" target="_blank" rel="noopener">Glossary</a>
+      <a class="pill" href="mailto:hello@fohboh.com?subject=Data%20room%20question">Ask a question</a>
+    </nav>
+    <div id="m" class="msg" role="alert"></div>
+
+    <section id="tab-index" style="display:flex;flex-direction:column;gap:32px">
+      <div><h2 style="font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1D1D1F;margin-bottom:16px">Folders</h2><div class="grid" id="folders"></div></div>
+      <section class="card panel" id="panel" aria-live="polite"></section>
+      <section class="band" id="band" hidden>
+        <div style="display:flex;gap:16px;align-items:flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:2px"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><div><strong>Restricted folders</strong><span>Restricted folders are released to qualified parties only. If you have been issued a PIN, select the folder above to enter it.</span></div></div>
+        <a class="btn" href="mailto:hello@fohboh.com?subject=Restricted%20data%20room%20access">Request restricted access</a>
+      </section>
+    </section>
+
+    <section id="tab-faq" class="card" hidden>
+      <details class="faq"><summary>Who can see what I open in the data room?</summary><p>FohBoh.ai records each sign-in, PIN attempt and document opened, with the name and email address you entered, the time and your network address. Only Michael Atkinson can read that record.</p></details>
+      <details class="faq"><summary>How do I get access to a restricted folder?</summary><p>Restricted folders (Financials &amp; Cap Table, Intellectual Property, Legal &amp; Material Contracts) open with a six-digit PIN that Michael Atkinson issues to you for each folder. Ask through the button above.</p></details>
+      <details class="faq"><summary>Can I download or share documents?</summary><p>Documents open in your browser through a link that expires within a minute. Everything here stays subject to your NDA: please don't forward, copy or redistribute it.</p></details>
+      <details class="faq"><summary>How current are the materials?</summary><p>Each document shows the date it was last updated. Michael Atkinson keeps the data room current through the process.</p></details>
+      <details class="faq"><summary>How long does my access last?</summary><p>Sessions end after eight hours or when you sign out; PIN unlocks last for the session. Your access itself stays open until the date Michael Atkinson set, or until it is withdrawn.</p></details>
+      <details class="faq"><summary>Who do I contact with a question the materials don't answer?</summary><p>Michael Atkinson, Founder, through hello@fohboh.com.</p></details>
+    </section>
+  </div>
+</main>
+<footer class="foot"><span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span><span>Confidential · Subject to NDA</span></footer>
+<script src="dr.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  let data = null, current = "01";
+  const LOCK = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>';
+  const fmtSize = (n) => !n ? "" : n > 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.max(1, Math.round(n / 1024)) + " KB";
+
+  async function load() {
+    try { data = await DR.api("room"); }
+    catch (e) { if (e.status === 401) return location.replace("index.html"); return DR.show($("m"), e.message); }
+    $("me").textContent = data.me.name;
+    $("band").hidden = !data.folders.some((f) => f.restricted && !f.unlocked);
+    render();
+  }
+  function render() {
+    $("folders").innerHTML = data.folders.map((f) => {
+      const locked = f.restricted && !f.unlocked;
+      return '<button type="button" class="folder' + (locked ? " locked" : "") + '" data-f="' + f.id + '"' + (f.id === current ? ' aria-current="true"' : "") + '>' +
+        '<span class="row"><span class="num">' + f.id + '</span>' + (f.restricted ? '<span class="lock">' + (f.unlocked ? "Unlocked" : LOCK + " Restricted · PIN") + "</span>" : "") + "</span>" +
+        '<span class="name">' + DR.esc(f.title) + '</span><span class="desc">' + DR.esc(f.desc) + "</span></button>";
+    }).join("");
+    const f = data.folders.find((x) => x.id === current);
+    const p = $("panel");
+    if (f.restricted && !f.unlocked) {
+      p.innerHTML = '<div class="ph"><h2><span class="mono" style="font-size:13px;font-weight:500;color:#5A5A60;margin-right:12px">' + f.id + "</span>" + DR.esc(f.title) + '</h2><span class="mono" style="font-size:11px;letter-spacing:.1em;text-transform:uppercase">Restricted folder</span></div>' +
+        (f.granted
+          ? '<form class="pinbox" id="pf"><p>This folder is released to qualified parties only. Enter the six-digit PIN issued to you by Michael Atkinson. Every attempt is recorded.</p><div id="pm" class="msg" role="alert"></div><div class="field"><label for="pin">Folder PIN</label><input id="pin" class="pin" type="password" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}"></div><div><button class="btn" id="pb" type="submit">Unlock folder</button></div></form>'
+          : '<div class="pinbox"><p>This folder has not been released to you. If you need it, ask Michael Atkinson for restricted access.</p><div><a class="btn ghost" href="mailto:hello@fohboh.com?subject=Restricted%20access%3A%20' + encodeURIComponent(f.title) + '">Request access</a></div></div>');
+      const pf = $("pf");
+      if (pf) pf.addEventListener("submit", async (ev) => {
+        ev.preventDefault(); DR.show($("pm"), ""); DR.busy($("pb"), true);
+        try { await DR.api("unlock", { folder: f.id, pin: $("pin").value.trim() }); await load(); }
+        catch (e) { if (e.status === 401 && e.code === "SIGNED_OUT") return location.replace("index.html"); DR.show($("pm"), e.message); $("pin").value = ""; DR.busy($("pb"), false); }
+      });
+      return;
+    }
+    const rows = f.docs.map((d) => '<tr><td class="mono">' + DR.esc(d.ref) + '</td><td style="font-weight:500">' + DR.esc(d.title) + '</td><td class="mono">' + DR.esc(d.type) + (d.size ? " · " + fmtSize(d.size) : "") + '</td><td style="color:#5A5A60">' + DR.esc(d.updatedOn || "") + '</td><td style="text-align:right"><a href="/api/dataroom/open?doc=' + encodeURIComponent(d.id) + '" target="_blank" rel="noopener" style="font-weight:600;text-decoration:none">View</a></td></tr>').join("");
+    p.innerHTML = '<div class="ph"><h2><span class="mono" style="font-size:13px;font-weight:500;color:#5A5A60;margin-right:12px">' + f.id + "</span>" + DR.esc(f.title) + "</h2><span>Each document you open is recorded</span></div>" +
+      (f.docs.length ? '<div class="tbl"><table><thead><tr><th scope="col">Ref.</th><th scope="col">Document</th><th scope="col">Type</th><th scope="col">Updated</th><th scope="col" style="text-align:right">Action</th></tr></thead><tbody>' + rows + "</tbody></table></div>" : '<div class="empty">Documents for this folder are being prepared.</div>');
+  }
+  document.addEventListener("click", (ev) => {
+    const b = ev.target.closest("[data-f]"); if (b) { current = b.dataset.f; render(); $("panel").scrollIntoView({ behavior: "smooth", block: "start" }); }
+    const t = ev.target.closest("[data-tab]");
+    if (t) { document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); $("tab-index").hidden = t.dataset.tab !== "index"; $("tab-faq").hidden = t.dataset.tab !== "faq"; }
+  });
+  $("out").addEventListener("click", async () => { try { await DR.api("logout", {}); } catch (e) { /* ignore */ } location.replace("index.html"); });
+  load();
+})();
+</script>
+</body>
+</html>

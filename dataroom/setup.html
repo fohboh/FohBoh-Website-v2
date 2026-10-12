@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FohBoh.ai — Data Room Setup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="dr.css">
+</head>
+<body>
+<header class="top dark"><span class="brand"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="4" width="48" height="44" fill="#FFFFFF"></rect><rect x="46" y="52" width="48" height="44" fill="#A78BFA"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#0B1F3B" stroke-width="7"></rect></svg><b>FohBoh<sup>®</sup><i>.ai</i></b><span class="bar" style="background:rgba(255,255,255,.4)"></span><small>Data Room · Setup</small></span></header>
+<main><div class="wrap">
+  <form id="f" class="card" style="max-width:520px;padding:32px;display:flex;flex-direction:column;gap:18px">
+    <h1 style="font-size:28px">Set up the administrator</h1>
+    <p style="margin:0;font-size:14.5px;line-height:1.6;color:#5A5A60">One time only. Enter the setup token you saved in Vercel as <span class="mono">DATAROOM_SETUP_TOKEN</span>, then choose your administrator password. Once an administrator exists, this page stops working.</p>
+    <div id="m" class="msg" role="alert"></div>
+    <div class="field"><label for="t">Setup token</label><input id="t" type="password" autocomplete="off"></div>
+    <div class="field"><label for="n">Your name</label><input id="n" type="text" autocomplete="name"></div>
+    <div class="field"><label for="e">Your email address</label><input id="e" type="email" autocomplete="username"></div>
+    <div class="field"><label for="p">Administrator password</label><input id="p" type="password" autocomplete="new-password"><small>At least 12 characters. Use a password manager.</small></div>
+    <div class="field"><label for="p2">Repeat the password</label><input id="p2" type="password" autocomplete="new-password"></div>
+    <div><button class="btn" id="b" type="submit">Create administrator</button></div>
+  </form>
+</div></main>
+<footer class="foot"><span>© 2026 FohBoh.ai, Inc.</span><span>Owner only</span></footer>
+<script src="dr.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  DR.api("status").then((s) => { if (!s.setupNeeded) { DR.show($("m"), "The administrator is already set up. Go to the administrator page to sign in.", "ok"); $("b").disabled = true; } }).catch((e) => DR.show($("m"), e.message));
+  $("f").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), "");
+    if ($("p").value !== $("p2").value) return DR.show($("m"), "The two passwords don't match.");
+    DR.busy($("b"), true);
+    try { await DR.api("setup", { token: $("t").value, name: $("n").value, email: $("e").value, password: $("p").value }); location.replace("admin.html"); }
+    catch (e) { DR.show($("m"), e.message); DR.busy($("b"), false); }
+  });
+})();
+</script>
+</body>
+</html>

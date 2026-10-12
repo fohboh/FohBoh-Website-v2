@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FohBoh.ai — Data Room Administrator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="dr.css">
+</head>
+<body>
+<header class="top dark">
+  <span class="brand"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="4" width="48" height="44" fill="#FFFFFF"></rect><rect x="46" y="52" width="48" height="44" fill="#A78BFA"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#0B1F3B" stroke-width="7"></rect></svg><b>FohBoh<sup>®</sup><i>.ai</i></b><span class="bar" style="background:rgba(255,255,255,.4)"></span><small>Data Room · Administrator</small></span>
+  <div class="who" id="who" hidden><span style="color:#9FE3E3" class="mono">Owner only</span><span style="color:#fff" id="me"></span><button class="linkbtn" id="out" type="button">Sign out</button></div>
+</header>
+<main>
+  <div class="wrap">
+    <!-- sign in -->
+    <form id="login" class="card" style="max-width:460px;padding:32px;display:flex;flex-direction:column;gap:18px" hidden>
+      <h1 style="font-size:28px">Administrator sign-in</h1>
+      <div id="lm" class="msg" role="alert"></div>
+      <div class="field"><label for="le">Email address</label><input id="le" type="email" autocomplete="username"></div>
+      <div class="field"><label for="lp">Password</label><input id="lp" type="password" autocomplete="current-password"></div>
+      <div><button class="btn" id="lb" type="submit">Sign in</button></div>
+      <p style="margin:0;font-size:13px;color:#5A5A60">First time? <a href="setup.html">Set up the administrator</a> with the setup token.</p>
+    </form>
+
+    <div id="app" hidden style="display:flex;flex-direction:column;gap:40px">
+      <div class="head"><div style="display:flex;flex-direction:column;gap:12px"><h1>Data room administration</h1><p style="max-width:70ch">Issue and withdraw access, add documents, and read the access log. Passwords and PINs are shown once when issued and stored only as one-way hashes: copy them before you leave the page.</p></div><a class="btn ghost" href="room.html" target="_blank" rel="noopener">Open the visitor view</a></div>
+      <nav class="pills"><button class="pill" type="button" data-tab="grants" aria-pressed="true">Access</button><button class="pill" type="button" data-tab="docs" aria-pressed="false">Documents</button><button class="pill" type="button" data-tab="log" aria-pressed="false">Access log</button></nav>
+      <div id="m" class="msg" role="alert"></div>
+
+      <!-- access -->
+      <section id="tab-grants" style="display:flex;flex-direction:column;gap:24px">
+        <form id="gf" class="card panel">
+          <div class="ph"><h2 id="gft">Issue access</h2><span>Name and email must match the signed NDA</span></div>
+          <div class="formgrid">
+            <div class="field"><label for="gn">Full legal name</label><input id="gn" type="text"></div>
+            <div class="field"><label for="ge">Email address</label><input id="ge" type="email"></div>
+            <div class="field"><label for="go">Organization</label><input id="go" type="text"></div>
+            <div class="field"><label for="gd">NDA signed on</label><input id="gd" type="date"></div>
+            <div class="field"><label for="gx">Access ends on (optional)</label><input id="gx" type="date"></div>
+            <div class="field"><label for="gp">Password</label><input id="gp" type="text" autocomplete="off" placeholder="Leave blank to generate"><small>At least 10 characters if you set your own.</small></div>
+            <div class="field full"><label>Restricted folders this person may open (each gets its own six-digit PIN)</label><div class="chk" id="gfolders"></div><small>Leave a PIN box blank to generate one. Existing PINs stay unless you tick "new PIN".</small></div>
+            <div class="full" id="gpins" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px"></div>
+            <div class="full chk" id="greset" hidden><label><input type="checkbox" id="grp"> Issue a new password</label><label><input type="checkbox" id="gra"> Reactivate if withdrawn</label></div>
+            <div class="full" style="display:flex;gap:12px;flex-wrap:wrap"><button class="btn" id="gb" type="submit">Issue access</button><button class="btn ghost" id="gc" type="button" hidden>Cancel editing</button></div>
+            <div class="full" id="issued" hidden></div>
+          </div>
+        </form>
+        <section class="card panel"><div class="ph"><h2>Access grants</h2><span id="gcount"></span></div><div class="tbl"><table><thead><tr><th>Recipient</th><th>NDA</th><th>Status</th><th>Restricted folders</th><th>Ends</th><th style="text-align:right">Action</th></tr></thead><tbody id="gt"></tbody></table></div></section>
+      </section>
+
+      <!-- documents -->
+      <section id="tab-docs" hidden style="display:flex;flex-direction:column;gap:24px">
+        <form id="df" class="card panel">
+          <div class="ph"><h2>Add a document</h2><span>Up to 100 MB · stored privately</span></div>
+          <div class="formgrid">
+            <div class="field"><label for="dfo">Folder</label><select id="dfo"></select></div>
+            <div class="field"><label for="dti">Title</label><input id="dti" type="text"></div>
+            <div class="field"><label for="dup">Updated on</label><input id="dup" type="date"></div>
+            <div class="field"><label for="dfi">File</label><input id="dfi" type="file" style="height:auto;padding:10px 0;border:0"></div>
+            <div class="full"><button class="btn" id="db" type="submit">Upload</button></div>
+          </div>
+        </form>
+        <section class="card panel"><div class="ph"><h2>Documents</h2><span id="dcount"></span></div><div class="tbl"><table><thead><tr><th>Ref.</th><th>Document</th><th>Folder</th><th>Updated</th><th style="text-align:right">Action</th></tr></thead><tbody id="dt"></tbody></table></div></section>
+      </section>
+
+      <!-- log -->
+      <section id="tab-log" hidden class="card panel">
+        <div class="ph"><h2>Activity</h2><span style="display:flex;gap:16px;align-items:center"><span>Last 30 days · newest first</span><a class="btn ghost" href="/api/dataroom/admin-log?days=365&amp;format=csv" style="min-height:40px">Export log (CSV)</a></span></div>
+        <div class="tbl"><table><thead><tr><th>Time (UTC)</th><th>Visitor</th><th>Event</th><th>Item</th><th>IP address</th></tr></thead><tbody id="lt"></tbody></table></div>
+      </section>
+    </div>
+  </div>
+</main>
+<footer class="foot"><span>© 2026 FohBoh.ai, Inc. · Data room administration</span><span>Owner only</span></footer>
+<script src="dr.js"></script>
+<script>
+(function () {
+  const $ = (id) => document.getElementById(id);
+  let folders = [], grants = [], docs = [], editing = null;
+  const RESTRICTED = () => folders.filter((f) => f.restricted);
+  const fname = (id) => (folders.find((f) => f.id === id) || {}).title || id;
+  const LABELS = { signed_in: ["Signed in", "strong"], signed_out: ["Signed out", ""], login_rejected: ["Password rejected", "bad"], login_locked: ["Locked out", "bad"], pin_accepted: ["PIN accepted", "strong"], pin_rejected: ["PIN rejected", "bad"], pin_locked: ["PIN locked", "bad"], document_opened: ["Document viewed", ""], open_refused: ["Refused", "bad"], access_granted: ["Access issued", "strong"], access_updated: ["Access updated", ""], access_revoked: ["Access withdrawn", "bad"], document_added: ["Document added", ""], document_removed: ["Document removed", ""], admin_signed_in: ["Admin signed in", ""], admin_login_rejected: ["Admin password rejected", "bad"], admin_login_locked: ["Admin locked out", "bad"], admin_created: ["Administrator set up", "strong"], setup_rejected: ["Setup token rejected", "bad"] };
+
+  async function start() {
+    try { const me = await DR.api("admin-me"); folders = me.folders; $("me").textContent = me.name; $("who").hidden = false; $("app").hidden = false; $("login").hidden = true; buildForm(); await Promise.all([loadGrants(), loadDocs(), loadLog()]); }
+    catch (e) { if (e.code === "NOT_CONFIGURED") { $("login").hidden = false; DR.show($("lm"), "The data room is not configured on the server yet (see the setup guide)."); return; } $("login").hidden = false; }
+  }
+  $("login").addEventListener("submit", async (ev) => { ev.preventDefault(); DR.busy($("lb"), true); DR.show($("lm"), ""); try { await DR.api("admin-login", { email: $("le").value, password: $("lp").value }); $("lp").value = ""; await start(); } catch (e) { DR.show($("lm"), e.message); } finally { DR.busy($("lb"), false); } });
+  $("out").addEventListener("click", async () => { try { await DR.api("logout", {}); } catch (e) {} location.reload(); });
+  document.addEventListener("click", (ev) => { const t = ev.target.closest("[data-tab]"); if (!t) return; document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); ["grants", "docs", "log"].forEach((k) => ($("tab-" + k).hidden = k !== t.dataset.tab)); if (t.dataset.tab === "log") loadLog(); });
+
+  function buildForm() {
+    $("gfolders").innerHTML = RESTRICTED().map((f) => '<label><input type="checkbox" value="' + f.id + '" data-gf> ' + f.id + " · " + DR.esc(f.title) + "</label>").join("");
+    $("dfo").innerHTML = folders.map((f) => '<option value="' + f.id + '">' + f.id + " · " + DR.esc(f.title) + "</option>").join("");
+    $("gfolders").addEventListener("change", pinBoxes);
+  }
+  function pinBoxes() {
+    const chosen = [...document.querySelectorAll("[data-gf]:checked")].map((x) => x.value);
+    const had = editing ? editing.folders : [];
+    $("gpins").innerHTML = chosen.map((id) => '<div class="field"><label for="pin-' + id + '">PIN · ' + id + " " + DR.esc(fname(id)) + '</label><input id="pin-' + id + '" type="text" inputmode="numeric" maxlength="6" placeholder="' + (had.includes(id) ? "Keep current PIN" : "Blank = generate") + '" autocomplete="off">' + (had.includes(id) ? '<label style="font-weight:400;font-size:13px;display:flex;gap:6px;align-items:center"><input type="checkbox" data-np="' + id + '"> new PIN</label>' : "") + "</div>").join("");
+  }
+  function resetForm() { editing = null; $("gf").reset(); $("gft").textContent = "Issue access"; $("gb").textContent = "Issue access"; $("gc").hidden = true; $("greset").hidden = true; $("ge").readOnly = false; pinBoxes(); }
+  $("gc").addEventListener("click", resetForm);
+  $("gf").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), ""); $("issued").hidden = true;
+    const chosen = [...document.querySelectorAll("[data-gf]:checked")].map((x) => x.value);
+    const pins = {}; chosen.forEach((id) => { const v = ($("pin-" + id) || {}).value; if (v) pins[id] = v.trim(); });
+    const resetPins = [...document.querySelectorAll("[data-np]:checked")].map((x) => x.dataset.np);
+    DR.busy($("gb"), true);
+    try {
+      const r = await DR.api("admin-grant", { name: $("gn").value, email: $("ge").value, org: $("go").value, ndaSignedOn: $("gd").value, expiresOn: $("gx").value, password: $("gp").value, folders: chosen, pins, resetPins, resetPassword: $("grp").checked, reactivate: $("gra").checked });
+      const lines = [];
+      if (r.issued.password) lines.push("Password: <code>" + DR.esc(r.issued.password) + "</code>");
+      Object.keys(r.issued.pins).forEach((id) => lines.push("PIN for " + id + " " + DR.esc(fname(id)) + ": <code>" + DR.esc(r.issued.pins[id]) + "</code>"));
+      $("issued").innerHTML = '<div class="issued"><strong>Copy these now; they will not be shown again.</strong><br>' + DR.esc(r.grant.name) + " · " + DR.esc(r.grant.email) + "<br>" + (lines.join("<br>") || "No new password or PIN was issued.") + '<br><span style="font-size:13px;color:#5A5A60">Send the password and each PIN separately (for example, password by email and PIN by text message). Sign-in page: ' + DR.esc(location.origin) + "/dataroom/</span></div>";
+      $("issued").hidden = false;
+      const keep = $("issued").innerHTML; resetForm(); $("issued").innerHTML = keep; $("issued").hidden = false;
+      await loadGrants();
+    } catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("gb"), false); }
+  });
+  async function loadGrants() {
+    grants = (await DR.api("admin-grants")).grants;
+    $("gcount").textContent = grants.filter((g) => g.status === "active").length + " active";
+    $("gt").innerHTML = grants.map((g) => '<tr><td><div style="font-weight:600">' + DR.esc(g.name) + '</div><div style="font-size:12.5px;color:#5A5A60">' + DR.esc(g.email) + (g.org ? " · " + DR.esc(g.org) : "") + "</div></td><td>" + (g.ndaSignedOn ? "Signed " + DR.esc(g.ndaSignedOn) : "—") + "</td><td>" + (g.status === "active" ? '<span class="badge strong">Active</span>' : '<span class="badge bad">Withdrawn</span>') + "</td><td>" + (g.folders.length ? g.folders.join(", ") : "None") + "</td><td>" + DR.esc(g.expiresOn || "—") + '</td><td style="text-align:right;white-space:nowrap"><button class="linkbtn" data-edit="' + g.id + '">Edit</button>' + (g.status === "active" ? ' · <button class="linkbtn" data-revoke="' + g.id + '" style="color:#8A1C1C">Withdraw</button>' : "") + "</td></tr>").join("") || '<tr><td colspan="6" class="empty">No one has access yet.</td></tr>';
+  }
+  document.addEventListener("click", async (ev) => {
+    const e1 = ev.target.closest("[data-edit]"), r1 = ev.target.closest("[data-revoke]"), d1 = ev.target.closest("[data-rmdoc]");
+    if (e1) {
+      const g = grants.find((x) => x.id === e1.dataset.edit); editing = g; $("issued").hidden = true;
+      $("gn").value = g.name; $("ge").value = g.email; $("ge").readOnly = true; $("go").value = g.org; $("gd").value = g.ndaSignedOn; $("gx").value = g.expiresOn; $("gp").value = "";
+      document.querySelectorAll("[data-gf]").forEach((x) => (x.checked = g.folders.includes(x.value)));
+      $("gft").textContent = "Edit access · " + g.name; $("gb").textContent = "Save changes"; $("gc").hidden = false; $("greset").hidden = false; pinBoxes(); $("gf").scrollIntoView({ behavior: "smooth" });
+    }
+    if (r1) { const g = grants.find((x) => x.id === r1.dataset.revoke); if (!confirm("Withdraw access for " + g.name + "? They will be signed out at once.")) return; try { await DR.api("admin-revoke", { id: g.id }); await loadGrants(); } catch (e) { DR.show($("m"), e.message); } }
+    if (d1) { const d = docs.find((x) => x.id === d1.dataset.rmdoc); if (!confirm("Remove “" + d.title + "” from the data room? The file is deleted.")) return; try { await DR.api("admin-doc-remove", { id: d.id }); await loadDocs(); } catch (e) { DR.show($("m"), e.message); } }
+  });
+
+  async function loadDocs() {
+    docs = (await DR.api("admin-docs")).docs;
+    $("dcount").textContent = docs.length + " documents";
+    $("dt").innerHTML = docs.slice().sort((a, b) => a.ref.localeCompare(b.ref)).map((d) => '<tr><td class="mono">' + DR.esc(d.ref) + '</td><td style="font-weight:500">' + DR.esc(d.title) + '<div style="font-size:12.5px;color:#5A5A60">' + DR.esc(d.filename) + "</div></td><td>" + d.folder + " · " + DR.esc(fname(d.folder)) + "</td><td>" + DR.esc(d.updatedOn) + '</td><td style="text-align:right"><button class="linkbtn" data-rmdoc="' + d.id + '" style="color:#8A1C1C">Remove</button></td></tr>').join("") || '<tr><td colspan="5" class="empty">No documents yet.</td></tr>';
+  }
+  $("df").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), "");
+    const file = $("dfi").files[0]; if (!file) return DR.show($("m"), "Choose a file.");
+    DR.busy($("db"), true);
+    try {
+      const u = await DR.api("admin-upload-url", { folder: $("dfo").value, filename: file.name, contentType: file.type || "application/octet-stream", size: file.size });
+      const put = await fetch(u.uploadUrl, { method: "PUT", headers: { "Content-Type": u.contentType }, body: file, credentials: "same-origin" });
+      if (!put.ok) throw new Error("The upload did not complete (" + put.status + ").");
+      const ext = (file.name.split(".").pop() || "").slice(0, 6);
+      await DR.api("admin-doc-add", { folder: $("dfo").value, key: u.key, title: $("dti").value || file.name, filename: file.name, type: ext, size: file.size, updatedOn: $("dup").value });
+      $("df").reset(); DR.show($("m"), "Document added.", "ok"); await loadDocs();
+    } catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("db"), false); }
+  });
+
+  async function loadLog() {
+    const ev = (await DR.api("admin-log")).events;
+    $("lt").innerHTML = ev.map((r) => { const l = LABELS[r.event] || [r.event, ""]; const item = r.title ? (r.folder ? r.folder + " · " : "") + r.title : r.folder ? r.folder + " " + fname(r.folder) : r.event === "signed_in" ? "NDA acknowledged" : r.reason || (r.by ? "by " + r.by : ""); return '<tr><td class="mono" style="white-space:nowrap">' + DR.esc(r.at.replace("T", " ").slice(0, 19)) + '</td><td><div style="font-weight:600">' + DR.esc(r.name || "—") + '</div><div style="font-size:12.5px;color:#5A5A60">' + DR.esc(r.email || "") + '</div></td><td><span class="badge ' + l[1] + '">' + DR.esc(l[0]) + "</span></td><td>" + DR.esc(item) + '</td><td class="mono">' + DR.esc(r.ip || "") + "</td></tr>"; }).join("") || '<tr><td colspan="5" class="empty">No activity yet.</td></tr>';
+  }
+  start();
+})();
+</script>
+</body>
+</html>

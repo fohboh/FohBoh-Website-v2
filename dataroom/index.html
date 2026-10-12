@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>FohBoh.ai — Due Diligence Data Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="dr.css">
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="https://www.fohboh.ai/" aria-label="FohBoh.ai home"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FFFFFF" stroke-width="7"></rect></svg><b>FohBoh<sup>®</sup><i>.ai</i></b><span class="bar"></span><small>Data Room</small></a>
+  <span class="tag">Confidential · NDA required</span>
+</header>
+<main class="gate">
+  <section class="notice">
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <span class="kicker">Notice of confidentiality</span>
+      <h1>Due Diligence Data Room</h1>
+      <p>This site contains confidential and proprietary information of FohBoh.ai, Inc. Access is limited to parties who have executed a Non-Disclosure Agreement with the Company and received credentials from Michael Atkinson.</p>
+    </div>
+    <ol>
+      <li><span>§1</span><div><strong>Authorized recipients only</strong><em>Credentials are issued to a named individual and may not be shared or transferred.</em></div></li>
+      <li><span>§2</span><div><strong>All access is recorded</strong><em>Your name, email address, time of entry and each document opened are logged.</em></div></li>
+      <li><span>§3</span><div><strong>No copying or redistribution</strong><em>Materials remain subject to the terms of your executed NDA.</em></div></li>
+      <li><span>§4</span><div><strong>Restricted folders</strong><em>Certain folders stay locked after sign-in and open only with a separately issued PIN.</em></div></li>
+    </ol>
+  </section>
+  <section class="side">
+    <form id="f" novalidate>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <h2>Request entry</h2>
+        <p>Enter your details exactly as they appear on your NDA, with the password you were provided.</p>
+      </div>
+      <div id="m" class="msg" role="alert"></div>
+      <div class="field"><label for="name">Full legal name</label><input id="name" type="text" autocomplete="name" required></div>
+      <div class="field"><label for="email">Email address</label><input id="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="pw">Access password</label><input id="pw" type="password" autocomplete="current-password" required><small>Issued by Michael Atkinson after your NDA is countersigned.</small></div>
+      <div class="check"><input id="ack" type="checkbox"><label for="ack">I confirm that I am party to an executed Non-Disclosure Agreement with FohBoh.ai, Inc. and that my access will be logged.</label></div>
+      <button class="btn" id="go" type="submit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>Enter data room</button>
+      <p>No NDA on file? <a href="https://www.fohboh.ai/contact.html" style="font-weight:600">Request an NDA</a> and credentials will follow once it is signed.</p>
+    </form>
+  </section>
+</main>
+<footer class="foot"><span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span><span>Unauthorized access is prohibited</span></footer>
+<script src="dr.js"></script>
+<script>
+(function () {
+  const f = document.getElementById("f"), m = document.getElementById("m"), go = document.getElementById("go");
+  DR.api("room").then(() => location.replace("room.html")).catch(() => {});
+  DR.api("status").catch((e) => { if (e.code === "NOT_CONFIGURED") DR.show(m, "The data room is not open yet. Please contact Michael Atkinson."); });
+  f.addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show(m, "");
+    const v = (id) => document.getElementById(id).value;
+    if (!document.getElementById("ack").checked) return DR.show(m, "Please confirm that you are party to an executed NDA.");
+    DR.busy(go, true);
+    try { await DR.api("login", { name: v("name"), email: v("email"), password: v("pw"), ack: true }); location.replace("room.html"); }
+    catch (e) { DR.show(m, e.message); document.getElementById("pw").value = ""; }
+    finally { DR.busy(go, false); }
+  });
+})();
+</script>
+</body>
+</html>
