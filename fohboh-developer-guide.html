@@ -3,210 +3,89 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FohBoh | MGE — Developer Guide</title>
+<title>FohBoh | MGE™ — Developer Guide</title>
 <meta name="description" content="Developer guide to the FohBoh MGE API: authentication, endpoints, schemas, examples, errors, rate limits and versioning.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=JetBrains+Mono:wght@400;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="mobile-fix.css">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --red:#d63031;--red-dim:rgba(214,48,49,.12);--red-bdr:rgba(214,48,49,.28);
-  --green:#00c853;--green-dim:rgba(0,200,83,.10);--green-bdr:rgba(0,200,83,.28);
-  --gold:#f5c842;--gold-dim:rgba(245,200,66,.11);--gold-bdr:rgba(245,200,66,.28);
-  --ink:#07090f;--card:#0d1017;--card2:#111520;
-  --bdr:rgba(255,255,255,.07);--bdr-hi:rgba(255,255,255,.13);
-  --t0:#f8faff;--t1:#e8ecf4;--t2:#8892a4;--t3:#4a5568;
-}
+:root{--bg:#FAF9F6;--ink:#1d1d1f;--body:#494952;--muted:#6e6e73;--faint:#86868b;--line:#e8e8ed;--band:#f5f5f7;--slate:#3c434d;--navy:#0B1F3B;--violet:#6D28D9;--violet-hi:#7C3AED;--teal:#00A7A7}
+*,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:'Sora',system-ui,sans-serif;background:var(--ink);color:var(--t0);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.35}
-
-/* ── Layout ── */
-.wrap{max-width:1040px;margin:0 auto;padding:0 28px}
-.sec{padding:72px 0}
-hr.div{border:none;border-top:1px solid var(--bdr);margin:0}
-
-/* ── Top bar ── */
-.topbar{padding:22px 0;border-bottom:1px solid var(--bdr);position:sticky;top:0;z-index:10;background:rgba(7,9,15,.85);backdrop-filter:blur(14px)}
-.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
-.brand{font-family:'Sora',sans-serif;font-weight:700;font-size:14px;color:var(--t0);letter-spacing:-.01em;text-decoration:none}
-.brand .pipe{color:var(--t3);margin:0 8px}
-.brand .product{color:var(--red)}
-.brand-sub{display:block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-top:4px}
-.topnav{display:flex;gap:6px;align-items:center}
-.topnav a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;padding:7px 14px;border-radius:6px;border:1px solid transparent;transition:color .2s,border-color .2s,background .2s}
-.topnav a:hover{color:var(--t0);border-color:var(--bdr-hi);background:rgba(255,255,255,.03)}
-.topnav a.active{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
-
-/* ── Type ── */
-.kicker{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
-.kicker::before{content:'';width:20px;height:1px;background:var(--red);flex-shrink:0}
-.kicker.green{color:var(--green)}.kicker.green::before{background:var(--green)}
-.kicker.gold{color:var(--gold)}.kicker.gold::before{background:var(--gold)}
-h1{font-size:clamp(2.6rem,5.5vw,4.4rem);font-weight:800;letter-spacing:-.035em;line-height:1.05;color:var(--t0)}
-h1 em{font-style:normal;color:var(--red)}
-h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;letter-spacing:-.025em;line-height:1.15;color:var(--t0)}
-h3{font-size:1.05rem;font-weight:700;color:var(--t0);letter-spacing:-.01em;line-height:1.3}
-.lead{font-size:1rem;color:var(--t2);font-weight:300;line-height:1.75;max-width:580px}
-
-/* ── Tag atoms ── */
-.tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:100px;border:1px solid}
-.tag-r{color:var(--red);border-color:var(--red-bdr);background:var(--red-dim)}
-.tag-g{color:var(--green);border-color:var(--green-bdr);background:var(--green-dim)}
-.tag-n{color:var(--t2);border-color:var(--bdr-hi);background:rgba(255,255,255,.04)}
-
-/* ── Header ── */
-.header{padding:96px 0 80px;text-align:center;position:relative;overflow:hidden}
-.header-bg{position:absolute;inset:0;pointer-events:none}
-.header-bg::before{content:'';position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:680px;height:480px;background:radial-gradient(ellipse,rgba(214,48,49,.13) 0%,transparent 65%)}
-.header-bg::after{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:52px 52px}
-.eyebrow{display:inline-flex;align-items:center;gap:10px;background:var(--red-dim);border:1px solid var(--red-bdr);color:var(--red);font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:6px 18px;border-radius:100px;margin-bottom:28px}
-.eyebrow::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--red);animation:gp 2s ease-in-out infinite}
-@keyframes gp{0%,100%{opacity:1}50%{opacity:.3}}
-.header h1{max-width:800px;margin:0 auto 20px}
-.header .lead{margin:0 auto 36px;text-align:center}
-.header-tags{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
-
-/* ── Status banner ── */
-.status-banner{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--gold-bdr);border-radius:16px;padding:26px 30px;display:flex;align-items:center;justify-content:space-between;gap:22px;flex-wrap:wrap;margin-bottom:40px;position:relative;overflow:hidden}
-.status-banner::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:var(--gold)}
-.status-text strong{display:block;font-size:15px;color:var(--t0);font-weight:700;letter-spacing:-.01em;margin-bottom:6px}
-.status-text strong em{font-style:normal;color:var(--gold)}
-.status-text small{font-size:12px;color:var(--t2);font-weight:300;letter-spacing:0}
-.status-pill{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);background:var(--gold-dim);border:1px solid var(--gold-bdr);padding:8px 14px;border-radius:6px;white-space:nowrap}
-.status-pill::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);animation:gp 2s ease-in-out infinite}
-
-/* ── Support / feature grid ── */
-.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:28px}
-.feat-card{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:22px 24px;display:flex;align-items:flex-start;gap:14px;transition:border-color .2s}
-.feat-card:hover{border-color:var(--bdr-hi)}
-.feat-num{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;color:var(--red);background:var(--red-dim);border:1px solid var(--red-bdr);padding:4px 9px;border-radius:6px;flex-shrink:0;line-height:1}
-.feat-text{font-size:13px;color:var(--t1);font-weight:300;line-height:1.65}
-
-/* ── Principles ── */
-.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:32px}
-.principle{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 24px;position:relative;overflow:hidden;transition:border-color .2s}
-.principle:hover{border-color:var(--bdr-hi)}
-.principle::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
-.principle:nth-child(1)::before{background:linear-gradient(90deg,var(--green),transparent)}
-.principle:nth-child(2)::before{background:linear-gradient(90deg,var(--red),transparent)}
-.principle:nth-child(3)::before{background:linear-gradient(90deg,var(--gold),transparent)}
-.principle-icon{font-size:24px;display:block;margin-bottom:14px}
-.principle-num{font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px}
-.principle:nth-child(1) .principle-num{color:var(--green)}
-.principle:nth-child(2) .principle-num{color:var(--red)}
-.principle:nth-child(3) .principle-num{color:var(--gold)}
-.principle h3{font-size:15px;font-weight:700;color:var(--t0);margin-bottom:10px;letter-spacing:-.01em;line-height:1.3}
-.principle p{font-size:12.5px;color:var(--t2);font-weight:300;line-height:1.7}
-
-/* ── Standards list ── */
-.standards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:24px}
-.standard-item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em;color:var(--t2)}
-.standard-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0}
-
-/* ── Access / Advisory split ── */
-.split{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:32px}
-.access-card{background:var(--card);border:1px solid var(--bdr);border-radius:16px;padding:28px 26px}
-.access-card h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--t0);margin-bottom:16px}
-.access-card ul{list-style:none;margin:0;padding:0}
-.access-card li{font-size:13px;color:var(--t1);font-weight:300;line-height:1.85;display:flex;align-items:flex-start;gap:10px}
-.access-card li::before{content:'→';color:var(--red);font-weight:700;flex-shrink:0}
-.access-foot{margin-top:14px;padding-top:14px;border-top:1px solid var(--bdr);font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
-.advisory{background:var(--red-dim);border:1px solid var(--red-bdr);border-radius:16px;padding:28px 26px}
-.advisory-mark{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:12px}
-.advisory-mark::before{content:'⚠';font-size:13px}
-.advisory p{font-size:12.5px;color:var(--t1);font-weight:300;line-height:1.7}
-
-/* ── Contact CTA ── */
-.contact-cta{margin-top:0;background:linear-gradient(135deg,rgba(214,48,49,.07),rgba(0,200,83,.05));border:1px solid var(--red-bdr);border-radius:20px;padding:48px 48px;text-align:center;position:relative;overflow:hidden}
-.contact-cta::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:520px;height:280px;background:radial-gradient(ellipse,rgba(214,48,49,.1),transparent 70%);pointer-events:none}
-.contact-cta-mark{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:16px;position:relative;z-index:1}
-.contact-cta h2{margin-bottom:10px;position:relative;z-index:1}
-.contact-cta h2 em{font-style:normal;color:var(--red)}
-.contact-cta p{font-size:13.5px;color:var(--t2);font-weight:300;margin-bottom:26px;position:relative;z-index:1}
-.contact-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none;border:1px solid var(--red);transition:transform .2s,box-shadow .2s,background .2s;position:relative;z-index:1}
-.contact-btn::before{content:'✉';font-family:'Sora',sans-serif;font-size:13px}
-.contact-btn:hover{transform:translateY(-1px);box-shadow:0 10px 30px rgba(214,48,49,.35);background:#e63a3b}
-
-/* ── Footer ── */
-.footer{padding:44px 0;text-align:center;border-top:1px solid var(--bdr)}
-.footer p{font-size:12px;color:var(--t3);line-height:2}
-.footer strong{color:var(--t2)}
-.footer-links{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;margin-top:6px}
-.footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:var(--red)}
-
-/* ── Responsive ── */
-@media(max-width:780px){
-  .feat-grid,.principles,.standards,.split{grid-template-columns:1fr}
-  .contact-cta{padding:36px 26px}
-  .topnav{gap:2px;flex-wrap:wrap;justify-content:flex-end}
-  .topnav a{padding:6px 10px;font-size:9px}
-  .status-banner{flex-direction:column;align-items:flex-start}
-}
-.back-home{position:fixed;top:14px;left:14px;z-index:1001;display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:100px;background:rgba(0,0,0,.6);color:#fff;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.18);font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;line-height:1;transition:background .2s,transform .2s}
-.back-home:hover{background:rgba(214,48,49,.85);transform:translateX(-2px)}
-
-.docs{display:grid;grid-template-columns:230px minmax(0,1fr);gap:44px;align-items:start;padding-top:56px;padding-bottom:80px}
+html,body{overflow-x:clip}  /* clip, not hidden: keeps the contents column sticky */
+body{margin:0;background:var(--bg);font-family:'DM Sans',sans-serif;color:var(--ink);text-wrap:pretty;-webkit-font-smoothing:antialiased}
+a{color:var(--slate)}a:hover{color:#23282f}
+.kicker{margin:0 0 6px;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--slate)}
+.hero{padding:76px 64px 48px;border-bottom:1px solid var(--line)}
+.hero h1{margin:18px 0 0;font-family:'Outfit',sans-serif;font-weight:600;font-size:52px;line-height:1.08;letter-spacing:-.02em;max-width:20ch}
+.hero .lead{margin:16px 0 0;font-size:17px;line-height:1.6;color:var(--body);max-width:68ch}
+.chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11px;padding:8px 14px;background:#fff;border:1px solid #e0e0e5;border-radius:8px;color:var(--body)}
+.actions{display:flex;gap:12px 20px;flex-wrap:wrap;align-items:center;margin-top:30px}
+.btn{display:inline-block;font-size:15px;font-weight:600;color:#fff;background:var(--violet);padding:13px 26px;border-radius:980px;text-decoration:none;white-space:nowrap}
+.btn:hover{background:var(--violet-hi);color:#fff}
+.docs{display:grid;grid-template-columns:230px minmax(0,1fr);gap:48px;align-items:start;padding:56px 64px 80px;max-width:1240px}
 .docs>main{min-width:0}
-.toc{position:sticky;top:96px;max-height:calc(100vh - 120px);overflow:auto;border-right:1px solid var(--bdr);padding-right:18px}
-.toc p{font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3);margin-bottom:10px}
-.toc a{display:block;font-size:13px;color:var(--t2);text-decoration:none;padding:5px 0 5px 10px;border-left:2px solid transparent}
-.toc a:hover,.toc a.on{color:var(--t0);border-left-color:var(--red)}
-.dsec{padding:0 0 56px;margin-bottom:56px;border-bottom:1px solid var(--bdr);scroll-margin-top:96px}
+.toc{position:sticky;top:24px;max-height:calc(100vh - 48px);overflow:auto;border-right:1px solid var(--line);padding-right:18px}
+.toc p{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:0 0 10px}
+.toc a{display:block;font-size:13.5px;color:var(--muted);text-decoration:none;padding:5px 0 5px 12px;border-left:2px solid transparent}
+.toc a:hover,.toc a.on{color:var(--ink);border-left-color:var(--violet)}
+.dsec{padding:0 0 48px;margin-bottom:48px;border-bottom:1px solid var(--line);scroll-margin-top:24px}
 .dsec:last-child{border-bottom:none}
-.dsec h2{margin-bottom:18px}.dsec h2 code{font-size:.7em}
-.dsec p{color:var(--t1);font-weight:300;line-height:1.75;margin:0 0 14px;font-size:15px}
-.dsec a{color:var(--red)}
-.dsec code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:5px;padding:1px 6px;color:var(--t0);word-break:break-word}
+.dsec h2{margin:8px 0 18px;font-family:'Outfit',sans-serif;font-weight:600;font-size:32px;letter-spacing:-.015em;line-height:1.2}
+.dsec h2 code{font-size:.62em}
+.dsec h3{font-family:'Outfit',sans-serif;font-weight:600;font-size:19px;margin:24px 0 10px}
+.dsec p{color:var(--body);line-height:1.7;margin:0 0 14px;font-size:15.5px}
+.dsec a{color:var(--violet)}
+.dsec code{font-family:'JetBrains Mono',monospace;font-size:12.5px;background:#f1f0f5;border:1px solid #e4e2ec;border-radius:5px;padding:1px 6px;color:var(--ink);word-break:break-word}
 .code{position:relative;margin:12px 0 18px}
-.code pre{background:#05070c;border:1px solid var(--bdr-hi);border-radius:12px;padding:18px 20px;overflow:auto;max-height:520px}
-.code pre code{background:none;border:none;padding:0;font-size:12px;line-height:1.65;color:#cfd6e4;white-space:pre}
-.copy{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t2);background:var(--card2);border:1px solid var(--bdr-hi);border-radius:6px;padding:5px 10px;cursor:pointer}
-.copy:hover{color:var(--t0)}
-.tbl{overflow-x:auto;margin:10px 0 20px;border:1px solid var(--bdr);border-radius:12px}
-.tbl table{width:100%;border-collapse:collapse;font-size:13.5px}
-.tbl th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:9.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t2);background:var(--card2);padding:11px 14px;border-bottom:1px solid var(--bdr)}
-.tbl td{padding:11px 14px;border-bottom:1px solid var(--bdr);color:var(--t1);font-weight:300;vertical-align:top;line-height:1.6}
+.code pre{margin:0;background:#1d1d1f;border-radius:14px;padding:18px 20px;overflow:auto;max-height:520px}
+.code pre code{background:none;border:none;padding:0;font-size:12px;line-height:1.65;color:#e8e8ed;white-space:pre}
+.copy{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:#d2d2d7;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:980px;padding:5px 12px;cursor:pointer}
+.copy:hover{color:#fff;background:rgba(255,255,255,.16)}
+.tbl{overflow-x:auto;margin:10px 0 20px;background:#fff;border:1px solid var(--line);border-radius:14px}
+.tbl table{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--slate);background:var(--band);padding:11px 14px;border-bottom:1px solid var(--line)}
+.tbl td{padding:11px 14px;border-bottom:1px solid var(--line);color:var(--body);vertical-align:top;line-height:1.6}
 .tbl tr:last-child td{border-bottom:none}
-.note{background:linear-gradient(135deg,var(--card2),var(--card));border:1px solid var(--bdr-hi);border-left:3px solid var(--gold);border-radius:12px;padding:16px 20px;margin:14px 0;color:var(--t1);font-size:14px;font-weight:300;line-height:1.7}
-.steps{padding-left:22px;color:var(--t1)}.steps>li{margin:0 0 22px;font-weight:300;line-height:1.75}
+.note{background:#fff;border:1px solid var(--line);border-left:3px solid var(--violet);border-radius:12px;padding:16px 20px;margin:14px 0;color:var(--body);font-size:14.5px;line-height:1.7}
+.note strong{color:var(--ink)}
+.steps{padding-left:22px;color:var(--body)}.steps>li{margin:0 0 22px;line-height:1.7;font-size:15.5px}
 .ticks{list-style:none;padding:0;margin:8px 0 16px}
-.ticks li{position:relative;padding-left:22px;margin:0 0 10px;color:var(--t1);font-weight:300;line-height:1.7;font-size:15px}
-.ticks li::before{content:'';position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--red)}
-@media (max-width:900px){.docs{grid-template-columns:minmax(0,1fr)}.toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--bdr);padding:0 0 14px}}
+.ticks li{position:relative;padding-left:22px;margin:0 0 10px;color:var(--body);line-height:1.7;font-size:15.5px}
+.ticks li::before{content:'';position:absolute;left:2px;top:.62em;width:8px;height:8px;border-radius:2px;background:var(--violet)}
+@media (max-width:900px){
+  .hero{padding:44px 20px 36px}.hero h1{font-size:36px}
+  .docs{grid-template-columns:minmax(0,1fr);gap:24px;padding:32px 20px 56px}
+  .toc{position:static;max-height:none;border-right:none;border-bottom:1px solid var(--line);padding:0 0 14px}
+  .dsec h2{font-size:26px}
+}
 </style>
 </head>
 <body>
-<a href="fohboh-api-docs-page.html" class="back-home" aria-label="Back to API documentation">← API Docs</a>
-<div class="topbar">
-  <div class="wrap topbar-inner">
-    <a href="index.html" class="brand">FohBoh<span class="pipe">|</span><span class="product">MGE</span><span class="brand-sub">Metric Governance &amp; Certification</span></a>
-    <nav class="topnav">
-      <a href="mge.html">MGE</a>
-      <a href="partners.html">Partners</a>
-      <a href="resources.html#faq">Help</a>
-      <a href="fohboh-api-docs-page.html">API Docs</a>
-      <a href="fohboh-developer-guide.html" class="active">Developer Guide</a>
-      <a href="https://form.jotform.com/262818884506065">Sandbox Access</a>
-    </nav>
-  </div>
-</div>
-<div class="header" style="padding:72px 0 56px">
-  <div class="header-bg"></div>
-  <div class="wrap" style="position:relative;z-index:1">
-    <div class="eyebrow">Developer Guide · API v1 · Contract 1.11</div>
-    <h1>Build on <em>certified truth.</em></h1>
+<div style="background: #FAF9F6; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="index.html" aria-label="FohBoh.ai — Certified Intelligence" style="display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; white-space: nowrap;"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></a>
+    <a href="sentry.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="cortex.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Cortex™</a>
+    <a href="mge.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">MGE™</a>
+    <a href="caar-example.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Example CAAR</a>
+    <a href="partners.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Partners</a>
+    <a href="pricing.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Pricing</a>
+    <a href="contact.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #6D28D9; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #7C3AED;">Book a demo</a>
+  </nav>
+
+  <div class="hero">
+    <span class="kicker">Developer guide · API v1 · Contract 1.12</span>
+    <h1>Build on certified truth.</h1>
     <p class="lead">Everything you need to submit evidence to MGE, read back sealed certified records, and verify them. Every example on this page is real output from MGE, produced from synthetic data.</p>
-    <div class="header-tags"><span class="tag tag-r">REST · JSON</span><span class="tag tag-g">OpenAPI 3.1</span><span class="tag tag-r">Scoped API keys</span><span class="tag tag-g">Publicly verifiable</span></div>
-    <p style="margin-top:26px;display:flex;flex-wrap:wrap;gap:14px 22px;align-items:center;justify-content:center"><a href="https://form.jotform.com/262818884506065" style="display:inline-flex;align-items:center;padding:13px 24px;background:var(--red);color:#fff;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:8px;text-decoration:none">Request sandbox access</a><a href="fohboh-mge-developer-guide-v1.0.pdf" style="color:var(--gold);font-size:14px">Download as PDF</a></p>
+    <div class="chips"><span class="chip">REST · JSON</span><span class="chip">OpenAPI 3.1</span><span class="chip">Scoped API keys</span><span class="chip">Publicly verifiable</span></div>
+    <div class="actions"><a class="btn" href="https://form.jotform.com/262818884506065">Request sandbox access</a><a href="fohboh-api-docs-page.html">API overview</a><a href="fohboh-mge-developer-guide-v1.0.pdf">Download as PDF</a></div>
   </div>
-</div>
-<hr class="div">
-<div class="wrap docs">
-  <nav class="toc" aria-label="Contents"><p>Contents</p><a href="#overview">Overview</a><a href="#quickstart">Quickstart</a><a href="#auth">Authentication & keys</a><a href="#endpoints">Endpoints</a><a href="#certify">Submit evidence</a><a href="#jobs">Jobs & polling</a><a href="#conventions">Request conventions</a><a href="#modules">Modules</a><a href="#records">Response schema</a><a href="#outcomes">Outcomes & states</a><a href="#verify">Verification</a><a href="#errors">Error handling</a><a href="#ratelimits">Rate limits</a><a href="#idempotency">Idempotency & retries</a><a href="#versioning">Versioning & deprecation</a><a href="#notyet">Not yet available</a><a href="#support">Support & terms</a></nav>
-  <main><section id="overview" class="dsec"><p class="kicker">Start here</p><h2>Overview</h2>
+  <div class="docs">
+    <nav class="toc" aria-label="Contents"><p>Contents</p><a href="#overview">Overview</a><a href="#quickstart">Quickstart</a><a href="#auth">Authentication & keys</a><a href="#endpoints">Endpoints</a><a href="#certify">Submit evidence</a><a href="#jobs">Jobs & polling</a><a href="#conventions">Request conventions</a><a href="#modules">Modules</a><a href="#records">Response schema</a><a href="#outcomes">Outcomes & states</a><a href="#verify">Verification</a><a href="#errors">Error handling</a><a href="#ratelimits">Rate limits</a><a href="#idempotency">Idempotency & retries</a><a href="#versioning">Versioning & deprecation</a><a href="#notyet">Not yet available</a><a href="#support">Support & terms</a></nav>
+    <main><section id="overview" class="dsec"><p class="kicker">Start here</p><h2>Overview</h2>
 <p>MGE, the Metrics Governance Engine, <strong>certifies evidence</strong>. You send one location's evidence for one module and one
 fiscal period; MGE runs a deterministic certification, with no AI anywhere in it, and seals the result as an append-only
 <strong>vault record</strong> carrying a Trust Score (0–100), an outcome, certified findings, reconciliations and a cryptographic seal
@@ -220,7 +99,7 @@ a dated copy is <a href="fohboh-mge-openapi.json" download>available to download
 presents MGE's certified facts under your own brand.</div>
 </section><section id="quickstart" class="dsec"><p class="kicker">Five minutes</p><h2>Quickstart</h2>
 <ol class="steps">
-<li><strong>Get sandbox keys.</strong> <a href="https://form.jotform.com/262818884506065" style="color:var(--gold)">Request sandbox access</a>; during onboarding FohBoh issues a write key and a read key (<code>mge_write_sbx_…</code>, <code>mge_read_sbx_…</code>).
+<li><strong>Get sandbox keys.</strong> <a href="https://form.jotform.com/262818884506065">Request sandbox access</a>; during onboarding FohBoh issues a write key and a read key (<code>mge_write_sbx_…</code>, <code>mge_read_sbx_…</code>).
 Every sandbox certification is a TEST RUN: never billed, deletable, and never written to write-once storage.</li>
 <li><strong>Submit evidence</strong> for one location, one module, one period:<div class="code"><button class="copy" type="button" aria-label="Copy">Copy</button><pre><code class="lang-bash">curl -X POST https://api.fohboh.ai/mge/v1/certify \
   -H &quot;Authorization: Bearer $MGE_WRITE_KEY&quot; \
@@ -631,29 +510,67 @@ Batch where you can, poll with backoff, and contact FohBoh if your volume needs 
 </section><section id="versioning" class="dsec"><p class="kicker">Stability</p><h2>Versioning &amp; deprecation</h2>
 <ul class="ticks">
 <li>The major version is in the path (<code>/mge/v1</code>). Within a major version, changes are additive only: new optional fields, new endpoints, new values. Ignore fields you do not recognize.</li>
-<li>A breaking change ships as a new major version, announced in advance, with a <strong>90-day transition</strong> during which both versions run.</li>
+<li>A breaking change ships as a new major version, announced in advance; the previous major version keeps working for <strong>12 months</strong> after the notice, so both versions run side by side.</li>
 <li>The contract is published as versioned schemas generated from one source; <code>GET /openapi.json</code> always describes the version you are calling. Partners receive the contract changelog during onboarding.</li>
 <li>Sealed records keep the formula and rule-set versions they were certified under, forever.</li>
 </ul>
 </section><section id="notyet" class="dsec"><p class="kicker">Plainly stated</p><h2>Not yet available</h2><div class="tbl "><table><thead><tr><th>Capability</th><th>Status</th></tr></thead><tbody><tr><td>Webhooks</td><td>Not built. <code>webhook_url</code> is accepted but not called. Poll <code>GET /jobs/{id}</code>.</td></tr><tr><td>M03 Royalty Fee Recovery</td><td>Contracted, not active: <code>422 MODULE_NOT_ACTIVE</code>.</td></tr><tr><td>Legal seal level</td><td><code>seal_level: &quot;legal&quot;</code> is accepted; no legal threshold is defined yet, so it produces a standard record.</td></tr><tr><td>Job status <code>partial</code></td><td>Reserved in the contract; not produced.</td></tr></tbody></table></div><p>We would rather tell you than have you find out.</p></section><section id="support" class="dsec"><p class="kicker">People, not tickets</p><h2>Support &amp; terms</h2>
 <ul class="ticks">
-<li><strong>Onboarding:</strong> start with a <a href="https://form.jotform.com/262818884506065" style="color:var(--gold)">sandbox access request</a>; partners follow a ten-step track from sandbox to production; production keys are issued only after FohBoh's approval.</li>
+<li><strong>Onboarding:</strong> start with a <a href="https://form.jotform.com/262818884506065">sandbox access request</a>; partners follow a ten-step track from sandbox to production; production keys are issued only after FohBoh's approval.</li>
 <li><strong>Commercials:</strong> a license fee plus a per-certification toll; sandbox TEST RUNs, rejected requests and idempotent retries are never billed. <a href="pricing.html">See pricing</a>.</li>
 <li><strong>Terms:</strong> use of the API is subject to your partner agreement and the API terms of use.</li>
 <li><strong>No advisory services:</strong> the API returns governance and certification outputs only, never financial, accounting, legal, tax, labor or operational advice.</li>
 <li><strong>Contact:</strong> <a href="mailto:hello@fohboh.com?subject=MGE%20API">hello@fohboh.com</a>. Quote the <code>request_id</code> from any error.</li>
 </ul>
 </section></main>
-</div>
-<div class="footer">
-  <div class="wrap">
-    <p><strong>© 2026 FohBoh.ai, Inc.</strong> &nbsp;·&nbsp; All Rights Reserved &nbsp;·&nbsp; US Patent Pending</p>
-    <div class="footer-links">
-      <a href="sentry.html">Sentry™</a><a href="cortex.html">Cortex™</a><a href="mge.html">MGE™</a><a href="caar-example.html">Example CAAR</a>
-      <a href="login.html">Sign in</a><a href="contact.html">Contact Us</a><a href="terms.html">Terms &amp; Conditions</a><a href="fohboh-api-docs-page.html">API Docs</a>
-    </div>
   </div>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 11px; white-space: nowrap;"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="sentry.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="cortex.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="mge.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="m04-scr.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · Supplier Invoices</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="pricing.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="roi-simulator.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="caar-example.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="for-vendors.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="terms.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="resources.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="resources.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="resources.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="about.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="partners.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="contact.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a></span>
+    </div>
+  </footer>
+
 </div>
+<script src="mobile-fix.js" defer></script>
 <script>
 document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){var t=b.parentNode.querySelector('code').innerText;
 (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500)}).catch(function(){})})});
