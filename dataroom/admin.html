@@ -65,6 +65,22 @@
             <div class="full"><button class="btn" id="db" type="submit">Upload</button></div>
           </div>
         </form>
+        <form id="lf" class="card panel">
+          <div class="ph"><h2>Add a link</h2><span>A page hosted elsewhere · opens in a new tab · every visit logged</span></div>
+          <div class="formgrid">
+            <div class="field"><label for="lfo">Folder</label><select id="lfo"></select></div>
+            <div class="field"><label for="lti">Title</label><input id="lti" type="text"></div>
+            <div class="field full"><label for="lur">Address</label><input id="lur" type="text" inputmode="url" placeholder="https://…" autocomplete="off"><small>https:// only. Anyone with the address can open the page itself, so keep confidential material (IP, financials, contracts) as uploaded PDFs in their restricted folders.</small></div>
+            <div class="full"><button class="btn" id="lb2" type="submit">Add link</button></div>
+          </div>
+        </form>
+        <form id="if" class="card panel">
+          <div class="ph"><h2>Import links</h2><span>One per line · folder | title | address</span></div>
+          <div class="formgrid">
+            <div class="field full"><label for="itx">Links</label><textarea id="itx" rows="8" spellcheck="false" placeholder="02 | Investor deck | https://…"></textarea><small>Every line is checked first; if one is wrong, nothing is added. Lines starting with # are skipped.</small></div>
+            <div class="full"><button class="btn" id="ib" type="submit">Import</button></div>
+          </div>
+        </form>
         <section class="card panel"><div class="ph"><h2>Documents</h2><span id="dcount"></span></div><div class="tbl"><table><thead><tr><th>Ref.</th><th>Document</th><th>Folder</th><th>Updated</th><th style="text-align:right">Action</th></tr></thead><tbody id="dt"></tbody></table></div></section>
       </section>
 
@@ -98,7 +114,7 @@
   let folders = [], grants = [], docs = [], editing = null;
   const RESTRICTED = () => folders.filter((f) => f.restricted);
   const fname = (id) => (folders.find((f) => f.id === id) || {}).title || id;
-  const LABELS = { signed_in: ["Signed in", "strong"], signed_out: ["Signed out", ""], login_rejected: ["Password rejected", "bad"], login_locked: ["Locked out", "bad"], pin_accepted: ["PIN accepted", "strong"], pin_rejected: ["PIN rejected", "bad"], pin_locked: ["PIN locked", "bad"], document_opened: ["Document viewed", ""], open_refused: ["Refused", "bad"], access_granted: ["Access issued", "strong"], access_updated: ["Access updated", ""], access_revoked: ["Access withdrawn", "bad"], document_added: ["Document added", ""], document_removed: ["Document removed", ""], admin_signed_in: ["Admin signed in", ""], admin_login_rejected: ["Admin password rejected", "bad"], admin_login_locked: ["Admin locked out", "bad"], admin_created: ["Administrator set up", "strong"], seal_checked: ["Seal checked", ""], certified_record_added: ["Certified record added", ""], certified_record_removed: ["Certified record removed", ""], setup_rejected: ["Setup token rejected", "bad"] };
+  const LABELS = { signed_in: ["Signed in", "strong"], signed_out: ["Signed out", ""], login_rejected: ["Password rejected", "bad"], login_locked: ["Locked out", "bad"], pin_accepted: ["PIN accepted", "strong"], pin_rejected: ["PIN rejected", "bad"], pin_locked: ["PIN locked", "bad"], document_opened: ["Document viewed", ""], open_refused: ["Refused", "bad"], access_granted: ["Access issued", "strong"], access_updated: ["Access updated", ""], access_revoked: ["Access withdrawn", "bad"], document_added: ["Document added", ""], link_added: ["Link added", ""], link_opened: ["Link opened", ""], document_removed: ["Document removed", ""], admin_signed_in: ["Admin signed in", ""], admin_login_rejected: ["Admin password rejected", "bad"], admin_login_locked: ["Admin locked out", "bad"], admin_created: ["Administrator set up", "strong"], seal_checked: ["Seal checked", ""], certified_record_added: ["Certified record added", ""], certified_record_removed: ["Certified record removed", ""], setup_rejected: ["Setup token rejected", "bad"] };
 
   async function start() {
     try { const me = await DR.api("admin-me"); folders = me.folders; $("me").textContent = me.name; $("who").hidden = false; $("app").hidden = false; $("login").hidden = true; buildForm(); await Promise.all([loadGrants(), loadDocs(), loadLog(), loadCerts()]); }
@@ -110,7 +126,7 @@
 
   function buildForm() {
     $("gfolders").innerHTML = RESTRICTED().map((f) => '<label><input type="checkbox" value="' + f.id + '" data-gf> ' + f.id + " · " + DR.esc(f.title) + "</label>").join("");
-    $("dfo").innerHTML = folders.map((f) => '<option value="' + f.id + '">' + f.id + " · " + DR.esc(f.title) + "</option>").join("");
+    $("lfo").innerHTML = $("dfo").innerHTML = folders.map((f) => '<option value="' + f.id + '">' + f.id + " · " + DR.esc(f.title) + "</option>").join("");
     $("gfolders").addEventListener("change", pinBoxes);
   }
   function pinBoxes() {
@@ -151,13 +167,13 @@
       $("gft").textContent = "Edit access · " + g.name; $("gb").textContent = "Save changes"; $("gc").hidden = false; $("greset").hidden = false; pinBoxes(); $("gf").scrollIntoView({ behavior: "smooth" });
     }
     if (r1) { const g = grants.find((x) => x.id === r1.dataset.revoke); if (!confirm("Withdraw access for " + g.name + "? They will be signed out at once.")) return; try { await DR.api("admin-revoke", { id: g.id }); await loadGrants(); } catch (e) { DR.show($("m"), e.message); } }
-    if (d1) { const d = docs.find((x) => x.id === d1.dataset.rmdoc); if (!confirm("Remove “" + d.title + "” from the data room? The file is deleted.")) return; try { await DR.api("admin-doc-remove", { id: d.id }); await loadDocs(); } catch (e) { DR.show($("m"), e.message); } }
+    if (d1) { const d = docs.find((x) => x.id === d1.dataset.rmdoc); if (!confirm("Remove “" + d.title + "” from the data room?" + (d.kind === "link" ? "" : " The file is deleted."))) return; try { await DR.api("admin-doc-remove", { id: d.id }); await loadDocs(); } catch (e) { DR.show($("m"), e.message); } }
   });
 
   async function loadDocs() {
     docs = (await DR.api("admin-docs")).docs;
     $("dcount").textContent = docs.length + " documents";
-    $("dt").innerHTML = docs.slice().sort((a, b) => a.ref.localeCompare(b.ref)).map((d) => '<tr><td class="mono">' + DR.esc(d.ref) + '</td><td style="font-weight:500">' + DR.esc(d.title) + '<div style="font-size:12.5px;color:#5A5A60">' + DR.esc(d.filename) + "</div></td><td>" + d.folder + " · " + DR.esc(fname(d.folder)) + "</td><td>" + DR.esc(d.updatedOn) + '</td><td style="text-align:right"><button class="linkbtn" data-rmdoc="' + d.id + '" style="color:#8A1C1C">Remove</button></td></tr>').join("") || '<tr><td colspan="5" class="empty">No documents yet.</td></tr>';
+    $("dt").innerHTML = docs.slice().sort((a, b) => a.ref.localeCompare(b.ref)).map((d) => '<tr><td class="mono">' + DR.esc(d.ref) + '</td><td style="font-weight:500">' + DR.esc(d.title) + '<div style="font-size:12.5px;color:#5A5A60;word-break:break-all">' + DR.esc(d.kind === "link" ? "Link · " + d.url : d.filename) + "</div></td><td>" + d.folder + " · " + DR.esc(fname(d.folder)) + "</td><td>" + DR.esc(d.updatedOn) + '</td><td style="text-align:right"><button class="linkbtn" data-rmdoc="' + d.id + '" style="color:#8A1C1C">Remove</button></td></tr>').join("") || '<tr><td colspan="5" class="empty">No documents yet.</td></tr>';
   }
   $("df").addEventListener("submit", async (ev) => {
     ev.preventDefault(); DR.show($("m"), "");
@@ -171,6 +187,17 @@
       await DR.api("admin-doc-add", { folder: $("dfo").value, key: u.key, title: $("dti").value || file.name, filename: file.name, type: ext, size: file.size, updatedOn: $("dup").value });
       $("df").reset(); DR.show($("m"), "Document added.", "ok"); await loadDocs();
     } catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("db"), false); }
+  });
+
+  $("lf").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), ""); DR.busy($("lb2"), true);
+    try { await DR.api("admin-link-add", { folder: $("lfo").value, title: $("lti").value, url: $("lur").value.trim() }); $("lf").reset(); DR.show($("m"), "Link added.", "ok"); await loadDocs(); }
+    catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("lb2"), false); }
+  });
+  $("if").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), ""); DR.busy($("ib"), true);
+    try { const r = await DR.api("admin-links-import", { text: $("itx").value }); $("if").reset(); DR.show($("m"), r.added + (r.added === 1 ? " link" : " links") + " added.", "ok"); await loadDocs(); }
+    catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("ib"), false); }
   });
 
   let certs = [];

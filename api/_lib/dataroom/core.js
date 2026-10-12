@@ -26,6 +26,13 @@ const MAX_UPLOAD = 100 * 1024 * 1024;
 const norm = (s) => String(s || "").trim().replace(/\s+/g, " ").toLowerCase();
 const clean = (s, n = 200) => String(s || "").replace(/[\u0000-\u001f]/g, "").trim().slice(0, n);
 const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || ""));
+// Link entries (a page hosted elsewhere): https only, no credentials in the address.
+function safeLink(s) {
+  let u; try { u = new URL(String(s || "").trim()); } catch { return null; }
+  if (u.protocol !== "https:" || u.username || u.password || u.href.length > 500) return null;
+  return u.href;
+}
+const MAX_IMPORT = 50;
 
 class HttpError extends Error { constructor(status, code, message) { super(message); this.status = status; this.code = code; } }
 const fail = (status, code, message) => { throw new HttpError(status, code, message); };
@@ -110,6 +117,29 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
     expiresOn: g.expiresOn || "", folders: Object.keys(g.folders || {}).sort(), createdAt: g.createdAt, updatedAt: g.updatedAt,
   });
 
+  async function addLinks(a, items) {
+    const { docs, etag } = await manifest();
+    const seen = new Set(docs.filter((d) => d.kind === "link").map((d) => d.folder + " " + d.url));
+    const ts = new Date(now()).toISOString();
+    const out = items.map((it) => {
+      const where = it.line ? `Line ${it.line}: ` : "";
+      const url = safeLink(it.url);
+      if (!url) fail(400, "INVALID_LINK", `${where}the address must start with https:// and contain no password.`);
+      if (!clean(it.title)) fail(400, "INVALID", `${where}give the link a title.`);
+      if (seen.has(it.folder + " " + url)) fail(409, "DUPLICATE", `${where}that link is already in folder ${it.folder}.`);
+      seen.add(it.folder + " " + url);
+      const n = docs.filter((d) => d.folder === it.folder).length + 1;
+      const d = {
+        id: newId("doc"), kind: "link", folder: it.folder, ref: `${it.folder}.${String(n).padStart(2, "0")}`, title: clean(it.title), url,
+        type: "LINK", size: 0, updatedOn: clean(it.updatedOn, 10) || ts.slice(0, 10), addedAt: ts, addedBy: a.email,
+      };
+      docs.push(d);
+      return d;
+    });
+    try { await saveManifest(docs, etag); } catch (e) { if (e instanceof ConflictError) fail(409, "CONFLICT", "The document list changed at the same moment. Reload and try again."); throw e; }
+    return out;
+  }
+
   const ops = {
     // ---------- status ----------
     async status() { return { configured: true, setupNeeded: !(await admin()) }; },
@@ -162,7 +192,7 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
           const open = canOpen(g, s, f.id);
           return {
             ...f, granted, unlocked: open,
-            docs: open ? docs.filter((d) => d.folder === f.id).map((d) => ({ id: d.id, ref: d.ref, title: d.title, type: d.type, size: d.size, updatedOn: d.updatedOn })) : [],
+            docs: open ? docs.filter((d) => d.folder === f.id).map((d) => ({ id: d.id, ref: d.ref, title: d.title, type: d.type, size: d.size, updatedOn: d.updatedOn, kind: d.kind === "link" ? "link" : "file" })) : [],
             docCount: docs.filter((d) => d.folder === f.id).length,
           };
         }),
@@ -202,6 +232,12 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
       const d = (await manifest()).docs.find((x) => x.id === b.doc);
       if (!d) fail(404, "NOT_FOUND", "Document not found.");
       if (!canOpen(g, s, d.folder)) { await log(ctx, "open_refused", { email: g.email, name: g.name, folder: d.folder, doc: d.id, title: d.title }); fail(403, "LOCKED_FOLDER", "Enter this folder's PIN first."); }
+      if (d.kind === "link") {
+        const url = safeLink(d.url);
+        if (!url) fail(404, "NOT_FOUND", "Document not found.");
+        await log(ctx, "link_opened", { email: g.email, name: g.name, folder: d.folder, doc: d.id, title: d.title });
+        return { _redirect: url };
+      }
       await log(ctx, "document_opened", { email: g.email, name: g.name, folder: d.folder, doc: d.id, title: d.title });
       return { _redirect: await store.downloadUrl(d.key, d.filename || d.title) };
     },
@@ -350,19 +386,47 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
       return { doc: d };
     },
 
+    // A link entry points to a page hosted elsewhere. Visitors reach it only through "open", so every visit is logged.
+    async adminLinkAdd(ctx, b) {
+      const { a } = await adminSession(ctx);
+      const folder = String(b.folder || "");
+      if (!FOLDER_IDS.has(folder)) fail(400, "INVALID", "Choose a folder.");
+      const added = await addLinks(a, [{ folder, title: b.title, url: b.url, updatedOn: b.updatedOn }]);
+      await log(ctx, "link_added", { by: a.email, folder, doc: added[0].id, title: added[0].title });
+      return { doc: added[0] };
+    },
+
+    // Paste one link per line: "folder | title | address". Every line is checked before anything is saved.
+    async adminLinksImport(ctx, b) {
+      const { a } = await adminSession(ctx);
+      const lines = String(b.text || "").split(/\r?\n/).map((l) => l.trim()).filter((l) => l && !l.startsWith("#"));
+      if (!lines.length) fail(400, "INVALID", "Paste at least one line: folder | title | address.");
+      if (lines.length > MAX_IMPORT) fail(400, "INVALID", `Up to ${MAX_IMPORT} links at a time.`);
+      const items = lines.map((l, i) => {
+        const parts = l.split("|").map((x) => x.trim());
+        if (parts.length !== 3) fail(400, "INVALID", `Line ${i + 1}: use folder | title | address.`);
+        const folder = parts[0].padStart(2, "0");
+        if (!FOLDER_IDS.has(folder)) fail(400, "INVALID", `Line ${i + 1}: there is no folder ${parts[0]}.`);
+        return { folder, title: parts[1], url: parts[2], line: i + 1 };
+      });
+      const added = await addLinks(a, items);
+      for (const d of added) await log(ctx, "link_added", { by: a.email, folder: d.folder, doc: d.id, title: d.title });
+      return { added: added.length, docs: added };
+    },
+
     async adminDocRemove(ctx, b) {
       const { a } = await adminSession(ctx);
       const { docs, etag } = await manifest();
       const d = docs.find((x) => x.id === b.id);
       if (!d) fail(404, "NOT_FOUND", "Document not found.");
       await saveManifest(docs.filter((x) => x.id !== b.id), etag);
-      await store.del(d.key);
+      if (d.kind !== "link") await store.del(d.key);
       await log(ctx, "document_removed", { by: a.email, folder: d.folder, doc: d.id, title: d.title });
       return { ok: true };
     },
   };
 
-  const POST_OPS = new Set(["setup", "login", "logout", "unlock", "certCheck", "adminCertAdd", "adminCertRemove", "adminLogin", "adminGrant", "adminRevoke", "adminUploadUrl", "adminDocAdd", "adminDocRemove"]);
+  const POST_OPS = new Set(["setup", "login", "logout", "unlock", "certCheck", "adminCertAdd", "adminCertRemove", "adminLogin", "adminGrant", "adminRevoke", "adminUploadUrl", "adminDocAdd", "adminDocRemove", "adminLinkAdd", "adminLinksImport"]);
 
   return async function handle(op, ctx) {
     if (!store || !secret || secret.length < 32) return { status: 503, json: { error: { code: "NOT_CONFIGURED", message: "The data room is not configured yet." } } };

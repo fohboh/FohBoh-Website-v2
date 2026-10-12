@@ -176,3 +176,43 @@ test("Certified by MGE: records come from MGE, seals are checked, invalid seals 
   assert.equal(chk.json.seal.valid, true);
   assert.ok(!JSON.stringify(room).includes("mge_read_sbx_test"), "key never reaches the visitor");
 });
+
+test("link entries: https only, import checks every line, open logs and redirects", async () => {
+  const s = setup();
+  await withAdmin(s);
+  assert.equal((await s.call("adminLinkAdd", { folder: "02", title: "Deck", url: "http://example.com/" }, "admin")).status, 400);
+  assert.equal((await s.call("adminLinkAdd", { folder: "02", title: "Deck", url: "javascript:alert(1)" }, "admin")).status, 400);
+  assert.equal((await s.call("adminLinkAdd", { folder: "02", title: "Deck", url: "https://u:p@example.com/" }, "admin")).status, 400);
+  const one = await s.call("adminLinkAdd", { folder: "02", title: "Investor deck", url: "https://deck.example.com/" }, "admin");
+  assert.equal(one.status, 200);
+  assert.equal(one.json.doc.ref, "02.01");
+  // a bad line rejects the whole import
+  const bad = await s.call("adminLinksImport", { text: "03 | Brief | https://brief.example.com/\n99 | Nowhere | https://x.example.com/" }, "admin");
+  assert.equal(bad.status, 400);
+  assert.match(bad.json.error.message, /Line 2/);
+  assert.equal((await s.call("adminDocs", undefined, "admin")).json.docs.length, 1);
+  const dup = await s.call("adminLinksImport", { text: "02 | Again | https://deck.example.com/" }, "admin");
+  assert.equal(dup.status, 409);
+  const ok = await s.call("adminLinksImport", { text: "# investor links\n3 | Brief | https://brief.example.com/\n07 | Graphic | https://graphic.example.com/a?b=1\n" }, "admin");
+  assert.equal(ok.status, 200);
+  assert.equal(ok.json.added, 2);
+  assert.equal(ok.json.docs[0].folder, "03");
+  // restricted folder links still need the PIN
+  await s.call("adminLinksImport", { text: "10 | Patent summary | https://ip.example.com/" }, "admin");
+  const g = await s.call("adminGrant", { name: "Jane Q Investor", email: "jane@fund.example", folders: [] }, "admin");
+  assert.equal((await s.call("login", { name: "Jane Q Investor", email: "jane@fund.example", password: g.json.issued.password, ack: true })).status, 200);
+  const room = (await s.call("room")).json;
+  const link = room.folders.find((f) => f.id === "03").docs[0];
+  assert.equal(link.kind, "link");
+  assert.equal(room.folders.find((f) => f.id === "10").docs.length, 0);
+  const r = await s.call("open", { doc: link.id }, "visitor", "GET");
+  assert.equal(r.status, 302);
+  assert.equal(r.headers.Location, "https://brief.example.com/");
+  const ipDoc = (await s.call("adminDocs", undefined, "admin")).json.docs.find((d) => d.folder === "10");
+  assert.equal((await s.call("open", { doc: ipDoc.id }, "visitor", "GET")).status, 403);
+  const events = (await s.call("adminLog", undefined, "admin")).json.events.map((e) => e.event);
+  assert.ok(events.includes("link_opened"));
+  assert.equal(events.filter((e) => e === "link_added").length, 4);
+  // removing a link never touches storage
+  assert.equal((await s.call("adminDocRemove", { id: link.id }, "admin")).status, 200);
+});

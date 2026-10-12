@@ -6,7 +6,7 @@ const OPS = {
   status: "status", setup: "setup", login: "login", logout: "logout", room: "room", unlock: "unlock", open: "open",
   "admin-login": "adminLogin", "admin-me": "adminMe", "admin-grants": "adminGrants", "admin-grant": "adminGrant",
   "admin-revoke": "adminRevoke", "admin-log": "adminLog", "admin-docs": "adminDocs", "admin-upload-url": "adminUploadUrl",
-  "admin-doc-add": "adminDocAdd", "admin-doc-remove": "adminDocRemove",
+  "admin-doc-add": "adminDocAdd", "admin-doc-remove": "adminDocRemove", "admin-link-add": "adminLinkAdd", "admin-links-import": "adminLinksImport",
   "cert-check": "certCheck", "admin-certs": "adminCerts", "admin-cert-add": "adminCertAdd", "admin-cert-remove": "adminCertRemove",
 };
 

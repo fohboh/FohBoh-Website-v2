@@ -1,6 +1,6 @@
 # FohBoh Data Room — Setup and Operating Guide
 
-**Version:** 1.0 · **Last updated:** October 12, 2026 · **Classification:** FohBoh internal · **Owner:** Michael Atkinson (sets up and runs it)
+**Version:** 1.1 · **Last updated:** October 12, 2026 · **Classification:** FohBoh internal · **Owner:** Michael Atkinson (sets up and runs it)
 
 The data room lives at **fohboh.ai/dataroom/**. Investors sign in with their name, email address and a password you issue;
 the three restricted folders (09 Financials & Cap Table, 10 Intellectual Property, 11 Legal & Material Contracts) also need
@@ -16,6 +16,7 @@ access log, which only you can read.
 | Sessions | A signed, HttpOnly, Secure, SameSite=Strict cookie. Visitors: 8 hours. Administrator: 4 hours. Withdrawing access signs the person out at once. |
 | Name and NDA | The name typed must match the name you entered for that person; the NDA acknowledgment box must be ticked. |
 | Documents | Stored in a private Amazon S3 bucket (public access blocked, encrypted, versioned, HTTPS only). Each "View" is a link that expires in 60 seconds, issued only after the server checks access and writes the log entry. |
+| Links | A link entry points to a FohBoh page hosted elsewhere (https only). Visitors reach it only through the data room, so every visit is logged and links in restricted folders still need the PIN. The page itself is public to anyone holding its address, so confidential material (IP, financials, contracts) goes in as uploaded PDFs, never as links. Link addresses live in the data room's private storage, never in the website code. |
 | Access log | One write-once record per event: time, name, email, event, folder and document, IP address and browser. Exportable as CSV. |
 | Pages | Not indexed by search engines, cannot be framed by other sites, never cached. |
 
@@ -77,6 +78,10 @@ after that, sign in at fohboh.ai/dataroom/admin.html.
 - **Withdraw:** Withdraw signs them out at once and blocks sign-in. Edit › "Reactivate" restores access.
 - **Documents:** Documents › choose the folder, title and file (up to 100 MB). Remove deletes it from the data room (S3
   keeps prior versions).
+- **Links:** Documents › "Add a link" (folder, title, https address), or "Import links" to paste many at once, one per
+  line as `folder | title | address` (for example `02 | Investor Executive Summary | https://…`). Every line is checked
+  first; if one is wrong, nothing is added. Visitors see "Web page · Open ↗"; it opens in a new tab and is logged as
+  "Link opened". Remove takes the link out of the data room (the page itself is not touched).
 - **Certified by MGE:** Certified by MGE tab › vault id, a plain title and an optional note. Never real client data in a
   record you show here; use FohBoh's own sandbox or demonstration certifications.
 - **Access log:** Access log tab, newest first; Export log (CSV) for the full year.
@@ -97,4 +102,5 @@ http://localhost:4173/dataroom/.
 
 ## Changes
 
+- **v1.1 (October 12, 2026):** link entries (Add a link, Import links), logged as "Link opened".
 - **v1.0 (October 12, 2026):** first edition.
