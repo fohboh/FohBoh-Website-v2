@@ -31,8 +31,26 @@ class HttpError extends Error { constructor(status, code, message) { super(messa
 const fail = (status, code, message) => { throw new HttpError(status, code, message); };
 const DENIED = "Those details don't match our records.";
 
-export function createDataRoom({ store, env = process.env, now = () => Date.now() }) {
+export function createDataRoom({ store, env = process.env, now = () => Date.now(), fetchImpl = globalThis.fetch }) {
   const secret = env.DATAROOM_SECRET;
+  const MGE = String(env.DATAROOM_MGE_URL || "https://api-staging.fohboh.ai/mge/v1").replace(/\/$/, "");
+
+  // "Certified by MGE" (DR-095): every figure shown is read from MGE itself; the seal is checked on MGE's public verify.
+  async function mgeGet(pathname, withKey) {
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 8000);
+    try {
+      const r = await fetchImpl(MGE + pathname, { headers: withKey ? { Authorization: `Bearer ${env.DATAROOM_MGE_READ_KEY}` } : {}, signal: ctl.signal });
+      const j = await r.json().catch(() => ({}));
+      return { ok: r.ok, status: r.status, json: j };
+    } catch { return { ok: false, status: 0, json: {} }; } finally { clearTimeout(t); }
+  }
+  const verifyPath = (c) => `/vault/${encodeURIComponent(c.vaultId)}/verify?sha256_hash=${c.sha256}`;
+  async function checkSeal(c) {
+    const v = await mgeGet(verifyPath(c), false);
+    return { reachable: v.status > 0, valid: !!v.json.valid, signatureValid: v.json.signature_valid ?? null, supersededBy: v.json.superseded_by ?? null, checkedAt: new Date(now()).toISOString() };
+  }
+  async function certs() { const r = await store.getJson("config/certified.json"); return { list: r.value?.records || [], etag: r.etag }; }
+  const publicCert = (c) => ({ id: c.id, label: c.label, note: c.note, certRef: c.certRef, module: c.module, period: c.period, outcome: c.outcome, trustScore: c.trustScore, testRun: c.testRun, certifiedAt: c.certifiedAt, sha256: c.sha256, vaultId: c.vaultId, verifyUrl: MGE + verifyPath(c), lastCheck: c.lastCheck || null });
 
   async function log(ctx, event, fields = {}) {
     const t = new Date(now());
@@ -148,7 +166,17 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
             docCount: docs.filter((d) => d.folder === f.id).length,
           };
         }),
+        certified: (await certs()).list.map(publicCert),
       };
+    },
+
+    async certCheck(ctx, b) {
+      const { g } = await visitor(ctx);
+      const c = (await certs()).list.find((x) => x.id === b.id);
+      if (!c) fail(404, "NOT_FOUND", "Record not found.");
+      const seal = await checkSeal(c);
+      await log(ctx, "seal_checked", { email: g.email, name: g.name, title: c.certRef || c.vaultId, reason: seal.reachable ? (seal.valid ? "seal valid" : "seal NOT valid") : "MGE unreachable" });
+      return { seal, verifyUrl: MGE + verifyPath(c) };
     },
 
     async unlock(ctx, b) {
@@ -252,6 +280,43 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
       return { events: out };
     },
 
+    async adminCerts(ctx) { await adminSession(ctx); return { records: (await certs()).list.map(publicCert), mge: MGE, keyConfigured: !!env.DATAROOM_MGE_READ_KEY }; },
+
+    // Add a certified record by its vault id: the record is read from MGE with the data room's read key, then its seal is checked.
+    async adminCertAdd(ctx, b) {
+      const { a } = await adminSession(ctx);
+      const vaultId = clean(b.vaultId, 80);
+      if (!/^vr_[0-9a-f]{16,64}$/.test(vaultId)) fail(400, "INVALID", "Enter a vault id (it starts with vr_).");
+      if (!env.DATAROOM_MGE_READ_KEY) fail(503, "NO_MGE_KEY", "The data room has no MGE read key yet (DATAROOM_MGE_READ_KEY).");
+      const r = await mgeGet(`/vault/${encodeURIComponent(vaultId)}`, true);
+      if (!r.ok) fail(r.status === 404 ? 404 : 502, "MGE", r.status === 404 ? "MGE has no record with that vault id for this key." : "MGE could not be reached or refused the request.");
+      const v = r.json, m = v.certified_metrics || {};
+      if (typeof m.trust_score !== "number" || !/^[0-9a-f]{64}$/.test(v.sha256_hash || "")) fail(502, "MGE", "MGE returned a record without a Trust Score or seal.");
+      const c = {
+        id: newId("cr"), vaultId, label: clean(b.label, 120), note: clean(b.note, 300), certRef: v.cert_ref || "", module: v.module_id || "",
+        period: v.period_label || v.period || "", outcome: m.outcome || "", trustScore: m.trust_score, testRun: !!v.test_run,
+        certifiedAt: v.certified_at || "", sha256: v.sha256_hash, addedAt: new Date(now()).toISOString(), addedBy: a.email,
+      };
+      c.lastCheck = await checkSeal(c);
+      if (!c.lastCheck.valid) fail(422, "SEAL_INVALID", "MGE's public verify did not confirm this record's seal, so it was not added.");
+      const { list, etag } = await certs();
+      if (list.some((x) => x.vaultId === vaultId)) fail(409, "DUPLICATE", "That record is already shown.");
+      list.push(c);
+      await store.putJson("config/certified.json", { records: list }, etag ? { ifMatch: etag } : { ifNoneMatch: true });
+      await log(ctx, "certified_record_added", { by: a.email, title: c.certRef || vaultId });
+      return { record: publicCert(c) };
+    },
+
+    async adminCertRemove(ctx, b) {
+      const { a } = await adminSession(ctx);
+      const { list, etag } = await certs();
+      const c = list.find((x) => x.id === b.id);
+      if (!c) fail(404, "NOT_FOUND", "Record not found.");
+      await store.putJson("config/certified.json", { records: list.filter((x) => x.id !== b.id) }, { ifMatch: etag });
+      await log(ctx, "certified_record_removed", { by: a.email, title: c.certRef || c.vaultId });
+      return { ok: true };
+    },
+
     async adminDocs(ctx) { await adminSession(ctx); return { docs: (await manifest()).docs, folders: FOLDERS }; },
 
     async adminUploadUrl(ctx, b) {
@@ -297,7 +362,7 @@ export function createDataRoom({ store, env = process.env, now = () => Date.now(
     },
   };
 
-  const POST_OPS = new Set(["setup", "login", "logout", "unlock", "adminLogin", "adminGrant", "adminRevoke", "adminUploadUrl", "adminDocAdd", "adminDocRemove"]);
+  const POST_OPS = new Set(["setup", "login", "logout", "unlock", "certCheck", "adminCertAdd", "adminCertRemove", "adminLogin", "adminGrant", "adminRevoke", "adminUploadUrl", "adminDocAdd", "adminDocRemove"]);
 
   return async function handle(op, ctx) {
     if (!store || !secret || secret.length < 32) return { status: 503, json: { error: { code: "NOT_CONFIGURED", message: "The data room is not configured yet." } } };

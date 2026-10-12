@@ -135,3 +135,44 @@ test("PINs must be six digits; editing keeps existing PINs unless reset", async 
   const c = await s.call("adminGrant", { name: "F G", email: "fg@x.example", folders: ["10", "11"], resetPins: ["10"] }, "admin");
   assert.deepEqual(Object.keys(c.json.issued.pins), ["10"]);
 });
+
+test("Certified by MGE: records come from MGE, seals are checked, invalid seals are refused (DR-095)", async () => {
+  const s = setup();
+  const sha = "a".repeat(64);
+  const calls = [];
+  const fakeFetch = async (url, opts) => {
+    calls.push({ url, auth: opts?.headers?.Authorization || null });
+    const ok = (j) => ({ ok: true, status: 200, json: async () => j });
+    if (url.endsWith("/vault/vr_0123456789abcdef0123456789abcdef")) return ok({ vault_id: "vr_0123456789abcdef0123456789abcdef", cert_ref: "CRT-2026-0007", module_id: "M01", period_label: "June 2026", test_run: true, certified_at: "2026-10-01T00:00:00Z", sha256_hash: sha, certified_metrics: { trust_score: 91, outcome: "CERTIFIED" } });
+    if (url.endsWith("/vault/vr_ffffffffffffffffffffffffffffffff")) return ok({ vault_id: "vr_ffffffffffffffffffffffffffffffff", sha256_hash: "b".repeat(64), certified_metrics: { trust_score: 50, outcome: "FAILED" } });
+    if (url.includes("/verify?sha256_hash=" + sha)) return ok({ valid: true, signature_valid: true, superseded_by: null });
+    if (url.includes("/verify?")) return ok({ valid: false, signature_valid: null, superseded_by: null });
+    return { ok: false, status: 404, json: async () => ({}) };
+  };
+  const env = { ...s.env, DATAROOM_MGE_URL: "https://mge.example/mge/v1", DATAROOM_MGE_READ_KEY: "mge_read_sbx_test" };
+  const h = createDataRoom({ store: s.store, env, now: s.clock.now, fetchImpl: fakeFetch });
+  const jar = { v: {}, a: {} };
+  const call = async (op, body, who) => {
+    const r = await h(op, { method: body === undefined ? "GET" : "POST", contentType: "application/json", cookies: jar[who], body: body || {} });
+    const sc = r.headers?.["Set-Cookie"]; if (sc) { const [kv] = sc.split(";"); const [k, v] = kv.split("="); jar[who][k] = v; }
+    return r;
+  };
+  await call("setup", { token: "setup-token-123", name: "M A", email: "owner@example.com", password: "a-long-admin-pass" }, "a");
+  await call("adminLogin", { email: "owner@example.com", password: "a-long-admin-pass" }, "a");
+  assert.equal((await call("adminCertAdd", { vaultId: "not-an-id" }, "a")).status, 400);
+  assert.equal((await call("adminCertAdd", { vaultId: "vr_ffffffffffffffffffffffffffffffff" }, "a")).status, 422, "seal not confirmed → refused");
+  const added = await call("adminCertAdd", { vaultId: "vr_0123456789abcdef0123456789abcdef", label: "M01 pilot" }, "a");
+  assert.equal(added.status, 200);
+  assert.equal(added.json.record.trustScore, 91);
+  assert.equal(added.json.record.testRun, true);
+  assert.ok(calls.some((c) => c.auth === "Bearer mge_read_sbx_test" && !c.url.includes("/verify")), "record read with the read key");
+  assert.ok(calls.filter((c) => c.url.includes("/verify")).every((c) => c.auth === null), "public verify uses no key");
+  const g = await call("adminGrant", { name: "V W", email: "vw@x.example" }, "a");
+  await call("login", { name: "V W", email: "vw@x.example", password: g.json.issued.password, ack: true }, "v");
+  const room = (await call("room", undefined, "v")).json;
+  assert.equal(room.certified.length, 1);
+  assert.equal(room.certified[0].verifyUrl, `https://mge.example/mge/v1/vault/vr_0123456789abcdef0123456789abcdef/verify?sha256_hash=${sha}`);
+  const chk = await call("certCheck", { id: room.certified[0].id }, "v");
+  assert.equal(chk.json.seal.valid, true);
+  assert.ok(!JSON.stringify(room).includes("mge_read_sbx_test"), "key never reaches the visitor");
+});

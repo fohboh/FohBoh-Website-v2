@@ -23,6 +23,7 @@
     </div>
     <nav class="pills" aria-label="Data room sections">
       <button class="pill" type="button" data-tab="index" aria-pressed="true">Index</button>
+      <button class="pill" type="button" data-tab="mge" aria-pressed="false">Certified by MGE</button>
       <button class="pill" type="button" data-tab="faq" aria-pressed="false">FAQ</button>
       <a class="pill" href="https://fohboh-glossary.netlify.app/" target="_blank" rel="noopener">Glossary</a>
       <a class="pill" href="mailto:hello@fohboh.com?subject=Data%20room%20question">Ask a question</a>
@@ -36,6 +37,14 @@
         <div style="display:flex;gap:16px;align-items:flex-start"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:2px"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg><div><strong>Restricted folders</strong><span>Restricted folders are released to qualified parties only. If you have been issued a PIN, select the folder above to enter it.</span></div></div>
         <a class="btn" href="mailto:hello@fohboh.com?subject=Restricted%20data%20room%20access">Request restricted access</a>
       </section>
+    </section>
+
+    <section id="tab-mge" hidden style="display:flex;flex-direction:column;gap:20px">
+      <div class="card" style="padding:24px 28px;display:flex;flex-direction:column;gap:10px">
+        <h2 style="font-size:24px">Certified by MGE</h2>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#3A3A3E;max-width:80ch">Each record below was certified by MGE, FohBoh's deterministic certification engine (no AI). The Trust Score, outcome and SHA-256 fingerprint are read from MGE itself, and anyone can check the seal on MGE's public verification service, with no account. Trust Scores apply to these certified records only; the documents in this data room are not certified by MGE.</p>
+      </div>
+      <div class="grid" id="certs" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))"></div>
     </section>
 
     <section id="tab-faq" class="card" hidden>
@@ -62,7 +71,7 @@
     catch (e) { if (e.status === 401) return location.replace("index.html"); return DR.show($("m"), e.message); }
     $("me").textContent = data.me.name;
     $("band").hidden = !data.folders.some((f) => f.restricted && !f.unlocked);
-    render();
+    render(); renderCerts();
   }
   function render() {
     $("folders").innerHTML = data.folders.map((f) => {
@@ -90,10 +99,31 @@
     p.innerHTML = '<div class="ph"><h2><span class="mono" style="font-size:13px;font-weight:500;color:#5A5A60;margin-right:12px">' + f.id + "</span>" + DR.esc(f.title) + "</h2><span>Each document you open is recorded</span></div>" +
       (f.docs.length ? '<div class="tbl"><table><thead><tr><th scope="col">Ref.</th><th scope="col">Document</th><th scope="col">Type</th><th scope="col">Updated</th><th scope="col" style="text-align:right">Action</th></tr></thead><tbody>' + rows + "</tbody></table></div>" : '<div class="empty">Documents for this folder are being prepared.</div>');
   }
+  function renderCerts() {
+    const list = data.certified || [];
+    $("certs").innerHTML = list.length ? list.map((c) => '<div class="card" style="padding:22px 24px;display:flex;flex-direction:column;gap:12px">' +
+      '<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px"><span class="mono" style="font-size:12px;color:#5A5A60">' + DR.esc(c.certRef || c.vaultId) + "</span>" + (c.testRun ? '<span class="badge">Sandbox test run</span>' : '<span class="badge strong">Production certification</span>') + "</div>" +
+      '<div style="font-family:Outfit,sans-serif;font-size:19px;font-weight:600;color:#0B1F3B">' + DR.esc(c.label || c.module) + "</div>" +
+      (c.note ? '<div style="font-size:13.5px;line-height:1.55;color:#5A5A60">' + DR.esc(c.note) + "</div>" : "") +
+      '<div style="display:flex;flex-wrap:wrap;gap:14px 28px;align-items:flex-end"><div><div class="kicker">Trust Score</div><div style="font-family:Outfit,sans-serif;font-size:44px;font-weight:600;line-height:1;color:#0B1F3B">' + DR.esc(c.trustScore) + '</div></div><div><div class="kicker">Outcome</div><div style="font-weight:600;font-size:16px;margin-top:6px">' + DR.esc(c.outcome) + '</div></div><div style="flex-basis:100%"><div class="kicker">Module · period</div><div style="font-size:14px;margin-top:6px">' + DR.esc(c.module) + " · " + DR.esc(c.period) + "</div></div></div>" +
+      '<div class="mono" style="font-size:11.5px;color:#5A5A60;word-break:break-all">SHA-256 ' + DR.esc(c.sha256) + "</div>" +
+      '<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap"><button class="btn ghost" type="button" data-seal="' + c.id + '" style="min-height:44px">Check the seal now</button><span id="seal-' + c.id + '" style="font-size:13.5px"></span></div></div>').join("")
+      : '<div class="card empty">Certified records will appear here.</div>';
+  }
+  document.addEventListener("click", async (ev) => {
+    const sb = ev.target.closest("[data-seal]");
+    if (sb) {
+      const out = $("seal-" + sb.dataset.seal); out.textContent = "Checking with MGE…"; sb.disabled = true;
+      try { const r = await DR.api("cert-check", { id: sb.dataset.seal }); const s = r.seal;
+        out.innerHTML = !s.reachable ? "MGE could not be reached just now." : s.valid ? '<strong style="color:#0B4F4F">✓ Seal valid</strong>' + (s.signatureValid ? " · signature valid" : "") + (s.supersededBy ? " · superseded by a later certification" : "") + ' · <a href="' + DR.esc(r.verifyUrl) + '" target="_blank" rel="noopener">see MGE’s answer</a>' : '<strong style="color:#8A1C1C">Seal not confirmed</strong>';
+      } catch (e) { out.textContent = e.message; } finally { sb.disabled = false; }
+      return;
+    }
+  });
   document.addEventListener("click", (ev) => {
     const b = ev.target.closest("[data-f]"); if (b) { current = b.dataset.f; render(); $("panel").scrollIntoView({ behavior: "smooth", block: "start" }); }
     const t = ev.target.closest("[data-tab]");
-    if (t) { document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); $("tab-index").hidden = t.dataset.tab !== "index"; $("tab-faq").hidden = t.dataset.tab !== "faq"; }
+    if (t) { document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); ["index", "mge", "faq"].forEach((k) => ($("tab-" + k).hidden = t.dataset.tab !== k)); }
   });
   $("out").addEventListener("click", async () => { try { await DR.api("logout", {}); } catch (e) { /* ignore */ } location.replace("index.html"); });
   load();

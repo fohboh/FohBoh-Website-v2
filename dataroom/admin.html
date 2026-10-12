@@ -29,7 +29,7 @@
 
     <div id="app" hidden style="display:flex;flex-direction:column;gap:40px">
       <div class="head"><div style="display:flex;flex-direction:column;gap:12px"><h1>Data room administration</h1><p style="max-width:70ch">Issue and withdraw access, add documents, and read the access log. Passwords and PINs are shown once when issued and stored only as one-way hashes: copy them before you leave the page.</p></div><a class="btn ghost" href="room.html" target="_blank" rel="noopener">Open the visitor view</a></div>
-      <nav class="pills"><button class="pill" type="button" data-tab="grants" aria-pressed="true">Access</button><button class="pill" type="button" data-tab="docs" aria-pressed="false">Documents</button><button class="pill" type="button" data-tab="log" aria-pressed="false">Access log</button></nav>
+      <nav class="pills"><button class="pill" type="button" data-tab="grants" aria-pressed="true">Access</button><button class="pill" type="button" data-tab="docs" aria-pressed="false">Documents</button><button class="pill" type="button" data-tab="mge" aria-pressed="false">Certified by MGE</button><button class="pill" type="button" data-tab="log" aria-pressed="false">Access log</button></nav>
       <div id="m" class="msg" role="alert"></div>
 
       <!-- access -->
@@ -68,6 +68,20 @@
         <section class="card panel"><div class="ph"><h2>Documents</h2><span id="dcount"></span></div><div class="tbl"><table><thead><tr><th>Ref.</th><th>Document</th><th>Folder</th><th>Updated</th><th style="text-align:right">Action</th></tr></thead><tbody id="dt"></tbody></table></div></section>
       </section>
 
+      <!-- certified by MGE -->
+      <section id="tab-mge" hidden style="display:flex;flex-direction:column;gap:24px">
+        <form id="cf" class="card panel">
+          <div class="ph"><h2>Show a certified record</h2><span id="cmge"></span></div>
+          <div class="formgrid">
+            <div class="field"><label for="cv">Vault id</label><input id="cv" type="text" placeholder="vr_…" autocomplete="off"><small>The data room reads the record from MGE and checks its seal before showing it. Only real MGE records can be added.</small></div>
+            <div class="field"><label for="cl">Title shown to investors</label><input id="cl" type="text" placeholder="For example: M01 card-fee certification, pilot restaurant"></div>
+            <div class="field full"><label for="cn">Short note (optional)</label><input id="cn" type="text"></div>
+            <div class="full"><button class="btn" id="cb" type="submit">Add record</button></div>
+          </div>
+        </form>
+        <section class="card panel"><div class="ph"><h2>Records shown</h2></div><div class="tbl"><table><thead><tr><th>Record</th><th>Trust Score</th><th>Outcome</th><th>Kind</th><th style="text-align:right">Action</th></tr></thead><tbody id="ct"></tbody></table></div></section>
+      </section>
+
       <!-- log -->
       <section id="tab-log" hidden class="card panel">
         <div class="ph"><h2>Activity</h2><span style="display:flex;gap:16px;align-items:center"><span>Last 30 days · newest first</span><a class="btn ghost" href="/api/dataroom/admin-log?days=365&amp;format=csv" style="min-height:40px">Export log (CSV)</a></span></div>
@@ -84,15 +98,15 @@
   let folders = [], grants = [], docs = [], editing = null;
   const RESTRICTED = () => folders.filter((f) => f.restricted);
   const fname = (id) => (folders.find((f) => f.id === id) || {}).title || id;
-  const LABELS = { signed_in: ["Signed in", "strong"], signed_out: ["Signed out", ""], login_rejected: ["Password rejected", "bad"], login_locked: ["Locked out", "bad"], pin_accepted: ["PIN accepted", "strong"], pin_rejected: ["PIN rejected", "bad"], pin_locked: ["PIN locked", "bad"], document_opened: ["Document viewed", ""], open_refused: ["Refused", "bad"], access_granted: ["Access issued", "strong"], access_updated: ["Access updated", ""], access_revoked: ["Access withdrawn", "bad"], document_added: ["Document added", ""], document_removed: ["Document removed", ""], admin_signed_in: ["Admin signed in", ""], admin_login_rejected: ["Admin password rejected", "bad"], admin_login_locked: ["Admin locked out", "bad"], admin_created: ["Administrator set up", "strong"], setup_rejected: ["Setup token rejected", "bad"] };
+  const LABELS = { signed_in: ["Signed in", "strong"], signed_out: ["Signed out", ""], login_rejected: ["Password rejected", "bad"], login_locked: ["Locked out", "bad"], pin_accepted: ["PIN accepted", "strong"], pin_rejected: ["PIN rejected", "bad"], pin_locked: ["PIN locked", "bad"], document_opened: ["Document viewed", ""], open_refused: ["Refused", "bad"], access_granted: ["Access issued", "strong"], access_updated: ["Access updated", ""], access_revoked: ["Access withdrawn", "bad"], document_added: ["Document added", ""], document_removed: ["Document removed", ""], admin_signed_in: ["Admin signed in", ""], admin_login_rejected: ["Admin password rejected", "bad"], admin_login_locked: ["Admin locked out", "bad"], admin_created: ["Administrator set up", "strong"], seal_checked: ["Seal checked", ""], certified_record_added: ["Certified record added", ""], certified_record_removed: ["Certified record removed", ""], setup_rejected: ["Setup token rejected", "bad"] };
 
   async function start() {
-    try { const me = await DR.api("admin-me"); folders = me.folders; $("me").textContent = me.name; $("who").hidden = false; $("app").hidden = false; $("login").hidden = true; buildForm(); await Promise.all([loadGrants(), loadDocs(), loadLog()]); }
+    try { const me = await DR.api("admin-me"); folders = me.folders; $("me").textContent = me.name; $("who").hidden = false; $("app").hidden = false; $("login").hidden = true; buildForm(); await Promise.all([loadGrants(), loadDocs(), loadLog(), loadCerts()]); }
     catch (e) { if (e.code === "NOT_CONFIGURED") { $("login").hidden = false; DR.show($("lm"), "The data room is not configured on the server yet (see the setup guide)."); return; } $("login").hidden = false; }
   }
   $("login").addEventListener("submit", async (ev) => { ev.preventDefault(); DR.busy($("lb"), true); DR.show($("lm"), ""); try { await DR.api("admin-login", { email: $("le").value, password: $("lp").value }); $("lp").value = ""; await start(); } catch (e) { DR.show($("lm"), e.message); } finally { DR.busy($("lb"), false); } });
   $("out").addEventListener("click", async () => { try { await DR.api("logout", {}); } catch (e) {} location.reload(); });
-  document.addEventListener("click", (ev) => { const t = ev.target.closest("[data-tab]"); if (!t) return; document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); ["grants", "docs", "log"].forEach((k) => ($("tab-" + k).hidden = k !== t.dataset.tab)); if (t.dataset.tab === "log") loadLog(); });
+  document.addEventListener("click", (ev) => { const t = ev.target.closest("[data-tab]"); if (!t) return; document.querySelectorAll("[data-tab]").forEach((x) => x.setAttribute("aria-pressed", String(x === t))); ["grants", "docs", "mge", "log"].forEach((k) => ($("tab-" + k).hidden = k !== t.dataset.tab)); if (t.dataset.tab === "log") loadLog(); });
 
   function buildForm() {
     $("gfolders").innerHTML = RESTRICTED().map((f) => '<label><input type="checkbox" value="' + f.id + '" data-gf> ' + f.id + " · " + DR.esc(f.title) + "</label>").join("");
@@ -159,6 +173,22 @@
     } catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("db"), false); }
   });
 
+  let certs = [];
+  async function loadCerts() {
+    const r = await DR.api("admin-certs"); certs = r.records;
+    $("cmge").textContent = r.keyConfigured ? "Reading from " + r.mge : "MGE read key not set (DATAROOM_MGE_READ_KEY)";
+    $("ct").innerHTML = certs.map((c) => '<tr><td><div style="font-weight:600">' + DR.esc(c.label || c.module) + '</div><div class="mono" style="font-size:12px;color:#5A5A60">' + DR.esc(c.certRef || c.vaultId) + " · " + DR.esc(c.module) + " · " + DR.esc(c.period) + '</div></td><td style="font-weight:600">' + DR.esc(c.trustScore) + "</td><td>" + DR.esc(c.outcome) + "</td><td>" + (c.testRun ? "Sandbox test run" : "Production") + '</td><td style="text-align:right"><button class="linkbtn" data-rmcert="' + c.id + '" style="color:#8A1C1C">Remove</button></td></tr>').join("") || '<tr><td colspan="5" class="empty">No certified records shown yet.</td></tr>';
+  }
+  $("cf").addEventListener("submit", async (ev) => {
+    ev.preventDefault(); DR.show($("m"), ""); DR.busy($("cb"), true);
+    try { await DR.api("admin-cert-add", { vaultId: $("cv").value.trim(), label: $("cl").value, note: $("cn").value }); $("cf").reset(); DR.show($("m"), "Record added after MGE confirmed its seal.", "ok"); await loadCerts(); }
+    catch (e) { DR.show($("m"), e.message); } finally { DR.busy($("cb"), false); }
+  });
+  document.addEventListener("click", async (ev) => {
+    const r = ev.target.closest("[data-rmcert]"); if (!r) return;
+    const c = certs.find((x) => x.id === r.dataset.rmcert); if (!confirm("Stop showing " + (c.certRef || c.vaultId) + "?")) return;
+    try { await DR.api("admin-cert-remove", { id: c.id }); await loadCerts(); } catch (e) { DR.show($("m"), e.message); }
+  });
   async function loadLog() {
     const ev = (await DR.api("admin-log")).events;
     $("lt").innerHTML = ev.map((r) => { const l = LABELS[r.event] || [r.event, ""]; const item = r.title ? (r.folder ? r.folder + " · " : "") + r.title : r.folder ? r.folder + " " + fname(r.folder) : r.event === "signed_in" ? "NDA acknowledged" : r.reason || (r.by ? "by " + r.by : ""); return '<tr><td class="mono" style="white-space:nowrap">' + DR.esc(r.at.replace("T", " ").slice(0, 19)) + '</td><td><div style="font-weight:600">' + DR.esc(r.name || "—") + '</div><div style="font-size:12.5px;color:#5A5A60">' + DR.esc(r.email || "") + '</div></td><td><span class="badge ' + l[1] + '">' + DR.esc(l[0]) + "</span></td><td>" + DR.esc(item) + '</td><td class="mono">' + DR.esc(r.ip || "") + "</td></tr>"; }).join("") || '<tr><td colspan="5" class="empty">No activity yet.</td></tr>';
