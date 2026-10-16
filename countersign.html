@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20x%3D'6'%20y%3D'4'%20width%3D'48'%20height%3D'44'%20fill%3D'%230B1F3B'%2F%3E%3Crect%20x%3D'46'%20y%3D'52'%20width%3D'48'%20height%3D'44'%20fill%3D'%236D28D9'%2F%3E%3Crect%20x%3D'27'%20y%3D'29'%20width%3D'46'%20height%3D'42'%20fill%3D'%2300A7A7'%20stroke%3D'%23FAF9F6'%20stroke-width%3D'7'%2F%3E%3C%2Fsvg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Countersign™ by FohBoh.ai — approve or deny agent actions before they execute</title>
+<meta name="description" content="Countersign by FohBoh.ai, powered by FohBoh | MGE Certified Execution, is the trust layer that approves or denies AI agent actions before they execute. In development; not yet available.">
+<link rel="canonical" href="https://fohboh.ai/countersign.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FohBoh.ai">
+<meta property="og:url" content="https://fohboh.ai/countersign.html">
+<meta property="og:title" content="Countersign™ by FohBoh.ai — approve or deny agent actions before they execute">
+<meta property="og:description" content="Countersign by FohBoh.ai, powered by FohBoh | MGE Certified Execution, is the trust layer that approves or denies AI agent actions before they execute. In development; not yet available.">
+<meta property="og:image" content="https://fohboh.ai/assets/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Countersign™ by FohBoh.ai — approve or deny agent actions before they execute">
+<meta name="twitter:description" content="Countersign by FohBoh.ai, powered by FohBoh | MGE Certified Execution, is the trust layer that approves or denies AI agent actions before they execute. In development; not yet available.">
+<meta name="twitter:image" content="https://fohboh.ai/assets/og-card.png">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
+<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+<link rel="stylesheet" href="mobile-fix.css">
+</helmet>
+<div style="background: #FAF9F6; min-width: 1120px;">
+  <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
+    <a href="index.html" aria-label="FohBoh.ai — Certified Intelligence" style="display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; white-space: nowrap;"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></a>
+    <a href="mge.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">MGE™</a>
+    <a href="countersign.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Countersign™</a>
+    <a href="sentry.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Sentry™</a>
+    <a href="cortex.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Cortex™</a>
+    <a href="caar-example.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Example CAAR</a>
+    <a href="partners.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Partners</a>
+    <a href="pricing.html" style="font-size: 13px; color: #1d1d1f; text-decoration: none;">Pricing</a>
+    <a href="contact.html#demo" style="font-size: 13px; font-weight: 600; color: #ffffff; background: #6D28D9; padding: 8px 16px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #7C3AED;">Book a demo</a>
+  </nav>
+  <div style="padding: 60px 64px 56px; display: grid; grid-template-columns: 1fr 380px; gap: 56px; align-items: start; max-width: 1220px;">
+    <div>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Execution authorization &amp; certification</span>
+      <h1 style="margin: 18px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 48px; line-height: 1.08; letter-spacing: -0.02em; max-width: 20ch;">AI agents can act. Countersign decides whether they may.</h1>
+      <div style="margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: 11.5px; letter-spacing: 0.06em; color: #3c434d;">Countersign™, powered by FohBoh | MGE™ Certified Execution</div>
+      <p style="margin: 20px 0 0; font-size: 17px; line-height: 1.55; max-width: 58ch; color: #494952;">Countersign by FohBoh.ai is the MGE-powered trust layer that approves or denies agent actions before they execute. An AI agent calls Countersign before it acts. Countersign evaluates the proposed action against facts MGE has certified and authority your customer has registered, and answers in the same call: APPROVE or DENY, with the reason. Countersign never performs the action itself.</p>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; margin-top: 28px;">
+        <a href="contact.html#demo" style="font-size: 15px; font-weight: 600; color: #ffffff; background: #6D28D9; padding: 13px 26px; border-radius: 980px; text-decoration: none; white-space: nowrap;" style-hover="background: #7C3AED;">Talk to us</a>
+        <a href="#how" style="font-size: 15px; font-weight: 500; color: #3c434d; text-decoration: none; white-space: nowrap;">See how it works →</a>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 10px; border-radius: 980px; border: 1px solid #c9c9d1; color: #6e6e73; white-space: nowrap;">In development · not yet available</span>
+      </div>
+      <div style="display: flex; align-items: center; gap: 10px; margin-top: 36px; flex-wrap: wrap;">
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 7px 13px; background: #f5f5f7; border: 1px solid #e0e0e5; border-radius: 8px; color: #494952;">Agent · proposes</span>
+        <span style="color: #3c434d; font-size: 14px;">→</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; padding: 7px 13px; background: #3c434d; border-radius: 8px; color: #ffffff;">Countersign™ · APPROVE / DENY</span>
+        <span style="color: #3c434d; font-size: 14px;">→</span>
+        <span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 7px 13px; background: #f5f5f7; border: 1px solid #e0e0e5; border-radius: 8px; color: #494952;">Enforcing adapter · redeems the certificate</span>
+      </div>
+      <div style="margin-top: 8px; font-size: 12px; color: #86868b;">Binary by design. No AI in the decision. Fails closed.</div>
+      <div style="margin-top: 26px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 22px; line-height: 1.3; letter-spacing: -0.01em; max-width: 30ch;">Observability makes agent behavior visible. Countersign makes execution conditional.</div>
+    </div>
+    <figure style="margin: 0; justify-self: end;">
+      <div style="width: 360px; max-width: 100%; box-sizing: border-box; background: #ffffff; border: 1px solid #e0e0e5; border-radius: 20px; box-shadow: 0 24px 60px rgba(29,29,31,0.14); overflow: hidden;">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid #ececf0;">
+          <div style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 16px;">Countersign™</div>
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #86868b;">DECISION</span>
+        </div>
+        <div style="opacity: {{ csOpacity }}; transition: opacity 0.4s ease; padding: 16px 20px 18px; min-height: 310px;">
+          <div style="font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; color: #86868b;">{{ csAgent }}</div>
+          <div style="margin-top: 6px; font-size: 14px; line-height: 1.45; font-weight: 600; color: #1d1d1f;">{{ csAction }}</div>
+          <div style="margin-top: 14px;">
+              <div style="display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #f0f0f2; font-size: 11.5px;"><span style="color: #6e6e73;">Invoice supported by certified evidence</span><span style="color: {{ csDataColor }}; font-weight: 600; text-align: right;">{{ csData }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #f0f0f2; font-size: 11.5px;"><span style="color: #6e6e73;">Vendor authorized</span><span style="color: {{ csGateColor }}; font-weight: 600; text-align: right;">{{ csGate }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #f0f0f2; font-size: 11.5px;"><span style="color: #6e6e73;">Within delegated authority</span><span style="color: {{ csPolicyColor }}; font-weight: 600; text-align: right;">{{ csPolicy }}</span></div>
+              <div style="display: flex; justify-content: space-between; gap: 10px; padding: 7px 0; border-top: 1px solid #f0f0f2; font-size: 11.5px;"><span style="color: #6e6e73;">Not already paid</span><span style="color: {{ csEvidenceColor }}; font-weight: 600; text-align: right;">{{ csEvidence }}</span></div>
+          </div>
+          <div style="margin-top: 14px; padding: 12px 14px; border-radius: 12px; background: {{ csBg }}; border: 1px solid {{ csBorder }};">
+            <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: {{ csColor }};">{{ csDecision }}</div>
+            <div style="margin-top: 4px; font-size: 11.5px; line-height: 1.45; color: #494952;">{{ csWhy }}</div>
+          </div>
+          <div style="margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 9px; color: #b3b3b8;">{{ csSeal }}</div>
+        </div>
+      </div>
+      <figcaption style="margin-top: 12px; text-align: center; font-size: 11.5px; color: #86868b;">Illustrative decisions from the My Payables AI Agent demo, with sample data</figcaption>
+    </figure>
+  </div>
+  <div id="how" style="padding: 56px 64px; background: #f5f5f7; border-top: 1px solid #e8e8ed; border-bottom: 1px solid #e8e8ed;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">How it works</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">The checkpoint between a proposal and a real-world action.</h2>
+    <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">Countersign sits in the tool execution path, at the point where an agent's proposed action would become a real one. One call, one answer.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">1 · Propose</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">The agent proposes an action, such as paying an invoice, with its exact parameters.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">2 · Evaluate</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Countersign reads what MGE has certified and runs eight deterministic Execution Controls: the evidence, the agent's identity and delegated authority, its limits and your rules.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">3 · Decide</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">APPROVE or DENY, in the same call. A DENY carries a reason code, a hint on what would change the answer, and a plain-language narrative. An APPROVE carries a single-use Execution Certificate.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">4 · Enforce</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">The enforcing adapter in front of your payment system verifies and redeems the certificate before anything runs, and records what actually happened.</p>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px;">
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 16px; padding: 20px 24px;"><div style="font-weight: 600; font-size: 15px;">No bypass</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">An agent that skips Countersign is refused at the destination. Enforcement lives outside the agent.</p></div>
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 16px; padding: 20px 24px;"><div style="font-weight: 600; font-size: 15px;">Bound to the exact action</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">The Execution Certificate covers the specific action and parameters evaluated, and can be redeemed once.</p></div>
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 16px; padding: 20px 24px;"><div style="font-weight: 600; font-size: 15px;">Fails closed</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">No error, timeout or unavailable dependency ever results in APPROVE. A timeout is never a yes.</p></div>
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 16px; padding: 20px 24px;"><div style="font-weight: 600; font-size: 15px;">Authority from the registry</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Limits, approvers and policies are registered in advance. Nothing an agent writes in free text can change a decision.</p></div>
+    </div>
+    <p style="margin: 22px 0 0; font-size: 13.5px; line-height: 1.6; max-width: 80ch; color: #6e6e73;">The Trust Score of the certified inputs must clear its threshold. It is necessary and never sufficient on its own, and Countersign produces no score of its own.</p>
+  </div>
+  <div style="padding: 64px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Worked example</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">An agent proposes a $12,400 vendor payment.</h2>
+    <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">Observability captures the proposal and the tool arguments. Countersign answers four questions before any money moves. If required evidence is missing or a rule fails, the answer is DENY.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">1 · Supported</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Is the invoice supported by evidence MGE has certified?</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">2 · Authorized</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Is the vendor authorized?</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">3 · Within authority</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Is the payment within the agent's delegated authority?</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">4 · Not a duplicate</div>
+        <p style="margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Has this invoice already been paid?</p>
+      </div>
+    </div>
+    <p style="margin: 22px 0 0; font-size: 13.5px; line-height: 1.6; max-width: 80ch; color: #6e6e73;">Above the agent's limit, the payment needs a sign-off from an approver your customer has registered, made with that person's own credential, never an agent's key.</p>
+  </div>
+  <div style="padding: 56px 64px; background: #f5f5f7; border-top: 1px solid #e8e8ed; border-bottom: 1px solid #e8e8ed;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Observability and Countersign</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">One makes behavior visible. The other makes execution conditional.</h2>
+    <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">Observability can run throughout an agent's work, including before execution. Countersign's defining role is the enforced checkpoint. The two work together.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 28px;">
+      <div style="background: #ffffff; border: 1px dashed #b3b3b8; border-radius: 18px; padding: 26px 30px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b; padding-bottom: 10px;">Agent observability</div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Core question</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">What is the agent doing, and why did it fail?</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Primary inputs</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Traces, tool calls, outputs, errors, timing</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Primary output</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Monitoring signals, evaluations, alerts, diagnostic records</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Operational role</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Helps teams understand and improve behavior</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Relationship</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #494952;">Records the Countersign request, decision and execution result</div></div></div>
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 18px; padding: 26px 30px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d; padding-bottom: 10px;">FohBoh | Countersign™</div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Core question</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #1d1d1f;">May this specific action execute?</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Primary inputs</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #1d1d1f;">Proposed action, identity, permissions, supporting evidence, governing rules</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Primary output</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #1d1d1f;">APPROVE or DENY, with reasons and a certification record</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Operational role</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #1d1d1f;">Supplies the decision an execution gateway must enforce</div></div><div style="padding: 12px 0; border-top: 1px solid #f0f0f2;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #86868b;">Relationship</div><div style="margin-top: 4px; font-size: 14px; line-height: 1.5; color: #1d1d1f;">Uses relevant evidence and returns its decision to the observable workflow</div></div></div>
+    </div>
+  </div>
+  <div style="padding: 64px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;">
+    <div>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Where it fits</span>
+      <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">A distinct capability in the agent stack.</h2>
+      <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 52ch; color: #494952;">Execution Authorization &amp; Certification belongs directly in the tool execution path, connected to tracing, logging, alerting and audit dashboards. It is not a governance report at the end of the line; it is the decision an action has to pass before it runs.</p>
+      <p style="margin: 14px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 52ch; color: #494952;">That makes observability platforms a natural partner. Countersign contributes the enforceable decision. Their traces and dashboards make that decision, and the outcome that follows, visible.</p>
+      <a href="partners.html" style="display: inline-block; margin-top: 18px; font-size: 15px; font-weight: 600; color: #6D28D9; text-decoration: none;">Partner with us →</a>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Observability foundations</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Tracing</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Spans & steps</div>
+      <div style="background: #e6f2ec; border: 1.5px solid #0e7a54; border-radius: 14px; padding: 16px 18px;"><div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;"><div style="font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 16px; color: #0b4a35;">Execution Authorization &amp; Certification</div><span style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 9px; border-radius: 980px; background: #0e7a54; color: #ffffff;">Countersign · powered by MGE</span></div><div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px;"><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Proposed action</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Evidence checks</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Identity & authority</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Policy rules</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #0e7a54; color: #ffffff; border: 1px solid #b7dccb;">APPROVE / DENY</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Enforced execution gate</span><span style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; padding: 5px 9px; border-radius: 6px; background: #ffffff; color: #0b4a35; border: 1px solid #b7dccb;">Decision record</span></div></div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Logging inputs & outputs</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Cost & tokens</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Quality signals</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Alerting</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Debugging runs</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Feedback loops</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Evals in production</div>
+      <div style="background: #ffffff; border: 1px solid #ececf0; border-radius: 10px; padding: 9px 16px; font-size: 13.5px; color: #6e6e73;">Dashboards & governance</div>
+      <div style="margin-top: 6px; font-size: 11.5px; color: #86868b;">The agent observability stack, with Execution Authorization &amp; Certification in the execution path.</div>
+    </div>
+  </div>
+  <div style="padding: 56px 64px; background: #f5f5f7; border-top: 1px solid #e8e8ed; border-bottom: 1px solid #e8e8ed;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Who it's for</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">Built for companies that build AI agents.</h2>
+    <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">Our customer is the agent producer: a software company whose agent acts inside its customers' systems, such as an accounts-payable, procurement or claims platform. You hold the keys and the contract. Your customers never hold a FohBoh key; you register their agents, limits, approvers and policies through an administration API, and each customer is isolated from every other.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #007A7A;">Designed</div><div style="margin-top: 6px; font-weight: 600; font-size: 15px;">One call, one answer</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">A proposed action in, APPROVE or DENY out, synchronously, in well under a second.</p></div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #007A7A;">Designed</div><div style="margin-top: 6px; font-weight: 600; font-size: 15px;">Answers a model can act on</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Reason codes, a hint on what would change the answer, and a narrative the agent can relay to a person.</p></div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Planned</div><div style="margin-top: 6px; font-weight: 600; font-size: 15px;">Callable as a tool</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">An MCP server and SDKs, so an agent on any framework can call Countersign like any other tool.</p></div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;"><div style="font-family: 'JetBrains Mono', monospace; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: #007A7A;">Designed</div><div style="margin-top: 6px; font-weight: 600; font-size: 15px;">Safe to retry</div><p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;">Every call is idempotent. A repeated request returns the same decision.</p></div>
+    </div>
+  </div>
+  <div style="padding: 64px 64px 56px;">
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: #3c434d;">Use cases</span>
+    <h2 style="margin: 14px 0 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 32px; letter-spacing: -0.015em;">Fewer unauthorized, unsupported, duplicate or out-of-policy actions.</h2>
+    <p style="margin: 12px 0 0; font-size: 15.5px; line-height: 1.6; max-width: 68ch; color: #494952;">Every use case has the same shape: an agent proposes an action, MGE has certified the facts behind it, and Countersign decides before anything moves.</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-top: 24px;">
+      <div style="background: #ffffff; border: 1px solid #3c434d; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Restaurants and hospitality</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Pay a food distributor's invoice</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> overbilled amounts, duplicates, a fraudulent bank change, payments above the agent's limit.</p><span style="display: inline-block; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 7px; border-radius: 5px; background: #E6F6F6; color: #007A7A;">First use case</span>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Accounts payable, any industry</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Pay a supplier, or change a supplier's bank details</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> paying more than is owed, paying twice, paying a new account without verification.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Procurement</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Release a purchase order</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> orders above authority, unapproved suppliers, prices outside the contract.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Insurance claims</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Settle or deny a claim</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> settlements above authority, payment to someone other than the claimant, denials without a person.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Healthcare revenue cycle</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Refund an overpayment, or write off a balance</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> refunds above what was overpaid, write-offs above authority. Patient data stays out.</p>
+      </div>
+      <div style="background: #ffffff; border: 1px solid #e8e8ed; border-radius: 16px; padding: 22px 24px;">
+        <div style="font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #6e6e73;">Retail and e-commerce service</div>
+        <div style="margin-top: 8px; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 17px;">Issue a refund, credit or discount</div>
+        <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: #494952;"><span style="color: #1d1d1f; font-weight: 600;">Stops:</span> refunds outside policy, discounts above a set rate, repeat refunds to one customer.</p>
+      </div>
+    </div>
+    <p style="margin: 22px 0 0; font-size: 13px; line-height: 1.6; max-width: 80ch; color: #6e6e73;">An APPROVE means the action satisfied the configured Execution Controls on the available evidence. It is not a guarantee that every approved action will produce the business outcome you want.</p>
+  </div>
+  <div style="margin: 0 64px 64px; background: #1d1d1f; border-radius: 24px; padding: 52px 56px; display: flex; align-items: center; justify-content: space-between; gap: 40px;">
+    <div>
+      <h3 style="margin: 0; font-family: 'Outfit', sans-serif; font-weight: 600; font-size: 30px; letter-spacing: -0.015em; color: #ffffff;">Make agent execution conditional.</h3>
+      <p style="margin: 10px 0 0; font-size: 15px; color: rgba(255,255,255,0.65); max-width: 58ch;">Countersign is in development and not yet available. If you build AI agents that act for your customers, tell us which actions you need governed first.</p>
+    </div>
+    <a href="contact.html#demo" style="flex-shrink: 0; font-size: 15px; font-weight: 600; color: #1d1d1f; background: #ffffff; padding: 13px 26px; border-radius: 980px; text-decoration: none; white-space: nowrap;">Talk to us</a>
+  </div>
+  <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
+    <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
+      <div>
+        <div style="display: flex; align-items: center; gap: 11px; white-space: nowrap;"><svg width="24" height="24" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 19px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></div>
+        <p style="margin: 10px 0 0; font-size: 13px; line-height: 1.55; color: #6e6e73; max-width: 26ch;">Certified Intelligence™ Infrastructure. Proprietary deterministic certification technology.</p>
+        <p style="margin: 12px 0 0; font-family: 'JetBrains Mono', monospace; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; color: #86868b;">Patent Pending</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
+        <a href="mge.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
+        <a href="countersign.html" style="font-size: 13px; color: #6e6e73; text-decoration: none; white-space: nowrap;">FohBoh | Countersign™</a>
+        <a href="sentry.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
+        <a href="cortex.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="m04-scr.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">M04 · Supplier Invoices</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
+        <a href="pricing.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
+        <a href="roi-simulator.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">ROI Simulator</a>
+        <a href="caar-example.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="for-vendors.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
+        <a href="fohboh-api-docs-page.html?from=site-footer" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">API Docs</a>
+        <a href="terms.html" title="Security terms live in the MSA" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Security (MSA)</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Resources</span>
+        <a href="resources.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Learning Center</a>
+        <a href="resources.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
+        <a href="resources.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 9px;">
+        <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
+        <a href="about.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
+        <a href="partners.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
+        <a href="contact.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
+      </div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 36px; padding-top: 18px; border-top: 1px solid #e8e8ed; font-size: 12.5px; color: #86868b;">
+      <span>© 2026 FohBoh.ai, Inc. All rights reserved · Patent Pending</span>
+      <span><a href="privacy.html" style="color: #86868b; text-decoration: none;">Privacy</a> · <a href="terms.html" style="color: #86868b; text-decoration: none;">Terms</a></span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { i: 0, vis: true };
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      this.setState({ vis: false });
+      this.swap = setTimeout(() => {
+        this.setState((s) => ({ i: (s.i + 1) % 3, vis: true }));
+      }, 420);
+    }, 6000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearTimeout(this.swap); }
+  renderVals() {
+    const OK = '#0e7a54', NO = '#b42318';
+    const AP = { c: OK, bg: '#e6f2ec', bd: '#cfe5d9' }, DN = { c: NO, bg: '#fdecea', bd: '#f6cfca' };
+    const R = [
+      { agent: 'MY PAYABLES AI AGENT · REQ-20418', action: 'Pay vendor invoice INV-7731 · $12,400.00',
+        v: ['Supported ✓', OK, 'Authorized ✓', OK, 'Within limit ✓', OK, 'First payment ✓', OK],
+        dec: 'APPROVE', why: 'All Execution Controls passed. A single-use Execution Certificate is issued for this exact payment.', s: AP,
+        seal: 'Execution Certificate · single use · sealed SHA-256 9f3a…c21e' },
+      { agent: 'MY PAYABLES AI AGENT · REQ-20419', action: 'Pay vendor invoice INV-7731 · $12,400.00',
+        v: ['Supported ✓', OK, 'Authorized ✓', OK, 'Within limit ✓', OK, 'Already paid ✕', NO],
+        dec: 'DENY', why: 'Reason: duplicate. This invoice was paid on an earlier run, so nothing is released.', s: DN,
+        seal: 'Decision narrative · sealed SHA-256 41bd…7a90' },
+      { agent: 'MY PAYABLES AI AGENT · REQ-20420', action: 'Pay vendor invoice INV-7802 · $12,400.00',
+        v: ['Receipt missing ✕', NO, 'Authorized ✓', OK, 'Within limit ✓', OK, 'First payment ✓', OK],
+        dec: 'DENY', why: 'Reason: required evidence missing. Hint: certified proof of receipt would change the answer.', s: DN,
+        seal: 'Decision narrative · sealed SHA-256 c7e2…18d4' },
+    ];
+    const r = R[this.state.i];
+    return {
+      csOpacity: this.state.vis ? 1 : 0,
+      csAgent: r.agent, csAction: r.action,
+      csData: r.v[0], csDataColor: r.v[1], csGate: r.v[2], csGateColor: r.v[3],
+      csPolicy: r.v[4], csPolicyColor: r.v[5], csEvidence: r.v[6], csEvidenceColor: r.v[7],
+      csDecision: r.dec, csWhy: r.why, csColor: r.s.c, csBg: r.s.bg, csBorder: r.s.bd, csSeal: r.seal,
+    };
+  }
+}
+</script>
+<script src="mobile-fix.js" defer></script>
+</body>
+</html>
