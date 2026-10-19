@@ -67,7 +67,7 @@
           </ul>
         </div>
       </div>
-      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">FohBoh's fee does not depend on what you do with this report. And the figures are not anyone's judgment: a fixed, versioned rule set runs on sealed evidence, and the same records always give the same result, which your team can reproduce from the evidence pack.</p>
+      <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; max-width: 78ch; color: #6e6e73;">FohBoh's fee does not depend on what you do with this report. And the figures are not anyone's judgment: a fixed, versioned rule set runs on sealed evidence, and the same evidence, rule version and configuration always give the same result, which your team can reproduce from the evidence pack.</p>
     </section>
     <section>
       <div style="font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #3c434d;">03 · How the numbers were produced</div>
@@ -257,7 +257,7 @@ class Component extends DCLogic {
       freRows: [
         { k: 'Fixed at issue', v: 'The record is sealed and append-only. Changing any figure takes a new certification, with a new identifier and a visible link to this one.' },
         { k: 'Hashed at receipt', v: 'Every source file, including yours, was fingerprinted with SHA-256 before any rule ran.' },
-        { k: 'Reproducible', v: 'The same records and rule version always give the same figures and the same fingerprint. No model, no sampling, no estimation.' },
+        { k: 'Reproducible', v: 'The same records, rule version and configuration always give the same figures and the same fingerprint. No model, no sampling, no estimation.' },
         { k: 'Publicly verifiable', v: 'Anyone can check the seal through the public verify link, without an account.' },
       ],
       disputeRows: [
