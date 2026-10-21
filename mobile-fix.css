@@ -171,3 +171,11 @@ img, iframe, video { max-width: 100%; }
 @media (max-width: 520px) {
   nav[style*="padding: 14px 64px"] > a:first-child > span:not(:first-of-type) { display: none; }
 }
+
+/* Footer: Sentry module list expands on click (Oct 21, 2026) */
+.fb-foot-sentry summary{list-style:none}
+.fb-foot-sentry summary::-webkit-details-marker{display:none}
+.fb-foot-sentry summary:hover{color:#1d1d1f}
+.fb-foot-sentry .fb-chev{display:inline-block;font-size:11px;margin-left:2px;transition:transform .15s}
+.fb-foot-sentry[open] .fb-chev{transform:rotate(180deg)}
+.fb-foot-sentry summary:focus-visible{outline:2px solid #6D28D9;outline-offset:2px;border-radius:3px}

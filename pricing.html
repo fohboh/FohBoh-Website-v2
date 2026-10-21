@@ -4,18 +4,18 @@
 <meta charset="utf-8">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%20100%20100'%3E%3Crect%20x%3D'6'%20y%3D'4'%20width%3D'48'%20height%3D'44'%20fill%3D'%230B1F3B'%2F%3E%3Crect%20x%3D'46'%20y%3D'52'%20width%3D'48'%20height%3D'44'%20fill%3D'%236D28D9'%2F%3E%3Crect%20x%3D'27'%20y%3D'29'%20width%3D'46'%20height%3D'42'%20fill%3D'%2300A7A7'%20stroke%3D'%23FAF9F6'%20stroke-width%3D'7'%2F%3E%3C%2Fsvg%3E">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FohBoh | Pricing — Request pricing</title>
-<meta name="description" content="Pricing for FohBoh.ai Sentry™, Cortex™ and MGE™ licensing is tailored to your locations, volume and deployment. Request pricing and we will follow up directly.">
+<title>FohBoh | Pricing</title>
+<meta name="description" content="FohBoh | Sentry is $199 per location per month for M01, M02 and M04, plus 15% of the qualifying certified findings in each CAAR. Cortex and MGE licensing are priced on request.">
 <link rel="canonical" href="https://fohboh.ai/pricing.html">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FohBoh.ai">
 <meta property="og:url" content="https://fohboh.ai/pricing.html">
-<meta property="og:title" content="FohBoh | Pricing — Request pricing">
-<meta property="og:description" content="Pricing for FohBoh.ai Sentry™, Cortex™ and MGE™ licensing is tailored to your locations, volume and deployment. Request pricing and we will follow up directly.">
+<meta property="og:title" content="FohBoh | Pricing">
+<meta property="og:description" content="FohBoh | Sentry is $199 per location per month for M01, M02 and M04, plus 15% of the qualifying certified findings in each CAAR. Cortex and MGE licensing are priced on request.">
 <meta property="og:image" content="https://fohboh.ai/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="FohBoh | Pricing — Request pricing">
-<meta name="twitter:description" content="Pricing for FohBoh.ai Sentry™, Cortex™ and MGE™ licensing is tailored to your locations, volume and deployment. Request pricing and we will follow up directly.">
+<meta name="twitter:title" content="FohBoh | Pricing">
+<meta name="twitter:description" content="FohBoh | Sentry is $199 per location per month for M01, M02 and M04, plus 15% of the qualifying certified findings in each CAAR. Cortex and MGE licensing are priced on request.">
 <meta name="twitter:image" content="https://fohboh.ai/assets/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
@@ -38,12 +38,35 @@ nav a[href="contact.html#demo"]:hover{background:#7C3AED!important;color:#fff!im
 .pr-dialog header{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #e8e8ed;font-family:'Outfit',sans-serif;font-weight:600;font-size:17px}
 .pr-close{background:none;border:1px solid #e8e8ed;border-radius:8px;font-size:15px;padding:5px 10px;cursor:pointer}
 .pr-dialog iframe{border:0;width:100%;height:70vh;min-height:520px}
+.pr-sentry{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;margin-top:40px;background:#fff;border:1.5px solid #6D28D9;border-radius:22px;padding:32px 34px;box-shadow:0 10px 30px rgba(109,40,217,.08)}
+.pr-tag{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#6D28D9}
+.pr-sentry h2{margin:8px 0 0;font-family:'Outfit',sans-serif;font-weight:600;font-size:26px}
+.pr-price{margin-top:16px;font-family:'Outfit',sans-serif;font-weight:600;font-size:52px;line-height:1;letter-spacing:-.02em;color:#14121A}
+.pr-price small{font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;color:#6e6e73;letter-spacing:0;margin-left:6px}
+.pr-plus{margin-top:12px;font-size:16px;color:#1d1d1f}
+.pr-plus b{color:#007A7A}
+.pr-sub{margin-top:6px;font-size:13.5px;line-height:1.55;color:#6e6e73;max-width:44ch}
+.pr-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;align-items:center}
+.pr-actions .pr-btn{margin-top:0}
+.pr-ghost{display:inline-block;font-size:15px;font-weight:600;color:#6D28D9;background:#fff;border:1.5px solid #d8c8f3;padding:11.5px 22px;border-radius:980px;text-decoration:none}
+.pr-ghost:hover{background:#f6f1fe;color:#6D28D9}
+.pr-list{margin:0;padding:0;list-style:none;font-size:14px;line-height:1.5;color:#494952}
+.pr-list li{padding:10px 0 10px 24px;border-top:1px solid #f0eef3;position:relative}
+.pr-list li:first-child{border-top:none;padding-top:2px}
+.pr-list li:first-child:before{top:8px}
+.pr-list li:before{content:'';position:absolute;left:4px;top:16px;width:8px;height:8px;border-radius:50%;background:#00A7A7}
+.pr-list b{color:#1d1d1f;font-weight:600}
+.pr-h2{margin:56px 0 0;font-family:'Outfit',sans-serif;font-weight:600;font-size:24px}
+.pr-card .pr-ask{display:inline-block;margin-top:16px;font-size:14px;font-weight:600;color:#6D28D9;background:none;border:0;padding:0;cursor:pointer;font-family:inherit}
+.pr-grid-2{grid-template-columns:1fr 1fr}
+.pr-fine{margin-top:28px;font-size:12.5px;line-height:1.6;color:#86868b;max-width:92ch}
+@media (max-width:860px){.pr-sentry{grid-template-columns:1fr;padding:26px 22px}.pr-price{font-size:44px}}
 @media (max-width:760px){.pr-wrap{padding:44px 20px 48px}.pr-h1{font-size:clamp(30px,8vw,40px)}.pr-grid{grid-template-columns:1fr}}
 </style>
 <link rel="stylesheet" href="mobile-fix.css">
 </head>
 <body>
-<!-- Static page (no dc-runtime). Pricing hidden Oct 18, 2026 by founder decision; prices are shared on request only. Form: Jotform 262455001215040. -->
+<!-- Static page (no dc-runtime). Oct 21, 2026: Sentry price published (Option A, founder decision); Cortex and MGE licensing remain on request. Form: Jotform 262455001215040. -->
 <div style="background: #FAF9F6; min-width: 1120px;">
   <nav style="display: flex; align-items: center; gap: 22px; padding: 14px 64px; border-bottom: 1px solid #e8e8ed;">
     <a href="index.html" aria-label="FohBoh.ai — Certified Intelligence" style="display: flex; align-items: center; gap: 11px; margin-right: auto; text-decoration: none; white-space: nowrap;"><svg width="26" height="26" viewBox="0 0 100 100" aria-hidden="true" style="flex: none;"><rect x="6" y="4" width="48" height="44" fill="#0B1F3B"></rect><rect x="46" y="52" width="48" height="44" fill="#6D28D9"></rect><rect x="27" y="29" width="46" height="42" fill="#00A7A7" stroke="#FAF9F6" stroke-width="7"></rect></svg><span style="font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 21px; letter-spacing: -0.015em; color: #0A0A0A;">FohBoh<span style="font-weight: 400; font-size: 0.55em; vertical-align: super; color: #0A0A0A;">®</span><span style="color: #6D28D9;">.ai</span></span><span style="width: 1px; height: 15px; background: #c6c2d4;"></span><span style="font-family: 'DM Sans', sans-serif; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: #0B1F3B;">Certified Intelligence</span></a>
@@ -57,14 +80,38 @@ nav a[href="contact.html#demo"]:hover{background:#7C3AED!important;color:#fff!im
 
   <main class="pr-wrap">
     <span class="pr-kicker">Pricing</span>
-    <h1 class="pr-h1">Priced to your operation, on request.</h1>
-    <p class="pr-lede">Pricing depends on how many locations you run, what you certify and how you deploy MGE™. Tell us a little about your business and we'll follow up with pricing that fits.</p>
-    <button type="button" class="pr-btn" data-open-pricing>Request pricing</button>
-    <div class="pr-grid">
-      <div class="pr-card"><h3>Sentry™</h3><p>Certified recovery for multi-unit restaurant groups and franchisors, with a CAAR for every certification.</p></div>
-      <div class="pr-card"><h3>Cortex™</h3><p>Answers drawn only from MGE-certified data, for operators who want AI they can trust.</p></div>
-      <div class="pr-card"><h3>MGE™ licensing</h3><p>Certification by API for platforms and systems of record, white-label and OEM.</p></div>
+    <h1 class="pr-h1">Sentry has one price. Everything else fits your operation.</h1>
+    <p class="pr-lede">FohBoh | Sentry™ is priced per location, with its core modules included. M03, Cortex™ and MGE™ licensing depend on what you certify and how you deploy, so we price them with you.</p>
+
+    <section class="pr-sentry" aria-labelledby="sentry-h">
+      <div>
+        <span class="pr-tag">FohBoh | Sentry™ · Certified recovery</span>
+        <h2 id="sentry-h">Every core module. One price per location.</h2>
+        <div class="pr-price">$199<small>per location per month</small></div>
+        <div class="pr-plus">plus <b>15%</b> of the qualifying certified findings in each CAAR</div>
+        <p class="pr-sub">$2,388 a year per location. The CAAR fee is earned when the CAAR is delivered and does not depend on whether a vendor pays.</p>
+        <div class="pr-actions">
+          <a class="pr-btn" href="contact.html#demo">Book a demo</a>
+          <a class="pr-ghost" href="sentry-roi-calculator.html" target="_blank" rel="noopener">Run the ROI calculator</a>
+        </div>
+      </div>
+      <ul class="pr-list">
+        <li><b>Core modules included:</b> M01 Merchant Processing Fees, M02 Delivery Platform Fees and M04 Supplier Invoices.</li>
+        <li><b>No threshold.</b> The fee applies to every qualifying certified finding, large or small.</li>
+        <li><b>Each certified dollar is billed once.</b> Findings already billed can reappear in later CAARs for tracking at no extra fee.</li>
+        <li><b>A clean CAAR costs nothing extra.</b> If a CAAR certifies no qualifying amount, you pay the subscription only.</li>
+        <li><b>You decide what to pursue.</b> FohBoh certifies; it never contacts your vendors or collects for you.</li>
+      </ul>
+    </section>
+
+    <h2 class="pr-h2">Priced with you</h2>
+    <div class="pr-grid pr-grid-2">
+      <div class="pr-card"><h3>Sentry M03 · Royalty Fee Recovery</h3><p>An upgrade for franchisors: every royalty report certified against the franchisee's own sales records. Available Q1 2027.</p><button type="button" class="pr-ask" data-open-pricing>Call for pricing →</button></div>
+      <div class="pr-card"><h3>Cortex™</h3><p>Answers drawn only from MGE-certified data, for operators who want AI they can trust.</p><button type="button" class="pr-ask" data-open-pricing>Request pricing →</button></div>
+      <div class="pr-card"><h3>MGE™ licensing</h3><p>Certification by API for platforms and systems of record, white-label and OEM.</p><button type="button" class="pr-ask" data-open-pricing>Request pricing →</button></div>
+      <div class="pr-card"><h3>Countersign™</h3><p>Approve-or-deny countersignature for AI agent actions. In development; not yet available.</p><button type="button" class="pr-ask" data-open-pricing>Register interest →</button></div>
     </div>
+    <p class="pr-fine">Prices in US dollars, before applicable taxes. A qualifying certified finding is an evidence-supported amount certified as recoverable under MGE rules and documented in a Certified Analysis &amp; Audit Report (CAAR); a possible discrepancy or an evidence gap alone does not qualify. No recovery is guaranteed. Full terms are set in your Order Form.</p>
   </main>
   <footer style="border-top: 1px solid #e8e8ed; padding: 48px 64px 28px; background: #ffffff;">
     <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr; gap: 32px;">
@@ -77,18 +124,26 @@ nav a[href="contact.html#demo"]:hover{background:#7C3AED!important;color:#fff!im
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Products</span>
         <a href="mge.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | MGE™</a>
         <a href="countersign.html" style="font-size: 13px; color: #6e6e73; text-decoration: none; white-space: nowrap;">FohBoh | Countersign™</a>
-        <a href="sentry.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Sentry™</a>
-        <a href="m01.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px; margin-top: -4px;">↳ M01 · Merchant Processing Fees</a>
-        <a href="m02.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px; margin-top: -4px;">↳ M02 · Delivery Platform Fees</a>
-        <a href="m03.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px; margin-top: -4px;">↳ M03 · Royalty Fee Recovery</a>
-        <a href="m04-scr.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px; margin-top: -4px;">↳ M04 · Supplier Invoices</a>
+        <details class="fb-foot-sentry" style="margin: 0;">
+          <summary style="font-size: 13px; color: #6e6e73; cursor: pointer; list-style: none;">FohBoh | Sentry™ <span class="fb-chev" aria-hidden="true">▾</span></summary>
+          <div style="display: flex; flex-direction: column; gap: 7px; margin-top: 8px;">
+            <a href="sentry.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px;">↳ Sentry overview</a>
+            <a href="m01.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px;">↳ M01 · Merchant Processing Fees</a>
+            <a href="m02.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px;">↳ M02 · Delivery Platform Fees</a>
+            <a href="m03.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px;">↳ M03 · Royalty Fee Recovery</a>
+            <a href="m04-scr.html" style="font-size: 12.5px; line-height: 1.35; color: #86868b; text-decoration: none; padding-left: 28px; text-indent: -14px;">↳ M04 · Supplier Invoices</a>
+          </div>
+        </details>
         <a href="cortex.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FohBoh | Cortex™</a>
+        <a href="pricing.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 9px;">
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Solutions</span>
-        <a href="pricing.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Pricing</a>
-        <a href="caar-example.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
-        <a href="for-vendors.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">For the Vendor</a>
+        <a href="resources.html#uc-sentry" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Restaurant groups</a>
+        <a href="m03.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Franchisors</a>
+        <a href="partners.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Platforms &amp; systems of record</a>
+        <a href="resources.html#uc-mge" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Enterprise data &amp; AI teams</a>
+        <a href="for-vendors.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Vendors receiving a CAAR</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 9px;">
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Developers</span>
@@ -101,11 +156,12 @@ nav a[href="contact.html#demo"]:hover{background:#7C3AED!important;color:#fff!im
         <a href="resources.html#research" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Use Cases</a>
         <a href="resources.html#articles" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Articles</a>
         <a href="resources.html#faq" style="font-size: 13px; color: #6e6e73; text-decoration: none;">FAQ</a>
+        <a href="caar-example.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Example CAAR</a>
+        <a href="sentry-roi-calculator.html" target="_blank" rel="noopener" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Sentry ROI Calculator</a>
       </div>
       <div style="display: flex; flex-direction: column; gap: 9px;">
         <span style="font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #1d1d1f;">Company</span>
         <a href="about.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">About</a>
-        <a href="partners.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Partners</a>
         <a href="contact.html" style="font-size: 13px; color: #6e6e73; text-decoration: none;">Contact</a>
       </div>
     </div>
@@ -130,7 +186,6 @@ nav a[href="contact.html#demo"]:hover{background:#7C3AED!important;color:#fff!im
   m.querySelector('[data-close-pricing]').addEventListener('click',close);
   m.addEventListener('click',function(e){ if(e.target===m) close(); });
   document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
-  open();
 })();
 </script>
 <script src="mobile-fix.js" defer></script>
