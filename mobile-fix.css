@@ -61,7 +61,19 @@ div[style*="min-width: 1120px"] {
   div[style*="grid-template-columns: 1fr 430px"],
   div[style*="grid-template-columns: 220px 1fr auto"],
   div[style*="grid-template-columns: 1fr 60px 1.3fr 60px 1fr"] {
-    grid-template-columns: 1fr !important;
+    /* minmax(0, 1fr), not 1fr: a plain 1fr column is minmax(auto, 1fr), so a child that cannot shrink (a row of nowrap
+       buttons) widens the whole column past the phone and the hero's text and buttons are cut off on the right
+       (found October 31, 2026 on the Sentry page at 390px). */
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+}
+
+/* 2c. Hero call-to-action rows (three nowrap buttons in one flex row) wrap on phones instead of overflowing. */
+@media (max-width: 700px) {
+  div[style*="display: flex; align-items: center; gap: 14px; margin-top: 30px"],
+  div[style*="display: flex; align-items: center; gap: 10px; margin-top: 40px"] {
+    flex-wrap: wrap !important;
+    row-gap: 12px;
   }
 }
 
