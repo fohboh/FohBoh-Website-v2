@@ -179,3 +179,52 @@ img, iframe, video { max-width: 100%; }
 .fb-foot-sentry .fb-chev{display:inline-block;font-size:11px;margin-left:2px;transition:transform .15s}
 .fb-foot-sentry[open] .fb-chev{transform:rotate(180deg)}
 .fb-foot-sentry summary:focus-visible{outline:2px solid #6D28D9;outline-offset:2px;border-radius:3px}
+
+/* ============================================================
+   v2 additions — Nov 2, 2026
+   ============================================================ */
+
+/* 6. Hero/figure splits collapse on tablets too, not only phones.
+   Below ~980px the fixed right-hand column (the CAAR mock, the phone
+   mock) is wider than the space left for it. */
+@media (max-width: 980px) {
+  div[style*="grid-template-columns: 1fr 380px"],
+  div[style*="grid-template-columns: 1fr 400px"],
+  div[style*="grid-template-columns: 1fr 430px"],
+  div[style*="grid-template-columns: 6fr 5fr"] {
+    grid-template-columns: 1fr !important;
+  }
+  figure[style*="justify-self: end"] {
+    justify-self: stretch !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .v3-cta-btns { flex-shrink: 1 !important; }
+}
+
+/* 7. Report and document tables (CAAR line items, vendor rows) stack
+   on phones instead of forcing fixed pixel columns. */
+@media (max-width: 760px) {
+  div[style*="grid-template-columns: 90px 1fr 180px 140px"],
+  div[style*="grid-template-columns: 150px 130px 1fr 110px 110px 120px"],
+  div[style*="grid-template-columns: 1.4fr 160px 1fr"],
+  div[style*="grid-template-columns: 230px 1fr"] {
+    grid-template-columns: 1fr !important;
+    row-gap: 4px;
+  }
+}
+
+/* 8. Code samples scroll inside their own block instead of widening
+   the page. Formatting is preserved. */
+pre { max-width: 100%; overflow-x: auto; }
+pre code { white-space: pre; }
+
+/* 9. Demo/preview panels: fixed widths and 16:9 boxes do not work on a
+   phone, where the box becomes too short to hold its own text. */
+@media (max-width: 760px) {
+  div[style*="width: 640px"] { width: 100% !important; }
+  /* Link-wrapped demo panels only — never the video embeds, which are
+     divs and must keep their 16:9 box. A fixed-height column flex on a
+     phone wraps its own text into a second column off to the right. */
+  a[style*="aspect-ratio: 16 / 9"] { aspect-ratio: auto !important; }
+}

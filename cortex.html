@@ -26,7 +26,159 @@
 <helmet>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500;600&display=swap">
-<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}</style>
+<style>body{margin:0;background:#FAF9F6;font-family:'DM Sans',sans-serif;color:#1d1d1f;text-wrap:pretty}a{color:#3c434d}a:hover{color:#23282f}
+/* --- inlined from mobile-fix.css so this page is responsive standalone --- */
+html, body { overflow-x: hidden; }
+div[style*="min-width: 1120px"] {
+min-width: 0 !important;
+width: 100% !important;
+}
+@media (max-width: 900px) {
+nav[style*="padding: 14px 64px"] {
+padding: 14px 20px !important;
+flex-wrap: nowrap !important;
+position: relative;
+}
+nav[style*="padding: 14px 64px"] > a:not(:first-child):not(:last-child) {
+display: none;
+}
+nav[style*="padding: 14px 64px"].fb-nav-open {
+flex-wrap: wrap !important;
+row-gap: 12px;
+}
+nav[style*="padding: 14px 64px"].fb-nav-open > a:not(:first-child):not(:last-child) {
+display: block;
+}
+.fb-hamburger { display: inline-flex !important; }
+}
+.fb-hamburger {
+display: none;
+align-items: center;
+justify-content: center;
+background: none;
+border: 1px solid #e8e8ed;
+border-radius: 8px;
+font-size: 16px;
+line-height: 1;
+padding: 7px 11px;
+cursor: pointer;
+order: 99;
+}
+@media (max-width: 760px) {
+div[style*="grid-template-columns: 6fr 5fr"],
+div[style*="grid-template-columns: 1fr 1fr"],
+div[style*="grid-template-columns: 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 1fr 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 3fr 1fr 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 1fr 380px"],
+div[style*="grid-template-columns: 1fr 400px"],
+div[style*="grid-template-columns: 1fr 430px"],
+div[style*="grid-template-columns: 220px 1fr auto"],
+div[style*="grid-template-columns: 1fr 60px 1.3fr 60px 1fr"] {
+grid-template-columns: 1fr !important;
+}
+}
+@media (max-width: 980px) and (min-width: 761px) {
+div[style*="grid-template-columns: 2fr 1fr 1fr 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 3fr 1fr 1fr 1fr 1fr"],
+div[style*="grid-template-columns: 1fr 1fr 1fr 1fr"] {
+grid-template-columns: 1fr 1fr !important;
+}
+}
+@media (max-width: 600px) {
+div[style*="grid-template-columns: 190px 1fr"],
+div[style*="grid-template-columns: 210px 1fr"],
+div[style*="grid-template-columns: 230px 1fr"],
+div[style*="grid-template-columns: 150px 1fr 40px"] {
+grid-template-columns: 1fr !important;
+}
+}
+@media (max-width: 760px) {
+div[style*="border-radius: 18px; overflow: hidden"] {
+overflow-x: auto !important;
+-webkit-overflow-scrolling: touch;
+}
+div[style*="grid-template-columns: 90px 1fr 180px 140px"],
+div[style*="grid-template-columns: 150px 130px 1fr 110px 110px 120px"],
+div[style*="grid-template-columns: 1.4fr 160px 1fr"],
+div[style*="grid-template-columns: 180px 1fr 140px"] {
+min-width: 640px;
+}
+}
+@media (max-width: 820px) {
+div[style*="zoom: 0.5"] { zoom: 1 !important; }
+div[style*="width: 780px"] {
+width: 100% !important;
+max-width: 100% !important;
+transform: none !important;
+}
+div[style*="grid-template-columns: 170px 56px 1fr"] {
+grid-template-columns: 1fr !important;
+justify-items: center;
+row-gap: 12px;
+}
+img[style*="width: 430px"] { width: 100% !important; max-width: 320px; height: auto !important; }
+}
+@media (max-width: 700px) {
+[style*="justify-content: space-between"] {
+flex-wrap: wrap !important;
+row-gap: 14px;
+}
+}
+@media (max-width: 640px) {
+h1 { font-size: clamp(28px, 8vw, 40px) !important; line-height: 1.15 !important; }
+}
+@media (max-width: 700px) {
+[style*="padding:"][style*="64px"] {
+padding-left: 20px !important;
+padding-right: 20px !important;
+}
+[style*="margin:"][style*="64px"] {
+margin-left: 0 !important;
+margin-right: 0 !important;
+}
+}
+img, iframe, video { max-width: 100%; }
+@media (max-width: 520px) {
+nav[style*="padding: 14px 64px"] > a:first-child > span:not(:first-of-type) { display: none; }
+}
+.fb-foot-sentry summary{list-style:none}
+.fb-foot-sentry summary::-webkit-details-marker{display:none}
+.fb-foot-sentry summary:hover{color:#1d1d1f}
+.fb-foot-sentry .fb-chev{display:inline-block;font-size:11px;margin-left:2px;transition:transform .15s}
+.fb-foot-sentry[open] .fb-chev{transform:rotate(180deg)}
+.fb-foot-sentry summary:focus-visible{outline:2px solid #6D28D9;outline-offset:2px;border-radius:3px}
+@media (max-width: 980px) {
+div[style*="grid-template-columns: 1fr 380px"],
+div[style*="grid-template-columns: 1fr 400px"],
+div[style*="grid-template-columns: 1fr 430px"],
+div[style*="grid-template-columns: 6fr 5fr"] {
+grid-template-columns: 1fr !important;
+}
+figure[style*="justify-self: end"] {
+justify-self: stretch !important;
+margin-left: auto !important;
+margin-right: auto !important;
+}
+.v3-cta-btns { flex-shrink: 1 !important; }
+}
+@media (max-width: 760px) {
+div[style*="grid-template-columns: 90px 1fr 180px 140px"],
+div[style*="grid-template-columns: 150px 130px 1fr 110px 110px 120px"],
+div[style*="grid-template-columns: 1.4fr 160px 1fr"],
+div[style*="grid-template-columns: 230px 1fr"] {
+grid-template-columns: 1fr !important;
+row-gap: 4px;
+}
+}
+pre { max-width: 100%; overflow-x: auto; }
+pre code { white-space: pre; }
+@media (max-width: 760px) {
+div[style*="width: 640px"] { width: 100% !important; }
+a[style*="aspect-ratio: 16 / 9"] { aspect-ratio: auto !important; }
+}
+</style>
 <link rel="stylesheet" href="mobile-fix.css">
 </helmet>
 <div style="background: #FAF9F6; min-width: 1120px;">
@@ -258,6 +410,35 @@ class Component extends DCLogic {
     };
   }
 }
+</script>
+<script>
+(function () {
+  function enhance() {
+    var navs = document.querySelectorAll('nav[style*="padding: 14px 64px"]');
+    if (!navs.length) return false;
+    navs.forEach(function (nav) {
+      if (nav.querySelector(".fb-hamburger")) return;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "fb-hamburger";
+      btn.setAttribute("aria-label", "Menu");
+      btn.innerHTML = "&#9776;";
+      btn.addEventListener("click", function () {
+        nav.classList.toggle("fb-nav-open");
+      });
+      nav.appendChild(btn);
+    });
+    return true;
+  }
+
+  var tries = 0;
+  var timer = setInterval(function () {
+    tries++;
+    if (enhance() || tries > 40) clearInterval(timer);
+  }, 150);
+
+  document.addEventListener("DOMContentLoaded", enhance);
+})();
 </script>
 <script src="mobile-fix.js" defer></script>
 </body>
