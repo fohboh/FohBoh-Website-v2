@@ -1,8 +1,8 @@
 'use strict';
-// PREVIEW SAFETY: keep false until a partner-specific endpoint and Formspree
-// Required destination: partners@fohboh.ai (configure recipient in Formspree, not a hidden field).
-// dashboard settings (including no visitor autoresponder) are verified.
-const FORM_CONFIG = Object.freeze({live:false, endpoint:'https://formspree.io/f/REPLACE_WITH_VERIFIED_PARTNER_FORM_ID'});
+// User-supplied partnership endpoint. Recipient routing and prospect autoresponses
+// are managed in Formspree; client code cannot verify those dashboard settings.
+const FORM_CONFIG = Object.freeze({live:true, endpoint:'https://formspree.io/f/mvkknpng'});
+let submitting=false;
 const form=document.querySelector('#partner-form');
 const checks=[...document.querySelectorAll('input[name="categories"]')];
 const list=document.querySelector('#selected');
@@ -19,10 +19,22 @@ checks.forEach(el=>el.addEventListener('change',render));
 document.querySelector('#clear').addEventListener('click',()=>{checks.forEach(el=>el.checked=false);render();checks[0].focus()});
 form.addEventListener('submit',async event=>{
  event.preventDefault();
+ if(submitting)return;
  if(!selection().length){document.querySelector('#category-error').hidden=false;checks[0].focus();return}
  if(!form.reportValidity())return;
  if(!FORM_CONFIG.live){status.textContent='Your inquiry includes '+selection().join(', ')+'. Nothing has been sent or saved. The inquiry form must be connected before it can send to partners@fohboh.ai.';return}
  if(!/^https:\/\/formspree\.io\/f\/[a-z0-9]+$/i.test(FORM_CONFIG.endpoint)){status.textContent='The inquiry service is not configured. Nothing was sent.';return}
- const button=form.querySelector('[type="submit"]');button.disabled=true;status.textContent='Sending your inquiry…';
- try{const response=await fetch(FORM_CONFIG.endpoint,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});if(!response.ok)throw Error('Submission failed');status.textContent='Thank you. Your inquiry has been received.';form.reset();checks.forEach(el=>el.checked=false);render();status.textContent='Thank you. Your inquiry has been received.'}catch(error){status.textContent='We could not confirm your inquiry was received. Please try again later.'}finally{button.disabled=false}
+ const button=form.querySelector('[type="submit"]');submitting=true;button.disabled=true;form.setAttribute('aria-busy','true');status.textContent='Sending your inquiry…';
+ try{
+  const response=await fetch(FORM_CONFIG.endpoint,{method:'POST',body:new FormData(form),headers:{Accept:'application/json'}});
+  if(!response.ok){
+   status.textContent=response.status===429?'Too many attempts. Please wait a few minutes before trying again. Your entries have been kept.':'The form service could not accept your inquiry. Your entries have been kept. Please try again later.';
+   return;
+  }
+  form.reset();checks.forEach(el=>el.checked=false);render();
+  status.textContent='Thank you. Your inquiry was submitted successfully.';
+ }catch(error){
+  status.textContent='We could not confirm whether your inquiry was received. Your entries have been kept. Please contact partners@fohboh.ai before resubmitting to avoid a duplicate.';
+ }finally{submitting=false;button.disabled=false;form.removeAttribute('aria-busy')}
+
 });render();
